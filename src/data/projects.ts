@@ -13,9 +13,9 @@ export const projects: Project[] = [
     name: "KRH Design Co.",
     category: "Interior design website",
     accent: "sand",
-    highlights: ["Interior design", "Styling", "Consultations"],
+    highlights: ["Service pages", "Project previews", "Consultation inquiries"],
     description:
-      "A home for a St. Louis interior designer’s work, services, and favorite finds, with an easy way to ask about a consultation.",
+      "A website for a St. Louis interior designer, bringing services, project previews, and favorite finds together with an easy way to ask about a consultation.",
     tech: ["Next.js", "TypeScript", "Vercel"],
     url: "https://www.krhdesignco.com",
   },
@@ -23,7 +23,7 @@ export const projects: Project[] = [
     name: "VEST First Responder",
     category: "First-responder training",
     accent: "forest",
-    highlights: ["Courses", "Resources", "Training requests"],
+    highlights: ["Course information", "Training resources", "Class requests"],
     description:
       "A site where EMS, fire, and healthcare teams can learn about VEST’s training, explore courses, and request a class.",
     tech: ["Next.js", "Supabase", "Bunny.net"],

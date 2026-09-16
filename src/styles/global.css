@@ -36,9 +36,11 @@ h3 { font-size: 1.15rem; line-height: 1.35; font-weight: 650; letter-spacing: -.
 .wordmark { display: inline-flex; align-items: center; gap: 13px; font-size: 15px; font-weight: 650; line-height: 1.4; }
 .monogram { display: grid; place-items: center; height: 43px; width: 43px; border: 1px solid var(--forest); border-radius: 50%; font: 26px var(--serif); letter-spacing: -.06em; }
 .wordmark-note { display: block; margin-top: 2px; font-size: 11px; font-weight: 400; color: var(--muted); }
-.desktop-navigation { display: flex; gap: 30px; font-size: 13px; font-weight: 550; }
+.desktop-navigation { display: flex; align-items: center; gap: 30px; font-size: 13px; font-weight: 550; }
 .desktop-navigation a { padding: 8px 0; border-bottom: 1px solid transparent; }
 .desktop-navigation a:hover, .desktop-navigation a[aria-current='page'] { border-bottom-color: var(--forest); }
+.desktop-navigation a.nav-cta { padding: 11px 19px; border: 1px solid var(--forest); border-radius: 30px; background: var(--forest); color: var(--paper); }
+.desktop-navigation a.nav-cta:hover { background: #163b30; }
 .mobile-menu { display: none; }
 .eyebrow { display: block; font-size: 12px; font-weight: 600; line-height: 1.7; letter-spacing: .01em; color: var(--muted); }
 .page-intro { padding: 84px 0 58px; max-width: 860px; }
@@ -110,6 +112,7 @@ h2.section-heading { margin-top: 16px; color: var(--ink); }
   .mobile-menu nav { position: absolute; top: calc(100% - 1px); left: 0; width: 100%; padding: 12px 20px 24px; background: var(--canvas); border-bottom: 1px solid var(--line); box-shadow: 0 20px 25px #202d280c; }
   .mobile-menu nav a { display: block; padding: 12px 8px; font-size: 16px; border-bottom: 1px solid var(--line); }
   .mobile-menu nav a[aria-current='page'] { color: var(--forest); font-weight: 650; }
+  .mobile-menu nav a.nav-cta { margin-top: 14px; padding: 12px 18px; border: 0; border-radius: 30px; background: var(--forest); color: var(--paper); text-align: center; }
   .page-intro { padding: 54px 0 42px; }
   .page-intro .eyebrow { margin-bottom: 18px; }
   .lede { font-size: 16px; }

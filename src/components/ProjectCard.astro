@@ -13,6 +13,7 @@ const projectUrl = project.url?.startsWith('/')
   ? withBase(project.url)
   : project.url;
 const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code' : 'See the site';
+const cardTags = featured ? project.highlights : project.tech;
 ---
 
 <article class:list={['project-card', { 'project-card-featured': featured }]}>
@@ -31,8 +32,8 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code
     <Heading class="project-title">{project.name}</Heading>
     <p class="project-description">{project.description}</p>
     <div class="project-footer">
-      <ul class="tag-list" aria-label="Technologies">
-        {project.tech.map((tech) => <li class="tag">{tech}</li>)}
+      <ul class="tag-list" aria-label={featured ? 'Website features' : 'Technologies'}>
+        {cardTags.map((tag) => <li class="tag">{tag}</li>)}
       </ul>
       {projectUrl && (
         <a href={projectUrl} aria-label={`${linkLabel}: ${project.name}`} class="text-link project-link">

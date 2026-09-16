@@ -12,20 +12,19 @@ interface Props {
 
 const {
   title,
-  description = 'Meet Jacob Huber: software engineer, husband, dad, and independent website builder in Edwardsville, Illinois. Explore my experience, projects, and services.',
+  description = 'Websites for small businesses and organizations, built by Jacob Huber in Edwardsville, Illinois. Explore website builds, redesigns, and custom software help.',
   image = '/images/portrait.jpeg',
   hideChrome = false,
   noindex = false,
 } = Astro.props;
-const pageTitle = title ? `${title} · Jacob Huber` : 'Jacob Huber · Software Engineer & Builder';
+const pageTitle = title ? `${title} · Jacob Huber` : 'Jacob Huber · Websites for Small Businesses';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(withBase(image), Astro.site);
 const navItems = [
+  { href: '/services/', label: 'Services' },
+  { href: '/projects/', label: 'My work' },
   { href: '/about/', label: 'About me' },
-  { href: '/experience/', label: 'Experience' },
-  { href: '/projects/', label: 'Projects' },
-  { href: '/services/', label: 'Work with me' },
-  { href: '/contact/', label: 'Say hello' },
+  { href: '/contact/', label: 'Start a project' },
 ];
 const isActive = (href: string) => Astro.url.pathname === withBase(href);
 ---
@@ -60,11 +59,11 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
         <div class="container header-inner">
           <a href={withBase('/')} aria-label="Jacob Huber home" class="wordmark">
             <span class="monogram" aria-hidden="true">jh.</span>
-            <span>Jacob Huber<span class="wordmark-note">Software engineer & dad</span></span>
+            <span>Jacob Huber<span class="wordmark-note">Websites & software</span></span>
           </a>
           <nav aria-label="Main navigation" class="desktop-navigation">
             {navItems.map((item) => (
-              <a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+              <a href={withBase(item.href)} class={item.href === '/contact/' ? 'nav-cta' : undefined} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
             ))}
           </nav>
           <details class="mobile-menu">
@@ -72,7 +71,7 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
             <nav aria-label="Mobile navigation">
               <a href={withBase('/')} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
               {navItems.map((item) => (
-                <a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+                <a href={withBase(item.href)} class={item.href === '/contact/' ? 'nav-cta' : undefined} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
               ))}
             </nav>
           </details>
@@ -84,13 +83,14 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
       <footer class="site-footer">
         <div class="container">
           {!isActive('/contact/') && <div class="footer-top">
-            <div><p class="eyebrow">Thanks for stopping by.</p><h2>Have an idea? I’m all ears.</h2></div>
-            <a href={withBase('/contact/')} class="button button-light">Say hello <span aria-hidden="true">↗</span></a>
+            <div><p class="eyebrow">A new site starts with a conversation.</p><h2>Let’s talk about your website.</h2></div>
+            <a href={withBase('/contact/')} class="button button-light">Start a project <span aria-hidden="true">↗</span></a>
           </div>}
           <div class="footer-bottom">
             <p>© <span id="copyright-year">2026</span> Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>
             <nav aria-label="Footer navigation">
               <a href={withBase('/')}>Home</a>
+              <a href={withBase('/experience/')}>Experience & résumé</a>
               <a href="https://www.linkedin.com/in/jacobhuberonline/">LinkedIn <span aria-hidden="true">↗</span></a>
               <a href="https://github.com/jacobhuberonline">GitHub <span aria-hidden="true">↗</span></a>
               <a href="mailto:jhuber.mail@icloud.com">Email <span aria-hidden="true">↗</span></a>
