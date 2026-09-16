@@ -1,7 +1,8 @@
 ---
 import '../styles/global.css';
 import { withBase } from '../lib/paths';
-import { socialLinks } from '../data/socials';
+import SocialLinks from '../components/SocialLinks.astro';
+import Icon from '../components/Icon.astro';
 
 interface Props {
   title?: string;
@@ -84,19 +85,19 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
       <footer class="site-footer">
         <div class="container">
           {!isActive('/contact/') && <div class="footer-top">
-            <div><p class="eyebrow">A new site starts with a conversation.</p><h2>Let’s talk about your website.</h2></div>
-            <a href={withBase('/contact/')} class="button button-light">Start a project <span aria-hidden="true">↗</span></a>
+            <h2>Let’s talk about your website.</h2>
+            <a href={withBase('/contact/')} class="button button-light">Start a project <Icon name="arrow-up-right" size={18} /></a>
           </div>}
           <div class="footer-bottom">
             <p>© <span id="copyright-year">2026</span> Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>
-            <nav aria-label="Footer navigation">
-              <a href={withBase('/')}>Home</a>
-              <a href={withBase('/experience/')}>Experience & résumé</a>
-              {socialLinks.map((social) => (
-                <a href={social.href} rel="me">{social.label} <span aria-hidden="true">↗</span></a>
-              ))}
-              <a href="mailto:jhuber.mail@icloud.com">Email <span aria-hidden="true">↗</span></a>
-            </nav>
+            <div class="footer-links">
+              <nav aria-label="Footer navigation">
+                <a href={withBase('/')}>Home</a>
+                <a href={withBase('/experience/')}>Résumé</a>
+                <a href="mailto:jhuber.mail@icloud.com">Email</a>
+              </nav>
+              <SocialLinks />
+            </div>
           </div>
         </div>
       </footer>

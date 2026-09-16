@@ -15,7 +15,7 @@ export const projects: Project[] = [
     accent: "sand",
     highlights: ["Service pages", "Project previews", "Consultation inquiries"],
     description:
-      "A website for a St. Louis interior designer, bringing services, project previews, and favorite finds together with an easy way to ask about a consultation.",
+      "Interior design work, services, and a simple way to request a consultation.",
     tech: ["Next.js", "TypeScript", "Vercel"],
     url: "https://www.krhdesignco.com",
   },
@@ -25,7 +25,7 @@ export const projects: Project[] = [
     accent: "forest",
     highlights: ["Course information", "Training resources", "Class requests"],
     description:
-      "A site where EMS, fire, and healthcare teams can learn about VEST’s training, explore courses, and request a class.",
+      "Training courses, resources, and class requests for first-responder teams.",
     tech: ["Next.js", "Supabase", "Bunny.net"],
     url: "https://www.vestfirstresponder.com",
   },
@@ -94,7 +94,7 @@ export const projects: Project[] = [
     accent: "moss",
     highlights: ["Engineering", "Projects", "GitHub Pages"],
     description:
-      "The site you’re on now. I used Codex to help move it to Astro, refine the design, and check the pages, with updates published automatically through GitHub Pages.",
+      "This site, built with Astro and help from Codex. Updates publish automatically through GitHub Pages.",
     tech: ["Astro", "TypeScript", "GitHub Pages"],
     url: "https://github.com/jacobhuberonline/jacobhuberonline.github.io",
   },

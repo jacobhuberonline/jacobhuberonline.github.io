@@ -15,11 +15,7 @@ const moreProjects = projects.slice(2);
   <div class="container">
     <header class="page-intro">
       <h1 class="display-title">A few websites I’ve built.</h1>
-      <p class="lede">
-        See how different businesses share their work, explain their services,
-        and help visitors take the next step. Then let’s talk about what you
-        need your website to do.
-      </p>
+      <p class="lede">Websites for businesses and communities, plus a few useful tools.</p>
       <div class="button-row projects-actions">
         <a class="button" href={withBase('/contact/')}>Start a project <span aria-hidden="true">↗</span></a>
         <a class="text-link" href={withBase('/services/')}>See how I can help <span aria-hidden="true">↗</span></a>
@@ -28,10 +24,7 @@ const moreProjects = projects.slice(2);
 
     <section class="section featured-work" aria-labelledby="featured-heading">
       <div class="section-heading">
-        <div>
-          <h2 id="featured-heading">Two examples to explore.</h2>
-        </div>
-        <p>An interior designer’s services and work. A training team’s courses and resources. Each site has a different job to do.</p>
+        <h2 id="featured-heading">Featured work.</h2>
       </div>
       <div class="project-grid">
         {featuredProjects.map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
@@ -41,9 +34,8 @@ const moreProjects = projects.slice(2);
     <section class="section" aria-labelledby="more-work-heading">
       <div class="section-heading">
         <div>
-          <h2 id="more-work-heading">More websites and useful tools.</h2>
+          <h2 id="more-work-heading">More projects.</h2>
         </div>
-        <p>Photography, community projects, and tools for the work that happens behind the scenes.</p>
       </div>
       <div class="project-grid more-projects">
         {moreProjects.map((project) => <ProjectCard project={project} headingLevel="h3" />)}

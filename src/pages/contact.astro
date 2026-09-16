@@ -1,64 +1,40 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import SocialLinks from '../components/SocialLinks.astro';
 import { withBase } from '../lib/paths';
-import { socialLinks } from '../data/socials';
 
 const email = 'jhuber.mail@icloud.com';
 const projectEmail = `mailto:${email}?subject=${encodeURIComponent('A website project')}`;
-const starters = [
-  { title: 'I need a website.', detail: 'A home for your business, your services, or something new.', subject: 'A new website' },
-  { title: 'My site could use a fresh start.', detail: 'You have a site, but it no longer does your business justice.', subject: 'A website refresh' },
-  { title: 'I could use a little software help.', detail: 'A useful tool or a job you’re tired of doing by hand.', subject: 'A tool or automation project' },
-];
 ---
-<BaseLayout title="Contact" description="Start a website project with Jacob Huber. Share your idea or current site by email—a rough idea is enough to begin.">
+<BaseLayout title="Contact" description="Start a website project with Jacob Huber. Share your idea or current site by email.">
   <div class="container">
     <header class="page-intro contact-intro">
       <p class="eyebrow">Start a project</p>
       <h1 class="display-title">Tell me what you<br />have in mind<span class="hello-dot">.</span></h1>
-      <p class="lede">A new website or a fresh start for the one you have. Tell me what you’d like it to help your business do, and we can work through the details together.</p>
+      <p class="lede">Share your idea and a link to your current site, if you have one.</p>
       <div class="button-row contact-first-action">
-        <a class="button" href={projectEmail}>Email me about your project <span aria-hidden="true">↗</span></a>
+        <a class="button" href={projectEmail}><Icon name="mail" /> Email me about your project</a>
         <span class="meta">Opens your email app.</span>
       </div>
     </header>
 
-    <section class="contact-grid" aria-label="Ways to connect">
+    <section class="contact-grid" aria-label="Contact details">
       <div class="contact-panel">
         <div class="inbox-person">
-          <img src={withBase('/images/portrait.jpeg')} alt="Jacob Huber" width="64" height="64" decoding="async" />
-          <div><p>Jacob Huber</p><span>Edwardsville, Illinois</span></div>
-          <span class="inbox-wave" aria-hidden="true">👋</span>
+          <img src={withBase('/images/portrait.jpeg')} alt="" width="64" height="64" decoding="async" />
+          <div><h2>Jacob Huber</h2><p>Edwardsville, Illinois</p></div>
         </div>
-        <h2>Let’s talk about your site.</h2>
-        <p>A sentence about what you need is plenty to start. If you have a current site, you’re welcome to include the link.</p>
-        <a class="contact-email" href={`mailto:${email}`}>{email} <span aria-hidden="true">↗</span></a>
-        <div class="email-actions">
-          <button type="button" class="copy-email" data-email={email}>Copy email</button>
-        </div>
+        <p class="contact-email">{email}</p>
+        <button type="button" class="copy-email" data-email={email}>
+          <Icon name="copy" /><span class="copy-label">Copy email</span>
+        </button>
         <p class="copy-status" role="status" aria-live="polite"></p>
-        <div class="paper-signoff">Talk soon,<br /><span>Jacob</span></div>
       </div>
 
       <div class="contact-context">
-        <h2>Not sure where to start?</h2>
-        <p class="starter-intro">Pick whatever sounds closest. It’ll open an email you can make your own.</p>
-        <ul class="conversation-starters">
-          {starters.map((starter) => (
-            <li><a href={`mailto:${email}?subject=${encodeURIComponent(starter.subject)}`}>
-              <div><h3>{starter.title}</h3><p>{starter.detail}</p></div>
-              <span aria-hidden="true">↗</span>
-            </a></li>
-          ))}
-        </ul>
-        <div class="elsewhere">
-          <p>You can also find me here, whether you’re curious about my work or up for a game of chess.</p>
-          <nav class="social-links" aria-label="Social profiles">
-            {socialLinks.map((social) => (
-              <a class="text-link" href={social.href} rel="me">{social.label} <span aria-hidden="true">↗</span></a>
-            ))}
-          </nav>
-        </div>
+        <h2>Find me online.</h2>
+        <div class="social-profiles"><SocialLinks /></div>
       </div>
     </section>
   </div>
@@ -66,18 +42,19 @@ const starters = [
 
 <script>
   const copyButton = document.querySelector<HTMLButtonElement>('.copy-email');
+  const copyLabel = copyButton?.querySelector<HTMLElement>('.copy-label');
   const copyStatus = document.querySelector<HTMLElement>('.copy-status');
   copyButton?.addEventListener('click', async () => {
     const email = copyButton.dataset.email;
-    if (!email || !copyStatus) return;
-    copyButton.textContent = 'Copy email';
+    if (!email || !copyStatus || !copyLabel) return;
+    copyLabel.textContent = 'Copy email';
     copyStatus.textContent = '';
     try {
       await navigator.clipboard.writeText(email);
-      copyButton.textContent = 'Copied!';
-      copyStatus.textContent = 'Email address copied. Paste it wherever you like.';
+      copyLabel.textContent = 'Copied!';
+      copyStatus.textContent = 'Email address copied.';
     } catch {
-      copyStatus.textContent = 'You can select and copy the email address above.';
+      copyStatus.textContent = 'Select and copy the address above.';
     }
   });
 </script>
@@ -87,35 +64,20 @@ const starters = [
   .contact-intro .display-title { font-size: clamp(2.8rem, 6vw, 4.7rem); }
   .contact-first-action { margin-top: 24px; }
   .hello-dot { color: #ad532f; }
-  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(2.5rem, 6vw, 5rem); padding: 8px 0 64px; align-items: start; }
-  .contact-panel { position: relative; padding: clamp(1.7rem, 3.5vw, 2.7rem); color: var(--ink); background: #f9dfc7; border: 1px solid #e9c9ab; border-radius: 24px; box-shadow: 4px 7px 0 #f0dec957; }
-  .inbox-person { display: flex; align-items: center; gap: 13px; margin-bottom: 35px; }
+  .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: clamp(2.5rem, 6vw, 5rem); padding: 8px 0 64px; align-items: center; }
+  .contact-panel { padding: clamp(1.7rem, 3.5vw, 2.5rem); color: var(--ink); background: #f9dfc7; border: 1px solid #e9c9ab; border-radius: 24px; box-shadow: 4px 7px 0 #f0dec957; }
+  .inbox-person { display: flex; align-items: center; gap: 13px; margin-bottom: 26px; }
   .inbox-person img { width: 58px; height: 58px; border-radius: 50%; object-fit: cover; }
-  .inbox-person p { font-size: 14px; font-weight: 600; }
-  .inbox-person div > span { font-size: 11px; color: var(--muted); }
-  .inbox-wave { margin-left: auto; font-size: 28px; transform: rotate(10deg); }
-  .contact-panel h2 { font-size: clamp(1.85rem, 3vw, 2.5rem); }
-  .contact-panel > p:not(.copy-status) { margin-top: 18px; color: #526056; line-height: 1.8; font-size: 15px; }
-  .contact-email { display: flex; align-items: center; justify-content: space-between; gap: 12px; margin: 28px 0 20px; padding-bottom: 14px; border-bottom: 1px solid #bba78c; font-size: clamp(.95rem, 1.6vw, 1.18rem); font-weight: 600; overflow-wrap: anywhere; }
-  .contact-email:hover { color: var(--forest); }
-  .email-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
-  .copy-email { font-size: 12px; text-decoration: underline; text-underline-offset: 4px; padding: 10px 0; }
-  .copy-status { font-size: 11px; min-height: 1.8em; margin-top: 12px; color: #526056; }
-  .paper-signoff { margin-top: 16px; font-size: 12px; color: #526056; }
-  .paper-signoff span { display: inline-block; margin-top: 5px; font: italic 30px var(--serif); color: var(--ink); transform: rotate(-5deg); }
-  .contact-context { padding-top: 14px; }
-  .contact-context > h2 { font-size: 1.8rem; }
-  .starter-intro { font-size: 14px; margin: 15px 0 12px; color: var(--muted); }
-  .conversation-starters { margin: 0; padding: 0; list-style: none; }
-  .conversation-starters a { display: flex; align-items: center; justify-content: space-between; gap: 20px; padding: 22px 0; border-bottom: 1px solid var(--line); }
-  .conversation-starters h3 { font-size: 16px; }
-  .conversation-starters p { color: var(--muted); margin-top: 6px; font-size: 13px; line-height: 1.7; }
-  .conversation-starters a > span { display: grid; flex: 0 0 32px; height: 32px; place-items: center; border-radius: 50%; background: #e7edd0; transition: background .18s, transform .18s; }
-  .conversation-starters a:hover > span { background: var(--accent); transform: rotate(8deg); }
-  .elsewhere { padding-top: 26px; font-size: 13px; color: var(--muted); }
-  .social-links { display: flex; flex-wrap: wrap; gap: 25px; margin-top: 18px; }
+  .inbox-person h2 { font-family: inherit; font-size: 17px; font-weight: 600; letter-spacing: -0.01em; }
+  .inbox-person p { font-size: 12px; color: var(--muted); margin-top: 5px; }
+  .contact-email { font-size: clamp(1rem, 1.6vw, 1.18rem); font-weight: 600; overflow-wrap: anywhere; user-select: all; }
+  .copy-email { display: inline-flex; align-items: center; gap: 8px; font-size: 12px; padding: 10px 0; margin-top: 8px; }
+  .copy-label { text-decoration: underline; text-underline-offset: 4px; }
+  .copy-status { font-size: 11px; min-height: 1.8em; margin-top: 4px; color: #526056; }
+  .contact-context h2 { font-size: 1.65rem; }
+  .social-profiles { margin-top: 40px; }
   @media (max-width: 800px) {
-    .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 30px; padding-bottom: 40px; }
+    .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-bottom: 40px; }
     .contact-panel { max-width: 540px; }
   }
 </style>

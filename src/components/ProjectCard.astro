@@ -1,6 +1,7 @@
 ---
 import type { Project } from '../data/projects';
 import { withBase } from '../lib/paths';
+import Icon from './Icon.astro';
 
 interface Props {
   project: Project;
@@ -13,31 +14,25 @@ const projectUrl = project.url?.startsWith('/')
   ? withBase(project.url)
   : project.url;
 const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code' : 'See the site';
-const cardTags = featured ? project.highlights : project.tech;
 ---
 
 <article class:list={['project-card', { 'project-card-featured': featured }]}>
-  <div class:list={['project-preview', `project-preview-${project.accent}`]} aria-hidden="true">
+  <div class:list={['project-preview', `project-preview-${project.accent}`]}>
     <div class="preview-topline">
       <span>{project.category}</span>
     </div>
-    <div class="preview-title">{project.name}</div>
-    <div class="preview-bottomline">
-      <span>{project.highlights.slice(0, 2).join(' · ')}</span>
-      <span class="preview-symbol">↗</span>
-    </div>
+    <Heading class="preview-title">{project.name}</Heading>
   </div>
 
   <div class="project-copy">
-    <Heading class="project-title">{project.name}</Heading>
     <p class="project-description">{project.description}</p>
     <div class="project-footer">
-      <ul class="tag-list" aria-label={featured ? 'Website features' : 'Technologies'}>
-        {cardTags.map((tag) => <li class="tag">{tag}</li>)}
-      </ul>
+      {!featured && <ul class="tag-list" aria-label="Technologies">
+        {project.tech.map((tag) => <li class="tag">{tag}</li>)}
+      </ul>}
       {projectUrl && (
         <a href={projectUrl} aria-label={`${linkLabel}: ${project.name}`} class="text-link project-link">
-          {linkLabel} <span aria-hidden="true">↗</span>
+          {linkLabel} <Icon name="arrow-up-right" size={18} />
         </a>
       )}
     </div>
@@ -58,7 +53,7 @@ const cardTags = featured ? project.highlights : project.tech;
   .project-preview {
     --preview-ink: #344238;
     --preview-background: var(--peach, #f6c8a7);
-    min-height: 230px;
+    min-height: 200px;
     padding: clamp(1.25rem, 3vw, 2.25rem);
     display: flex;
     flex-direction: column;
@@ -74,8 +69,7 @@ const cardTags = featured ? project.highlights : project.tech;
   .project-preview-moss { --preview-ink: #293d2b; --preview-background: #e0eaa9; }
   .project-preview-stone { --preview-ink: #334642; --preview-background: #d5e5df; }
 
-  .preview-topline,
-  .preview-bottomline {
+  .preview-topline {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -98,30 +92,24 @@ const cardTags = featured ? project.highlights : project.tech;
     text-wrap: balance;
   }
 
-  .preview-bottomline {
-    padding-top: 0.6rem;
-  }
-
-  .preview-symbol { font-size: 1.2rem; line-height: 1; }
-  .project-card-featured .project-preview { min-height: 310px; }
+  .project-card-featured .project-preview { min-height: 240px; }
   .project-card-featured .preview-title { font-size: clamp(2.5rem, 4.6vw, 4.25rem); }
 
   .project-copy {
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.4rem 0.6rem 0.6rem;
+    padding: 1.2rem 0.6rem 0.6rem;
   }
 
-  .project-title { margin: 0; font-size: clamp(1.55rem, 2.2vw, 2rem); line-height: 1.18; }
-  .project-description { margin: 0.85rem 0 1.6rem; color: var(--muted, #5b6860); line-height: 1.75; font-size: 0.96rem; }
+  .project-description { margin: 0 0 1rem; color: var(--muted, #5b6860); line-height: 1.75; font-size: 1rem; }
   .project-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; margin-top: auto; padding-top: 0.6rem; }
   .project-footer .tag-list { margin: 0; }
   .project-link { font-size: 0.78rem; white-space: nowrap; }
 
   @media (max-width: 600px) {
     .project-preview,
-    .project-card-featured .project-preview { min-height: 245px; }
+    .project-card-featured .project-preview { min-height: 210px; }
     .project-card-featured .preview-title { font-size: 2.6rem; }
   }
 </style>

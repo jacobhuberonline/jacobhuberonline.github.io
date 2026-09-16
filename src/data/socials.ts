@@ -1,6 +1,6 @@
 export const socialLinks = [
-  { label: 'LinkedIn', href: 'https://www.linkedin.com/in/jacobhuberonline/' },
-  { label: 'GitHub', href: 'https://github.com/jacobhuberonline' },
-  { label: 'Facebook', href: 'https://www.facebook.com/jacobhuber.eth/' },
-  { label: 'Chess.com', href: 'https://www.chess.com/member/cobmin' },
-];
+  { label: 'LinkedIn', icon: 'linkedin', href: 'https://www.linkedin.com/in/jacobhuberonline/' },
+  { label: 'GitHub', icon: 'github', href: 'https://github.com/jacobhuberonline' },
+  { label: 'Facebook', icon: 'facebook', href: 'https://www.facebook.com/jacobhuber.eth/' },
+  { label: 'Chess.com', icon: 'chess', href: 'https://www.chess.com/member/cobmin' },
+] as const;

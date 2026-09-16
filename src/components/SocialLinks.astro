@@ -1,0 +1,37 @@
+---
+import Icon from './Icon.astro';
+import { socialLinks } from '../data/socials';
+---
+<nav class="social-links" aria-label="Social profiles">
+  {socialLinks.map((social) => (
+    <a class="social-link" href={social.href} rel="me" aria-label={social.label}>
+      <Icon name={social.icon} size={20} />
+      <span class="social-label" aria-hidden="true">{social.label}</span>
+    </a>
+  ))}
+</nav>
+
+<script>
+  const socialLinks = document.querySelectorAll<HTMLAnchorElement>('.social-link');
+  for (const link of socialLinks) {
+    const resetLabel = () => link.removeAttribute('data-label-dismissed');
+    link.addEventListener('blur', resetLabel);
+    link.addEventListener('pointerleave', resetLabel);
+  }
+  document.addEventListener('keydown', (event) => {
+    if (event.key !== 'Escape') return;
+    for (const link of socialLinks) {
+      if (link.matches(':hover, :focus-visible')) link.dataset.labelDismissed = 'true';
+    }
+  });
+</script>
+
+<style>
+  .social-links { display: flex; align-items: center; flex-wrap: wrap; gap: 10px; }
+  .social-link { position: relative; display: grid; place-items: center; width: 44px; height: 44px; border: 1px solid currentColor; border-radius: 50%; color: inherit; transition: background .18s, color .18s; }
+  .social-link:hover { background: var(--accent); border-color: var(--accent); color: var(--ink); }
+  .social-link::before { content: ''; position: absolute; bottom: 100%; left: 0; width: 100%; height: 9px; }
+  .social-label { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); z-index: 25; padding: 5px 9px; border: 1px solid var(--line); border-radius: 6px; background: var(--ink); color: var(--paper); font-size: 13px; font-weight: 500; line-height: 1.5; white-space: nowrap; opacity: 0; visibility: hidden; }
+  .social-link:hover .social-label, .social-link:focus-visible .social-label { opacity: 1; visibility: visible; }
+  .social-link[data-label-dismissed] .social-label { opacity: 0; visibility: hidden; }
+</style>

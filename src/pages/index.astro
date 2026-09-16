@@ -1,27 +1,27 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import Icon from '../components/Icon.astro';
 import { projects } from '../data/projects';
 import { withBase } from '../lib/paths';
 
 const services = [
-  { symbol: '↗', label: 'Starting fresh', title: 'A new website', description: 'Give your business a home online that explains your services, shows your work, and helps people get in touch.', href: '/services/#service-websites', link: 'Website builds' },
-  { symbol: '↻', label: 'Ready for a change', title: 'A website refresh', description: 'Outgrown your current site? Let’s make the message clearer, the pages easier to use, and the next step easier to find.', href: '/services/#service-websites', link: 'Website redesigns' },
-  { symbol: '+', label: 'Beyond the website', title: 'A little software help', description: 'A custom tool, a connection between apps, or less time spent on a repetitive task. We can start with the problem.', href: '/services/#service-tools', link: 'Tools & automation' },
-];
+  { icon: 'website', title: 'A new website', description: 'Get your business online with clear services and an easy way to connect.', href: '/services/#service-websites' },
+  { icon: 'refresh', title: 'A website refresh', description: 'Make your current site clearer, easier to use, and more like you.', href: '/services/#service-websites' },
+  { icon: 'tools', title: 'Tools & automation', description: 'Connect apps, simplify a task, or build a useful tool for your team.', href: '/services/#service-tools' },
+] as const;
 ---
 <BaseLayout>
   <div class="container">
     <section class="home-hero" aria-labelledby="intro-title">
       <div class="hero-copy">
-        <p class="eyebrow">Websites for small businesses & organizations</p>
+        <p class="eyebrow">For small businesses & organizations</p>
         <h1 id="intro-title">Websites that help people <span>choose your business.</span></h1>
-        <p class="lede">Show people what you do, give them a reason to trust you, and make the next step simple. I build websites around those three things.</p>
+        <p class="lede">New websites and thoughtful redesigns. Built around your business.</p>
         <div class="button-row">
           <a href={withBase('/contact/')} class="button">Start a project <span aria-hidden="true">↗</span></a>
           <a href={withBase('/projects/')} class="text-link">See my work <span aria-hidden="true">↗</span></a>
         </div>
-        <p class="hero-note">New site or fresh start. A rough idea is enough to begin.</p>
       </div>
       <aside class="hello-card" aria-label="Meet your website builder">
         <div class="hello-photo">
@@ -30,74 +30,38 @@ const services = [
         </div>
         <div class="hello-copy">
           <p class="hello-name">Hey, I’m Jacob.</p>
-          <p>A software engineer in Edwardsville, Illinois, with a soft spot for a good website and a useful idea.</p>
+          <p>Software engineer & website builder.<br />Edwardsville, Illinois.</p>
           <a href={withBase('/about/')} class="text-link">Get to know me <span aria-hidden="true">↗</span></a>
         </div>
       </aside>
     </section>
 
-    <div class="built-for" aria-label="Selected website projects">
-      <p>Websites I’ve built</p>
-      <a href="https://www.krhdesignco.com">KRH Design Co. <span aria-hidden="true">↗</span></a>
-      <a href="https://www.vestfirstresponder.com">VEST First Responder <span aria-hidden="true">↗</span></a>
-      <span class="built-for-note">Different businesses. Thoughtful websites.</span>
-    </div>
-
     <section id="services" class="section" aria-labelledby="services-heading">
       <div class="section-heading">
-        <div><p class="eyebrow">How I can help</p><h2 id="services-heading">Let’s make your next step easier.</h2></div>
+        <h2 id="services-heading">What do you need?</h2>
         <a href={withBase('/services/')} class="text-link">Explore services <span aria-hidden="true">↗</span></a>
       </div>
       <div class="service-grid">
         {services.map((service) => (
-          <article class="service-card">
-            <span class="service-symbol" aria-hidden="true">{service.symbol}</span>
-            <p class="eyebrow">{service.label}</p>
+          <a class="service-card" href={withBase(service.href)} aria-label={service.title}>
+            <div class="service-card-top">
+              <span class="service-symbol"><Icon name={service.icon} /></span>
+              <Icon name="arrow-up-right" size={18} />
+            </div>
             <h3>{service.title}</h3>
             <p class="service-description">{service.description}</p>
-            <a href={withBase(service.href)} class="text-link">{service.link} <span aria-hidden="true">↗</span></a>
-          </article>
+          </a>
         ))}
       </div>
     </section>
 
     <section class="section" aria-labelledby="work-heading">
       <div class="section-heading">
-        <div><p class="eyebrow">A look at the work</p><h2 id="work-heading">Your business has its own story.</h2></div>
-        <p>For KRH, it’s design work and consultations. For VEST, it’s training and course information. Each site gives visitors a way to take the next step.</p>
+        <h2 id="work-heading">A look at the work.</h2>
+        <a href={withBase('/projects/')} class="text-link">More projects <span aria-hidden="true">↗</span></a>
       </div>
       <div class="project-grid">
         {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
-      </div>
-      <div class="work-actions">
-        <a href={withBase('/projects/')} class="text-link">Explore more projects <span aria-hidden="true">↗</span></a>
-        <a href={withBase('/contact/')} class="text-link">Start a project <span aria-hidden="true">↗</span></a>
-      </div>
-    </section>
-
-    <section class="first-step" aria-labelledby="first-step-heading">
-      <div>
-        <p class="eyebrow">From “I’ve been meaning to…” to a plan</p>
-        <h2 id="first-step-heading">You don’t need a perfect brief.</h2>
-        <p>Tell me about your business, what you’d like your website to do, and what’s getting in the way. We can figure out a sensible place to start.</p>
-        <a href={withBase('/contact/')} class="button">Start a project <span aria-hidden="true">↗</span></a>
-      </div>
-      <ol class="starting-points">
-        <li><span aria-hidden="true">01</span><div><h3>Talk about the goal.</h3><p>What should someone understand or do when they visit?</p></div></li>
-        <li><span aria-hidden="true">02</span><div><h3>Decide what belongs.</h3><p>Choose the pages and features that serve that goal.</p></div></li>
-        <li><span aria-hidden="true">03</span><div><h3>Build, review, and refine.</h3><p>Work through the design and details together before launch.</p></div></li>
-      </ol>
-    </section>
-
-    <section class="section background-note" aria-labelledby="background-heading">
-      <div><p class="eyebrow">A person behind the pixels</p><h2 id="background-heading">Builder by trade.<br />Problem-solver by habit.</h2></div>
-      <div>
-        <p>I’ve managed a restaurant, helped people untangle software problems, and now build healthcare software at symplr. That mix keeps me interested in how things work for the people using them.</p>
-        <p>Outside of work, I’m a husband, dad, chess player, and enthusiastic starter of house projects.</p>
-        <div class="button-row">
-          <a href={withBase('/about/')} class="text-link">More about me <span aria-hidden="true">↗</span></a>
-          <a href={withBase('/experience/')} class="text-link">Experience & résumé <span aria-hidden="true">↗</span></a>
-        </div>
       </div>
     </section>
   </div>
@@ -110,7 +74,6 @@ const services = [
   h1 span { color: var(--forest); }
   .hero-copy .lede { max-width: 520px; font-size: 17px; line-height: 1.8; margin-top: 24px; }
   .hero-copy .button-row { margin-top: 28px; }
-  .hero-note { margin-top: 15px; font-size: 12px; color: var(--muted); }
   .hello-card { padding: 10px; background: #f9dfc7; border: 1px solid #e9c9ab; border-radius: 24px; transform: rotate(2deg); }
   .hello-photo { position: relative; }
   .hello-photo img { width: 100%; aspect-ratio: 1.35; object-fit: cover; object-position: center 35%; border-radius: 16px; }
@@ -119,46 +82,20 @@ const services = [
   .hello-name { font-family: var(--heading-font); font-size: 24px; letter-spacing: -.035em; font-weight: 600; }
   .hello-copy > p + p { font-size: 13px; line-height: 1.8; color: #526056; margin-top: 9px; }
   .hello-copy .text-link { margin-top: 20px; font-size: 12px; }
-  .built-for { display: flex; align-items: center; flex-wrap: wrap; gap: 24px 40px; padding: 26px 0; border-top: 1px solid var(--line); }
-  .built-for > p, .built-for-note { font-size: 12px; color: var(--muted); }
-  .built-for a { font-family: var(--heading-font); font-size: 17px; font-weight: 600; }
-  .built-for a:hover { text-decoration: underline; text-underline-offset: 5px; }
-  .built-for a span { margin-left: 5px; font-size: 12px; color: var(--forest); }
-  .built-for-note { margin-left: auto; }
   .service-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
-  .service-card { display: flex; flex-direction: column; align-items: start; background: var(--paper); padding: 28px; border: 1px solid var(--line); border-radius: 20px; }
+  .service-card { display: flex; flex-direction: column; align-items: start; background: var(--paper); padding: 28px; border: 1px solid var(--line); border-radius: 20px; transition: border-color .18s, transform .18s; }
+  .service-card:hover { border-color: var(--forest); transform: translateY(-3px); }
+  .service-card-top { display: flex; align-items: center; justify-content: space-between; width: 100%; margin-bottom: 22px; color: var(--forest); }
   .service-card:first-child { background: #eef2dc; }
-  .service-symbol { display: grid; place-items: center; width: 44px; height: 44px; margin-bottom: 26px; border-radius: 12px; background: var(--peach); font-size: 24px; color: var(--forest); }
+  .service-symbol { display: grid; place-items: center; width: 48px; height: 48px; border-radius: 12px; background: var(--peach); color: var(--forest); }
   .service-card:first-child .service-symbol { background: var(--accent); }
-  .service-card .eyebrow { font-size: 11px; margin-bottom: 8px; }
   .service-card h3 { font-size: 22px; }
-  .service-description { color: var(--muted); font-size: 14px; line-height: 1.8; margin: 14px 0 25px; }
-  .service-card .text-link { font-size: 12px; margin-top: auto; }
-  .work-actions { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 22px; margin-top: 30px; }
-  .first-step { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; padding: 48px; margin-bottom: 64px; border-radius: 24px; background: #f9dfc7; }
-  .first-step .eyebrow { margin-bottom: 20px; }
-  .first-step h2 { font-size: clamp(2.2rem, 3.6vw, 3rem); }
-  .first-step > div > p:not(.eyebrow) { margin: 22px 0 26px; font-size: 15px; line-height: 1.8; color: #526056; }
-  .starting-points { list-style: none; padding: 0; margin: 0; display: grid; align-content: center; gap: 25px; }
-  .starting-points li { display: flex; gap: 18px; }
-  .starting-points li > span { flex: 0 0 35px; display: grid; place-items: center; align-self: start; height: 35px; border: 1px solid #c7ae90; border-radius: 50%; font-size: 11px; color: #526056; }
-  .starting-points h3 { font-size: 17px; }
-  .starting-points p { font-size: 13px; line-height: 1.75; color: #526056; margin-top: 6px; }
-  .background-note { display: grid; grid-template-columns: .9fr 1.1fr; gap: 80px; padding-bottom: 24px; }
-  .background-note .eyebrow { margin-bottom: 18px; }
-  .background-note h2 { font-size: clamp(2rem, 3.4vw, 2.8rem); }
-  .background-note > div + div > p { color: var(--muted); font-size: 15px; line-height: 1.8; }
-  .background-note > div + div > p + p { margin-top: 17px; }
-  .background-note .button-row { margin-top: 24px; }
-  .background-note .text-link { font-size: 13px; }
+  .service-description { color: var(--muted); font-size: 16px; line-height: 1.7; margin-top: 14px; }
   @media (max-width: 1000px) {
     .home-hero { gap: 36px; grid-template-columns: minmax(0, 1.4fr) minmax(0, .85fr); }
     h1 { font-size: clamp(3rem, 5.8vw, 4rem); }
-    .built-for-note { display: none; }
     .service-card { padding: 23px; }
     .service-card h3 { font-size: 19px; }
-    .first-step { gap: 35px; padding: 35px; }
-    .background-note { gap: 40px; }
   }
   @media (max-width: 700px) {
     .home-hero { grid-template-columns: 1fr; gap: 32px; padding: 40px 0 32px; }
@@ -166,7 +103,6 @@ const services = [
     h1 { font-size: clamp(2.8rem, 10.6vw, 4rem); max-width: 16ch; }
     .hero-copy .lede { font-size: 16px; margin-top: 22px; }
     .hero-copy .button-row { margin-top: 24px; }
-    .hero-note { font-size: 11px; }
     .hello-card { display: grid; grid-template-columns: 92px 1fr; align-items: center; gap: 16px; padding: 18px; transform: none; border-radius: 20px; }
     .hello-photo img { aspect-ratio: .8; border-radius: 12px; object-position: center; }
     .hello-wave { width: 31px; height: 31px; right: -7px; bottom: -6px; font-size: 18px; }
@@ -174,14 +110,8 @@ const services = [
     .hello-name { font-size: 21px; }
     .hello-copy > p + p { font-size: 12px; line-height: 1.7; margin-top: 6px; }
     .hello-copy .text-link { margin-top: 12px; font-size: 11px; }
-    .built-for { gap: 14px 25px; padding-block: 22px; }
-    .built-for > p { flex-basis: 100%; font-size: 11px; }
-    .built-for a { font-size: 14px; }
     .service-grid { grid-template-columns: 1fr; gap: 16px; }
     .service-card { padding: 26px; }
     .service-card h3 { font-size: 23px; }
-    .service-symbol { margin-bottom: 18px; }
-    .first-step { grid-template-columns: 1fr; padding: 30px 25px; gap: 32px; margin-bottom: 36px; }
-    .background-note { grid-template-columns: 1fr; gap: 25px; }
   }
 </style>

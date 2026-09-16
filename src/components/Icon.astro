@@ -1,0 +1,29 @@
+---
+import { icons } from '../data/icons';
+
+interface Props {
+  name: keyof typeof icons;
+  size?: number;
+}
+
+const { name, size = 24 } = Astro.props;
+const icon = icons[name];
+---
+<svg
+  xmlns="http://www.w3.org/2000/svg"
+  width={size}
+  height={size}
+  viewBox={icon.viewBox}
+  fill={icon.outline ? 'none' : 'currentColor'}
+  stroke={icon.outline ? 'currentColor' : undefined}
+  stroke-width={icon.outline ? 2 : undefined}
+  stroke-linecap={icon.outline ? 'round' : undefined}
+  stroke-linejoin={icon.outline ? 'round' : undefined}
+  aria-hidden="true"
+  focusable="false"
+  set:html={icon.body}
+/>
+
+<style>
+  svg { display: inline-block; flex-shrink: 0; vertical-align: middle; }
+</style>
