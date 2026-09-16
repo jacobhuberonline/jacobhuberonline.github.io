@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import { withBase } from '../lib/paths';
+import { socialLinks } from '../data/socials';
 
 interface Props {
   title?: string;
@@ -91,8 +92,9 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
             <nav aria-label="Footer navigation">
               <a href={withBase('/')}>Home</a>
               <a href={withBase('/experience/')}>Experience & résumé</a>
-              <a href="https://www.linkedin.com/in/jacobhuberonline/">LinkedIn <span aria-hidden="true">↗</span></a>
-              <a href="https://github.com/jacobhuberonline">GitHub <span aria-hidden="true">↗</span></a>
+              {socialLinks.map((social) => (
+                <a href={social.href} rel="me">{social.label} <span aria-hidden="true">↗</span></a>
+              ))}
               <a href="mailto:jhuber.mail@icloud.com">Email <span aria-hidden="true">↗</span></a>
             </nav>
           </div>
@@ -103,6 +105,56 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
       const copyrightYear = document.getElementById('copyright-year');
       if (copyrightYear) copyrightYear.textContent = String(new Date().getFullYear());
       const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+      const header = document.querySelector<HTMLElement>('.site-header');
+      if (header) {
+        // Clamp overscroll so the bounce at either end doesn't reverse the header.
+        const scrollPosition = () => Math.max(0, Math.min(
+          window.scrollY,
+          document.documentElement.scrollHeight - window.innerHeight,
+        ));
+        let lastPosition = scrollPosition();
+        let direction = 0;
+        let distance = 0;
+
+        const showHeader = () => {
+          header.classList.remove('is-hidden');
+          lastPosition = scrollPosition();
+          direction = 0;
+          distance = 0;
+        };
+
+        window.addEventListener('scroll', () => {
+          const position = scrollPosition();
+          const delta = position - lastPosition;
+          lastPosition = position;
+
+          if (position <= header.offsetHeight || menu?.open || header.querySelector(':focus-visible')) {
+            showHeader();
+            return;
+          }
+          if (delta === 0) return;
+
+          const nextDirection = Math.sign(delta);
+          distance = nextDirection === direction ? distance + Math.abs(delta) : Math.abs(delta);
+          direction = nextDirection;
+
+          // Ignore tiny scroll reversals from a trackpad or touch gesture.
+          if (distance >= 10) {
+            header.classList.toggle('is-hidden', direction > 0);
+            distance = 0;
+          }
+        }, { passive: true });
+
+        header.addEventListener('focusin', showHeader);
+        menu?.addEventListener('toggle', () => {
+          if (menu.open) showHeader();
+        });
+        window.addEventListener('resize', () => {
+          if (menu && menu.offsetParent === null) menu.open = false;
+          showHeader();
+        });
+        window.addEventListener('pageshow', showHeader);
+      }
       document.addEventListener('keydown', (event) => {
         if (event.key === 'Escape' && menu?.open) {
           menu.open = false;
