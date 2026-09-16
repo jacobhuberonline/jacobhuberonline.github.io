@@ -2,7 +2,7 @@
 
 A static Astro portfolio for software engineering, website projects, and contact information.
 
-**Site:** https://jacobhuberonline.github.io/personal-site/
+**Site:** https://jacobhuberonline.github.io/
 
 ## Local development
 
@@ -13,7 +13,7 @@ npm ci
 npm run dev
 ```
 
-Open the `/personal-site/` address printed by Astro. The same base path is used locally and on GitHub Pages so links and images can be checked before publishing.
+Open the local address printed by Astro. The site uses the root path (`/`) both locally and on GitHub Pages so links and images can be checked before publishing.
 
 ## Verify a production build
 
@@ -37,11 +37,11 @@ The GitHub Actions workflow in `.github/workflows/deploy.yml` follows Astro's of
 
 No personal access token, Resend key, database, or environment file is required. Deployment uses GitHub's built-in workflow identity. A failed build or check prevents publishing that change.
 
-The site origin and project path are set in `astro.config.mjs`. `src/lib/paths.ts` prefixes internal links and public assets with Astro's configured base. If adding a custom domain later, update `site`, change `base` to `/`, and configure the domain in GitHub Pages before publishing.
+The repository is `jacobhuberonline/jacobhuberonline.github.io`, which publishes the site at the root of `jacobhuberonline.github.io`. The site origin and root path are set in `astro.config.mjs`. `src/lib/paths.ts` prefixes internal links and public assets with Astro's configured base. If adding a custom domain later, update `site`, keep `base` as `/`, and configure the domain in GitHub Pages before publishing.
 
 ## Content and pages
 
-| URL (after `/personal-site`) | Source |
+| URL | Source |
 | --- | --- |
 | `/` — Home and Services | `src/pages/index.astro` |
 | `/projects/` | `src/pages/projects.astro`, `src/data/projects.ts` |

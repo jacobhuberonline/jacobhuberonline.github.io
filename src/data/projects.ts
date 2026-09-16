@@ -66,6 +66,6 @@ export const projects: Project[] = [
     description:
       "This site: a home for my software engineering work, websites, and personal projects, built as a static Astro site with automatic publishing through GitHub Pages.",
     tech: ["Astro", "TypeScript", "GitHub Pages"],
-    url: "https://github.com/jacobhuberonline/personal-site",
+    url: "https://github.com/jacobhuberonline/jacobhuberonline.github.io",
   },
 ];
