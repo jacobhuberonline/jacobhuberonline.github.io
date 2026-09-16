@@ -3,11 +3,20 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { Image } from 'astro:assets';
 import Icon from '../components/Icon.astro';
 import SocialLinks from '../components/SocialLinks.astro';
+import ContactForm from '../components/ContactForm.astro';
 import portrait from '../assets/portrait.jpeg';
 import { CONTACT_EMAIL, CONTACT_SERVICE_OPTIONS, createContactDraft } from '../lib/contact-draft';
 import { withBase } from '../lib/paths';
 
 const defaultDraft = createContactDraft(null);
+const contactEndpoint = import.meta.env.PUBLIC_CONTACT_ENDPOINT?.trim();
+if (contactEndpoint) {
+  const endpoint = new URL(contactEndpoint);
+  const local = import.meta.env.DEV && ['localhost', '127.0.0.1'].includes(endpoint.hostname);
+  if ((endpoint.protocol !== 'https:' && !(local && endpoint.protocol === 'http:')) || endpoint.username || endpoint.password) {
+    throw new Error('PUBLIC_CONTACT_ENDPOINT must be an HTTPS URL (HTTP localhost is allowed in development).');
+  }
+}
 ---
 <BaseLayout title="Start a Website or Automation Project" description="Contact Jacob Huber about a business website, redesign, or repetitive task you’d like to automate. Local and nationwide projects welcome.">
   <div class="container">
@@ -15,23 +24,34 @@ const defaultDraft = createContactDraft(null);
       <p class="eyebrow">Get a project estimate</p>
       <h1 class="display-title">Tell me what you<br />have in mind<span class="hello-dot">.</span></h1>
       <p class="lede">A rough idea is enough to start.</p>
-      <div class="contact-offer-choice" id="contact-offer-choice" hidden>
-        <label for="contact-service">Project type <span>(optional)</span></label>
-        <select id="contact-service" aria-describedby="contact-service-hint">
-          <option value="">General enquiry</option>
-          {CONTACT_SERVICE_OPTIONS.map((option) => <option value={option.id}>{option.label}</option>)}
-        </select>
-        <p class="meta" id="contact-service-hint">{defaultDraft.hint}</p>
-      </div>
-      <div class="button-row contact-first-action">
-        <a class="button" id="project-email-link" href={defaultDraft.mailto} aria-describedby="email-draft-note"><Icon name="mail" /> Get a project estimate</a>
-        <span class="meta" id="email-draft-note">Opens an editable email draft.</span>
-      </div>
-      <p class="sr-only" id="contact-service-status" role="status" aria-live="polite"></p>
-      <a class="text-link compare-offers" href={withBase('/services/')}>Compare projects & website care <Icon name="arrow-up-right" size={18} /></a>
+      {!contactEndpoint && (
+        <>
+          <div class="contact-offer-choice" id="contact-offer-choice" hidden>
+            <label for="contact-service">Project type <span>(optional)</span></label>
+            <select id="contact-service" aria-describedby="contact-service-hint">
+              <option value="">General enquiry</option>
+              {CONTACT_SERVICE_OPTIONS.map((option) => <option value={option.id}>{option.label}</option>)}
+            </select>
+            <p class="meta" id="contact-service-hint">{defaultDraft.hint}</p>
+          </div>
+          <div class="button-row contact-first-action">
+            <a class="button" id="project-email-link" href={defaultDraft.mailto} aria-describedby="email-draft-note"><Icon name="mail" /> Get a project estimate</a>
+            <span class="meta" id="email-draft-note">Opens an editable email draft.</span>
+          </div>
+          <p class="sr-only" id="contact-service-status" role="status" aria-live="polite"></p>
+          <a class="text-link compare-offers" href={withBase('/services/')}>Compare projects & website care <Icon name="arrow-up-right" size={18} /></a>
+        </>
+      )}
     </header>
 
-    <section class="contact-grid" aria-label="Contact details">
+    <div class:list={['contact-layout', { 'has-form': contactEndpoint }]}>
+      {contactEndpoint && (
+        <div>
+          <ContactForm endpoint={contactEndpoint} />
+          <a class="text-link compare-offers" href={withBase('/services/')}>Compare projects & website care <Icon name="arrow-up-right" size={18} /></a>
+        </div>
+      )}
+      <section class="contact-grid" aria-label="Contact details">
       <div class="contact-panel">
         <div class="inbox-person">
           <Image src={portrait} alt="" width={128} height={128} format="webp" quality={80} loading="eager" decoding="async" />
@@ -48,7 +68,7 @@ const defaultDraft = createContactDraft(null);
         <section aria-labelledby="contact-next-heading">
           <h2 id="contact-next-heading">What happens next.</h2>
           <ol class="contact-next-steps">
-            <li>We clarify the goal and scope.</li>
+            <li>I usually reply within 1 business day to clarify the goal and scope.</li>
             <li>You get a written quote to review.</li>
             <li>Work starts after you approve.</li>
           </ol>
@@ -58,7 +78,8 @@ const defaultDraft = createContactDraft(null);
           <div class="social-profiles"><SocialLinks /></div>
         </section>
       </div>
-    </section>
+      </section>
+    </div>
   </div>
 </BaseLayout>
 
@@ -134,10 +155,14 @@ const defaultDraft = createContactDraft(null);
   .copy-status { font-size: 11px; min-height: 1.8em; margin-top: 4px; color: #526056; }
   .contact-context h2 { font-size: 1.65rem; }
   .contact-context > section + section { margin-top: 2.5rem; }
+  .has-form { display: grid; grid-template-columns: minmax(0, 1.6fr) minmax(0, 1fr); gap: 40px; align-items: start; padding-bottom: 64px; }
+  .has-form .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding: 0; }
+  .has-form .contact-panel { padding: 28px; }
   .contact-next-steps { padding-left: 1.25rem; margin: 1rem 0 0; list-style: decimal; color: var(--muted); font-size: 14px; line-height: 1.75; }
   .contact-next-steps li + li { margin-top: 0.5rem; }
   .social-profiles { margin-top: 28px; }
   @media (max-width: 800px) {
+    .has-form { grid-template-columns: minmax(0, 1fr); gap: 40px; padding-bottom: 40px; }
     .contact-grid { grid-template-columns: minmax(0, 1fr); gap: 32px; padding-bottom: 40px; }
     .contact-panel { max-width: 540px; }
   }

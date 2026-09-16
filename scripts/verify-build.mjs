@@ -259,6 +259,10 @@ async function verify() {
   }
 
   const uniqueMetadata = { title: new Map(), description: new Map(), H1: new Map() };
+  const contactForms = documents.get('contact/index.html')?.tags.filter(({ name }) => name === 'form') ?? [];
+  if (contactForms.length !== (process.env.PUBLIC_CONTACT_ENDPOINT?.trim() ? 1 : 0)) {
+    report('contact/index.html', 'must render exactly one enquiry form when its endpoint is configured, and use email otherwise.');
+  }
   for (const [file, document] of documents) {
     const isNotFound = file === '404.html' || file === '404/index.html';
     if (isNotFound && !document.noindex) report(file, 'the not-found page must use noindex.');
@@ -290,7 +294,12 @@ async function verify() {
     const canonicalUrls = [];
     const openGraphUrls = [];
     for (const { name, attributes } of document.tags) {
-      if (name === 'form') report(file, 'contains a form before form handling is implemented.');
+      if (name === 'form' && (file !== 'contact/index.html'
+        || attributes.get('id') !== 'contact-form'
+        || attributes.get('method') !== 'post'
+        || attributes.get('action') !== process.env.PUBLIC_CONTACT_ENDPOINT?.trim())) {
+        report(file, 'contains an unexpected form or an unconfigured contact endpoint.');
+      }
       if (name === 'base') report(file, 'contains an HTML base tag that changes local URL resolution.');
       for (const attribute of urlAttributes) {
         if (attributes.has(attribute)) {

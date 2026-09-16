@@ -1,0 +1,4 @@
+# Local Worker secrets only. Copy to .dev.vars; never commit that file.
+RESEND_API_KEY=replace-with-a-resend-sending-key
+RESEND_FROM_EMAIL=enquiries@huberbuilds.com
+ALLOWED_ORIGINS=http://localhost:4321,http://127.0.0.1:4321

@@ -3,6 +3,7 @@
   "include": [
     ".astro/types.d.ts",
     "src/**/*",
+    "workers/**/*.ts",
     "tailwind.config.ts"
   ],
   "exclude": [

@@ -1,0 +1,196 @@
+---
+import Icon from './Icon.astro';
+import { CONTACT_EMAIL, CONTACT_SERVICE_OPTIONS } from '../lib/contact-draft';
+import { CONTACT_LIMITS } from '../lib/contact-form';
+
+interface Props { endpoint: string }
+const { endpoint } = Astro.props;
+---
+<form id="contact-form" class="enquiry-form" action={endpoint} method="post" novalidate hidden>
+  <fieldset>
+    <legend class="sr-only">Your project enquiry</legend>
+    <div class="identity-fields">
+      <div class="field">
+        <label for="contact-name">Your name</label>
+        <input id="contact-name" name="name" autocomplete="name" required maxlength={CONTACT_LIMITS.name} aria-describedby="contact-name-error" />
+        <p class="field-error" id="contact-name-error" hidden></p>
+      </div>
+      <div class="field">
+        <label for="contact-email">Email address</label>
+        <input id="contact-email" name="email" type="email" autocomplete="email" inputmode="email" required maxlength={CONTACT_LIMITS.email} aria-describedby="contact-email-error" />
+        <p class="field-error" id="contact-email-error" hidden></p>
+      </div>
+    </div>
+    <div class="field">
+      <label for="contact-service">Project type <span>(optional)</span></label>
+      <select id="contact-service" name="service" aria-describedby="contact-service-hint contact-service-error">
+        <option value="">Not sure yet / general enquiry</option>
+        {CONTACT_SERVICE_OPTIONS.map((option) => <option value={option.id}>{option.label}</option>)}
+      </select>
+      <p class="meta" id="contact-service-hint">A website, automation, or another idea.</p>
+      <p class="field-error" id="contact-service-error" hidden></p>
+    </div>
+    <div class="field">
+      <label for="contact-message">What do you have in mind?</label>
+      <textarea id="contact-message" name="message" rows={6} required minlength="10" maxlength={CONTACT_LIMITS.message} aria-describedby="contact-message-hint contact-message-error"></textarea>
+      <p class="meta" id="contact-message-hint">A few sentences about your business and what you’d like help with are plenty.</p>
+      <p class="field-error" id="contact-message-error" hidden></p>
+    </div>
+    <div class="form-trap" aria-hidden="true" inert>
+      <label for="contact-website">Leave this field empty</label>
+      <input id="contact-website" name="website" tabindex="-1" autocomplete="off" />
+    </div>
+    <div class="submit-row">
+      <button class="button" type="submit"><Icon name="mail" /><span id="contact-submit-label">Send enquiry</span></button>
+      <p class="meta">I usually reply within 1 business day.<br />No commitment, just a conversation.</p>
+    </div>
+  </fieldset>
+  <p id="contact-form-status" class="form-status" role="status" aria-live="polite" tabindex="-1" hidden></p>
+</form>
+<noscript><p class="meta">Please email me directly to tell me about your project.</p></noscript>
+<p class="email-alternative">Prefer email? <a id="contact-email-alternative" href={`mailto:${CONTACT_EMAIL}`}>Email me directly <Icon name="arrow-up-right" size={16} /></a></p>
+
+<script>
+  import { CONTACT_EMAIL, contactServiceFromSearch, createContactDraft } from '../lib/contact-draft';
+  import { validateContactSubmission, type ContactErrors, type ContactField } from '../lib/contact-form';
+
+  const form = document.querySelector<HTMLFormElement>('#contact-form');
+  const fieldset = form?.querySelector('fieldset');
+  const service = form?.querySelector<HTMLSelectElement>('#contact-service');
+  const hint = form?.querySelector<HTMLElement>('#contact-service-hint');
+  const status = form?.querySelector<HTMLElement>('#contact-form-status');
+  const submitLabel = form?.querySelector<HTMLElement>('#contact-submit-label');
+  const emailLink = document.querySelector<HTMLAnchorElement>('#contact-email-alternative');
+
+  if (form && fieldset && service && hint && status && submitLabel && emailLink) {
+    let sending = false;
+    let lastPayload = '';
+    let requestId = crypto.randomUUID();
+    const fields: ContactField[] = ['name', 'email', 'service', 'message'];
+
+    const showErrors = (errors: ContactErrors) => {
+      for (const name of fields) {
+        const input = form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+        const error = document.getElementById(`contact-${name}-error`)!;
+        const message = errors[name];
+        input.setAttribute('aria-invalid', message ? 'true' : 'false');
+        error.textContent = message ?? '';
+        error.hidden = !message;
+      }
+      const first = fields.find((name) => errors[name]);
+      if (first) (form.elements.namedItem(first) as HTMLElement).focus();
+    };
+    const showStatus = (message: string, success = false) => {
+      status.textContent = message;
+      status.hidden = false;
+      status.classList.toggle('is-success', success);
+    };
+    const updateEmail = () => {
+      const data = new FormData(form);
+      const draft = createContactDraft(service.value);
+      const message = String(data.get('message') ?? '').trim();
+      const body = message
+        ? `Hi Jacob,\n\n${message}\n\n${data.get('name') ?? ''}\n${data.get('email') ?? ''}`
+        : draft.body;
+      emailLink.href = `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent(draft.subject)}&body=${encodeURIComponent(body)}`;
+    };
+    const updateService = () => {
+      hint.textContent = createContactDraft(service.value).hint;
+      updateEmail();
+    };
+
+    service.value = contactServiceFromSearch(window.location.search) ?? '';
+    updateService();
+    service.addEventListener('change', () => {
+      updateService();
+      const url = new URL(window.location.href);
+      if (service.value) url.searchParams.set('service', service.value);
+      else url.searchParams.delete('service');
+      window.history.replaceState(window.history.state, '', url);
+    });
+    window.addEventListener('popstate', () => {
+      service.value = contactServiceFromSearch(window.location.search) ?? '';
+      updateService();
+    });
+    form.addEventListener('input', updateEmail);
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (sending) return;
+      const data = Object.fromEntries(new FormData(form));
+      const payload = JSON.stringify(data);
+      // Keep the same key after a timeout so retrying cannot send the same email twice.
+      if (payload !== lastPayload) requestId = crypto.randomUUID();
+      lastPayload = payload;
+      const submission = { ...data, requestId };
+      const validation = validateContactSubmission(submission);
+      showErrors(validation.ok ? {} : validation.errors);
+      if (!validation.ok) {
+        showStatus('Please check the highlighted fields.');
+        return;
+      }
+      updateEmail();
+      sending = true;
+      fieldset.disabled = true;
+      form.setAttribute('aria-busy', 'true');
+      submitLabel.textContent = 'Sending…';
+      showStatus('Sending your enquiry…');
+      let sent = false;
+      let errors: ContactErrors = {};
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(submission),
+          credentials: 'omit',
+          signal: AbortSignal.timeout(15_000),
+        });
+        const result = await response.json();
+        if (!response.ok || result.ok !== true) {
+          errors = result.errors ?? {};
+          showStatus(typeof result.message === 'string' ? result.message : 'Your message could not be sent. Please try again or email me directly.');
+        } else {
+          sent = true;
+          fieldset.hidden = true;
+          showStatus('Thanks — your enquiry has been sent. I usually reply within 1 business day, using the email address you provided.', true);
+        }
+      } catch {
+        showStatus('Sending could not be confirmed. Your message is still here. Please try again or use “Email me directly” below.');
+      } finally {
+        sending = false;
+        fieldset.disabled = false;
+        form.removeAttribute('aria-busy');
+        submitLabel.textContent = 'Send enquiry';
+        if (Object.keys(errors).length) showErrors(errors);
+        else status.focus();
+        if (sent) {
+          form.reset();
+          emailLink.href = `mailto:${CONTACT_EMAIL}`;
+        }
+      }
+    });
+    form.hidden = false;
+  }
+</script>
+
+<style>
+  .enquiry-form { padding: clamp(1.25rem, 3vw, 2rem); background: var(--paper); border: 1px solid var(--line); border-radius: 24px; }
+  fieldset { min-width: 0; border: 0; padding: 0; margin: 0; display: grid; gap: 24px; }
+  [hidden] { display: none !important; }
+  .identity-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+  .field { min-width: 0; display: grid; gap: 8px; }
+  label { font-size: 14px; font-weight: 600; }
+  label span { font-size: 12px; font-weight: 400; color: var(--muted); }
+  input, select, textarea { width: 100%; min-height: 48px; padding: 12px 14px; border: 1px solid #b7c1b8; border-radius: 10px; background: var(--paper); color: var(--ink); font: inherit; font-size: 16px; }
+  select { padding-right: 30px; }
+  textarea { resize: vertical; min-height: 150px; }
+  [aria-invalid="true"] { border-color: #a23520; }
+  .field-error { color: #9a2e1c; font-size: 13px; }
+  .form-trap { position: absolute; width: 1px; height: 1px; overflow: hidden; clip-path: inset(50%); }
+  .submit-row { display: flex; flex-wrap: wrap; align-items: center; gap: 18px; }
+  fieldset:disabled .button { opacity: .7; cursor: wait; transform: none; }
+  .form-status { margin-top: 20px; padding: 16px; border-radius: 12px; background: #fff0e5; color: #713a29; font-size: 14px; }
+  .form-status.is-success { margin-top: 0; background: #eef2dc; color: var(--forest); }
+  .email-alternative { margin-top: 20px; color: var(--muted); font-size: 14px; }
+  .email-alternative a { display: inline-flex; align-items: center; gap: 6px; color: var(--forest); text-decoration: underline; text-underline-offset: 4px; }
+  @media (max-width: 560px) { .identity-fields { grid-template-columns: 1fr; } }
+</style>

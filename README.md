@@ -24,7 +24,7 @@ npm run verify
 npm run preview
 ```
 
-`check` validates Astro and TypeScript. `verify` requires every public page, checks navigation, local links, assets, canonical/social metadata, unique titles/descriptions/headings, valid JSON-LD, sitemap coverage, and crawl rules. It also confirms that Blog, LapQuest, forms, and excluded personal pages or environment files are absent from the published output.
+`check` validates Astro and TypeScript. `verify` requires every public page, checks navigation, local links, assets, canonical/social metadata, unique titles/descriptions/headings, valid JSON-LD, sitemap coverage, and crawl rules. It also checks the configured contact form and confirms that Blog, LapQuest, excluded personal pages, and environment files are absent from the published output. When testing an enabled form, set the same `PUBLIC_CONTACT_ENDPOINT` for both `build` and `verify`.
 
 ## Publishing
 
@@ -35,7 +35,7 @@ The GitHub Actions workflow in `.github/workflows/deploy.yml` follows Astro's of
 - A manual run is available from **Actions → Build and deploy to GitHub Pages → Run workflow**.
 - Repository **Settings → Pages → Source** must be **GitHub Actions**.
 
-No personal access token, Resend key, database, or environment file is required. Deployment uses GitHub's built-in workflow identity. A failed build or check prevents publishing that change.
+Site deployment uses GitHub's built-in workflow identity. A failed build or check prevents publishing that change. The optional contact form uses a separately deployed Cloudflare Worker and a Resend secret; neither the secret nor server code is included in the static site.
 
 The repository is `jacobhuberonline/jacobhuberonline.github.io`. The public site origin is `https://huberbuilds.com`, with `base` kept as `/` in `astro.config.mjs`. `src/lib/paths.ts` prefixes internal links and public assets with Astro's configured base. GitHub **Settings → Pages** uses `huberbuilds.com` as the custom domain with **Enforce HTTPS** enabled. This GitHub Actions deployment does not require a `CNAME` file.
 
@@ -52,14 +52,36 @@ Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` re
 | `/services/` — website and software services | `src/pages/services.astro` |
 | `/services/websites/` — business websites and redesigns | `src/pages/services/websites.astro` |
 | `/services/automation/` — workflow and business process automation | `src/pages/services/automation.astro` |
-| `/contact/` — email and social links | `src/pages/contact.astro` |
+| `/contact/` — project enquiries, email, and social links | `src/pages/contact.astro`, `src/components/ContactForm.astro` |
 | Custom not-found page | `src/pages/404.astro` |
 
-Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The cream, peach, and green palette, rounded cards, and responsive layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view. Contact offers email links with suggested subjects and a copy-email button; email is sent through the visitor's own mail app.
+Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The cream, peach, and green palette, rounded cards, and responsive layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view. Contact offers an on-page enquiry form when its endpoint is configured, with email and copy-email fallbacks. Service links preselect the project type. Visitors are told Jacob usually replies within 1 business day.
 
-The three service offers are defined in `src/data/services.ts` and rendered by `src/components/ServiceOffers.astro` on the overview and relevant detail pages. The homepage uses the same offer names and descriptions. Ownership, quote preparation, running costs, and optional support are explained in `/services/#project-details`. Prices remain unpublished until rates are established; each quote defines scope, revisions, timing, payment, and delivery support. The estimate email includes editable prompts and is never sent automatically.
+The three service offers are defined in `src/data/services.ts` and rendered by `src/components/ServiceOffers.astro` on the overview and relevant detail pages. The homepage uses the same offer names and descriptions. Ownership, quote preparation, running costs, and optional support are explained in `/services/#project-details`. Each quote defines scope, revisions, timing, payment, and delivery support. Contact messages are sent only when a visitor submits the form; the email fallback opens an editable draft.
 
-Blog pages and the contact form are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
+Blog pages are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
+
+## Contact form and Resend
+
+GitHub Pages serves static files, so `workers/contact/index.ts` handles email on Cloudflare. It sends plain-text enquiries to `jhuber.mail@icloud.com` through Resend, with the visitor's address in `reply_to`. The recipient is fixed server-side; visitors cannot choose recipients or the sender. There is no database or automatic email to visitors.
+
+The Worker validates fields and payload size, checks allowed browser origins, uses a honeypot and a Cloudflare rate-limit binding (5 attempts per minute per IP), and keeps the Resend key server-side. Rate limits are best-effort per Cloudflare location, not a global quota; shared IP addresses share the limit. Origin checks are not bot authentication. If targeted spam develops, add a server-verified challenge such as Turnstile. Retries of the same unchanged submission reuse a Resend idempotency key. Errors retain the visitor's message and offer a prefilled email fallback. Logs contain error categories/status codes, not submitted messages or provider response bodies.
+
+To activate production sending:
+
+1. Verify `huberbuilds.com` as a sending domain in Resend. The configured sender is `enquiries@huberbuilds.com`; change `RESEND_FROM_EMAIL` in `workers/contact/wrangler.jsonc` if using another verified sender.
+2. Run `npx wrangler login` for the Cloudflare account managing the domain. Check that rate-limit namespace `1001` is not used by another Worker; choose another positive integer if needed.
+3. Run `npm run contact:deploy`. This creates the contact Worker and the `contact.huberbuilds.com` custom domain, without changing the website's GitHub Pages DNS records. Until the secret is present, the Worker returns an unavailable response.
+4. Run `npx wrangler secret put RESEND_API_KEY --config workers/contact/wrangler.jsonc` and enter a Resend sending key scoped to the verified domain. Never put this secret in a `PUBLIC_` variable or in GitHub Pages build variables.
+5. Verify delivery with an explicitly approved test enquiry before enabling the public form. In repository **Settings → Secrets and variables → Actions → Variables**, set `PUBLIC_CONTACT_ENDPOINT` to `https://contact.huberbuilds.com/contact`, then run the existing Pages deployment workflow. The workflow passes this public endpoint to both the build and verifier.
+
+With no endpoint configured, the existing email-draft contact flow remains available. Remove the variable and rebuild to return to that flow. With JavaScript disabled, visitors still have direct email contact. The Worker is deployed separately from the site; changes to `workers/contact/` require `npm run contact:deploy`.
+
+For local development, copy `workers/contact/.dev.vars.example` to `workers/contact/.dev.vars`, provide a sending key and verified sender, and run `npm run contact:dev`. Start Astro in another terminal with `PUBLIC_CONTACT_ENDPOINT=http://localhost:8787/contact npm run dev`. The local secret file is ignored by Git. This local configuration sends real email when the form is submitted; automated tests mock Resend and send nothing.
+
+Validation: `npm test` covers validation, fixed recipient/reply-to, idempotency, CORS, rate limiting, oversized input, provider errors, and missing configuration. `npx wrangler deploy --config workers/contact/wrangler.jsonc --dry-run` checks the Worker bundle without deploying. In a local browser, also check empty/invalid fields, service preselection, keyboard navigation, narrow layouts, success, and a stopped/offline endpoint; failure must preserve typed text and offer email.
+
+Provider references: [Resend send-email API](https://resend.com/docs/api-reference/emails/send-email), [Resend idempotency](https://resend.com/docs/dashboard/emails/idempotency-keys), [Cloudflare rate limits](https://developers.cloudflare.com/workers/runtime-apis/bindings/rate-limit/), and [Worker custom domains](https://developers.cloudflare.com/workers/configuration/routing/custom-domains/).
 
 ## Search discovery
 

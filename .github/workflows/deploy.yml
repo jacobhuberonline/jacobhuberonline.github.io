@@ -26,6 +26,8 @@ jobs:
 
       - name: Install, check, build, verify, and upload site
         uses: withastro/action@v6
+        env:
+          PUBLIC_CONTACT_ENDPOINT: ${{ vars.PUBLIC_CONTACT_ENDPOINT }}
         with:
           node-version: '24'
           build-cmd: git diff --exit-code -- package-lock.json && npm ci && npm run check && npm test && npm run build && npm run verify
