@@ -6,9 +6,9 @@ import { projects } from '../data/projects';
 import { withBase } from '../lib/paths';
 
 const services = [
-  { icon: 'website', title: 'A new website', description: 'Get your business online with clear services and an easy way to connect.', href: '/services/#service-websites' },
-  { icon: 'refresh', title: 'A website refresh', description: 'Make your current site clearer, easier to use, and more like you.', href: '/services/#service-websites' },
-  { icon: 'tools', title: 'Tools & automation', description: 'Connect apps, simplify a task, or build a useful tool for your team.', href: '/services/#service-tools' },
+  { icon: 'website', title: 'A new website', description: 'Get your business online with clear services and an easy way to connect.', href: '/services/websites/' },
+  { icon: 'refresh', title: 'A website refresh', description: 'Make your current site clearer, easier to use, and more like you.', href: '/services/websites/' },
+  { icon: 'tools', title: 'Workflow automation', description: 'Cut repeated data entry, connect apps, and simplify routine reports.', href: '/services/automation/' },
 ] as const;
 ---
 <BaseLayout>
@@ -17,7 +17,7 @@ const services = [
       <div class="hero-copy">
         <p class="eyebrow">For small businesses & organizations</p>
         <h1 id="intro-title">Websites that help people <span>choose your business.</span></h1>
-        <p class="lede">New websites and thoughtful redesigns. Built around your business.</p>
+        <p class="lede">Business websites, thoughtful redesigns, and automation that takes repetitive work off your plate.</p>
         <div class="button-row">
           <a href={withBase('/contact/')} class="button">Start a project <span aria-hidden="true">↗</span></a>
           <a href={withBase('/projects/')} class="text-link">See my work <span aria-hidden="true">↗</span></a>
@@ -30,7 +30,7 @@ const services = [
         </div>
         <div class="hello-copy">
           <p class="hello-name">Hey, I’m Jacob.</p>
-          <p>Software engineer & website builder.<br />Edwardsville, Illinois.</p>
+          <p>Software engineer & website builder.<br />Based in Edwardsville, Illinois.<br />Working with local & nationwide clients.</p>
           <a href={withBase('/about/')} class="text-link">Get to know me <span aria-hidden="true">↗</span></a>
         </div>
       </aside>

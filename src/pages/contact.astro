@@ -5,14 +5,14 @@ import SocialLinks from '../components/SocialLinks.astro';
 import { withBase } from '../lib/paths';
 
 const email = 'jhuber.mail@icloud.com';
-const projectEmail = `mailto:${email}?subject=${encodeURIComponent('A website project')}`;
+const projectEmail = `mailto:${email}?subject=${encodeURIComponent('A website or automation project')}`;
 ---
-<BaseLayout title="Contact" description="Start a website project with Jacob Huber. Share your idea or current site by email.">
+<BaseLayout title="Start a Website or Automation Project" description="Contact Jacob Huber about a business website, redesign, or repetitive task you’d like to automate. Local and nationwide projects welcome.">
   <div class="container">
     <header class="page-intro contact-intro">
       <p class="eyebrow">Start a project</p>
       <h1 class="display-title">Tell me what you<br />have in mind<span class="hello-dot">.</span></h1>
-      <p class="lede">Share your idea and a link to your current site, if you have one.</p>
+      <p class="lede">Tell me about the website you need or the repeated task taking up your time.</p>
       <div class="button-row contact-first-action">
         <a class="button" href={projectEmail}><Icon name="mail" /> Email me about your project</a>
         <span class="meta">Opens your email app.</span>

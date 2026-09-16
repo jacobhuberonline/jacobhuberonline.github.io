@@ -9,9 +9,12 @@ const requiredRoutes = [
   'experience',
   'projects',
   'services',
+  'services/websites',
+  'services/automation',
   'contact',
   '404',
 ];
+const navigationRoutes = ['', 'about', 'experience', 'projects', 'services', 'contact'];
 const urlAttributes = ['href', 'src', 'component-url', 'renderer-url'];
 const errors = new Set();
 let checkedReferences = 0;
@@ -30,11 +33,15 @@ function decodeEntities(value) {
   });
 }
 
-// Inspect generated markup only; inline scripts and styles are not HTML links.
-function parseTags(html) {
-  const markup = html
+function withoutInlineContent(html) {
+  return html
     .replace(/<!--[\s\S]*?-->/g, '')
     .replace(/(<(?:script|style)\b[^>]*>)[\s\S]*?<\/(?:script|style)\s*>/gi, '$1');
+}
+
+// Inspect generated markup only; inline scripts and styles are not HTML links.
+function parseTags(html) {
+  const markup = withoutInlineContent(html);
   return [...markup.matchAll(/<([a-z][a-z\d:-]*)\b([^>]*?)>/gi)].map((match) => {
     const attributes = new Map();
     for (const attribute of match[2].matchAll(/([^\s=<>/]+)(?:\s*=\s*(?:"([^"]*)"|'([^']*)'|([^\s"'=<>`]+)))?/g)) {
@@ -42,6 +49,55 @@ function parseTags(html) {
     }
     return { name: match[1].toLowerCase(), attributes };
   });
+}
+
+function textContents(html, tag) {
+  return [...withoutInlineContent(html).matchAll(new RegExp(`<${tag}\\b[^>]*>([\\s\\S]*?)<\\/${tag}\\s*>`, 'gi'))]
+    .map((match) => decodeEntities(match[1].replace(/<[^>]*>/g, '')).replace(/\s+/g, ' ').trim());
+}
+
+function structuredNodes(value) {
+  if (!value || typeof value !== 'object') return [];
+  return [value, ...Object.values(value).flatMap(structuredNodes)];
+}
+
+function schemaTypes(node) {
+  return [node['@type']].flat().filter((type) => typeof type === 'string');
+}
+
+function parseRobots(text) {
+  const groups = [];
+  const sitemaps = [];
+  let group;
+  for (const rawLine of text.split(/\r?\n/)) {
+    const line = rawLine.replace(/#.*$/, '').trim();
+    const separator = line.indexOf(':');
+    if (separator < 0) continue;
+    const key = line.slice(0, separator).trim().toLowerCase();
+    const value = line.slice(separator + 1).trim();
+    if (key === 'sitemap') sitemaps.push(value);
+    if (key === 'user-agent') {
+      if (!group || group.rules.length) {
+        group = { agents: [], rules: [] };
+        groups.push(group);
+      }
+      group.agents.push(value.toLowerCase());
+    } else if (group && ['allow', 'disallow'].includes(key)) {
+      group.rules.push({ allow: key === 'allow', value });
+    }
+  }
+  return { groups, sitemaps };
+}
+
+function blocksPath(rules, pathname) {
+  const matches = rules.filter(({ value }) => {
+    if (!value) return false;
+    const end = value.endsWith('$') ? '$' : '';
+    const pattern = value.replace(/\$$/, '').split('*')
+      .map((part) => part.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('.*');
+    return new RegExp(`^${pattern}${end}`).test(pathname);
+  }).sort((a, b) => b.value.length - a.value.length || Number(b.allow) - Number(a.allow));
+  return matches.length > 0 && !matches[0].allow;
 }
 
 function srcsetUrls(value) {
@@ -120,9 +176,31 @@ async function verify() {
       .filter(({ name, attributes }) => name === 'a' && attributes.has('href'))
       .map(({ attributes }) => attributes.get('href'));
     const pagePath = file === '404.html' ? '404/' : file.replace(/index\.html$/, '');
+    const noindex = tags.some(({ name, attributes }) => name === 'meta'
+      && ['robots', 'googlebot', 'bingbot'].includes(attributes.get('name')?.toLowerCase())
+      && /\b(?:noindex|none)\b/i.test(attributes.get('content') ?? ''));
+    const jsonLd = [];
+    for (const match of html.matchAll(/<script\b([^>]*)>([\s\S]*?)<\/script\s*>/gi)) {
+      const attributes = parseTags(`<script${match[1]}>`)[0]?.attributes;
+      if (attributes?.get('type')?.toLowerCase() !== 'application/ld+json') continue;
+      try {
+        const value = JSON.parse(match[2]);
+        if (!value || typeof value !== 'object') throw new Error('Expected structured data.');
+        jsonLd.push(value);
+      } catch {
+        report(file, 'contains invalid or empty JSON-LD.');
+      }
+    }
     documents.set(file, {
       tags,
       navigationLinks,
+      noindex,
+      titles: textContents(html, 'title'),
+      headings: textContents(html, 'h1'),
+      descriptions: tags.filter(({ name, attributes }) => name === 'meta'
+        && attributes.get('name')?.toLowerCase() === 'description')
+        .map(({ attributes }) => (attributes.get('content') ?? '').replace(/\s+/g, ' ').trim()),
+      structuredData: jsonLd.flatMap(structuredNodes),
       url: new URL(pagePath, deploymentRoot),
       ids: new Set(tags.flatMap(({ name, attributes }) => [
         attributes.get('id'),
@@ -180,7 +258,21 @@ async function verify() {
     }
   }
 
+  const uniqueMetadata = { title: new Map(), description: new Map(), H1: new Map() };
   for (const [file, document] of documents) {
+    const isNotFound = file === '404.html' || file === '404/index.html';
+    if (isNotFound && !document.noindex) report(file, 'the not-found page must use noindex.');
+    if (!isNotFound && document.noindex) report(file, 'a content page is unexpectedly excluded from indexing.');
+    for (const [label, values] of [['title', document.titles], ['description', document.descriptions], ['H1', document.headings]]) {
+      if (values.length !== 1 || !values[0]) {
+        report(file, `must have exactly one nonempty ${label}.`);
+        continue;
+      }
+      const key = values[0].toLowerCase();
+      const previous = uniqueMetadata[label].get(key);
+      if (previous) report(file, `${label} duplicates ${previous}.`);
+      uniqueMetadata[label].set(key, file);
+    }
     const navigationUrls = new Set(document.navigationLinks.map((href) => {
       try {
         const url = new URL(href, document.url);
@@ -189,7 +281,7 @@ async function verify() {
         return undefined;
       }
     }));
-    for (const route of requiredRoutes.filter((route) => route !== '404')) {
+    for (const route of navigationRoutes) {
       const expected = new URL(route ? `${route}/` : '', deploymentRoot);
       if (!navigationUrls.has(expected.origin + expected.pathname)) {
         report(file, `Navigation is missing a link to ${expected.pathname}.`);
@@ -223,6 +315,75 @@ async function verify() {
         report(file, `${label} must match this page at the configured site and base path.`);
       }
     }
+
+    const nodes = document.structuredData;
+    const definitions = new Map(nodes.filter((node) => node['@id'] && node['@type']).map((node) => [node['@id'], node]));
+    const pageNodes = nodes.filter((node) => schemaTypes(node).includes('WebPage'));
+    if (!document.noindex && (pageNodes.length !== 1 || pageNodes[0].url !== document.url.href)) {
+      report(file, 'JSON-LD must describe this canonical WebPage.');
+    }
+    for (const node of nodes) {
+      const types = schemaTypes(node);
+      if (types.some((type) => ['WebSite', 'WebPage', 'Person', 'Organization', 'Service'].includes(type))) {
+        for (const key of ['@id', 'url']) {
+          if (!node[key] && key === 'url' && !types.includes('WebPage')) continue;
+          try {
+            if (typeof node[key] !== 'string' || new URL(node[key]).origin !== site.origin) throw new Error('Wrong origin.');
+            checkUrl(node[key], file, document, `JSON-LD ${key}`);
+          } catch {
+            report(file, `JSON-LD ${types.join('/')} ${key} must use the configured site origin.`);
+          }
+        }
+      }
+      if (types.includes('ListItem') && typeof node.item === 'string') {
+        try {
+          if (new URL(node.item).origin !== site.origin) throw new Error('Wrong origin.');
+          checkUrl(node.item, file, document, 'JSON-LD breadcrumb');
+        } catch {
+          report(file, 'JSON-LD breadcrumb must use the configured site origin.');
+        }
+      }
+      if (types.includes('Service')) {
+        const provider = definitions.get(node.provider?.['@id']);
+        if (!provider || !schemaTypes(provider).some((type) => ['Person', 'Organization'].includes(type))
+          || typeof provider.name !== 'string' || !provider.name.trim()) {
+          report(file, 'JSON-LD Service must link to a named Person or Organization provider in the graph.');
+        }
+      }
+    }
+  }
+
+  const indexableUrls = new Set([...documents.values()].filter((document) => !document.noindex).map((document) => document.url.href));
+  if (!files.has('sitemap.xml')) {
+    report('sitemap.xml', 'is missing from the static build.');
+  } else {
+    const sitemap = await readFile(path.join(dist, 'sitemap.xml'), 'utf8');
+    const locations = [...sitemap.matchAll(/<loc\b[^>]*>([\s\S]*?)<\/loc\s*>/gi)]
+      .map((match) => decodeEntities(match[1].trim()));
+    if (!/<urlset\b[^>]*\bxmlns=["']http:\/\/www\.sitemaps\.org\/schemas\/sitemap\/0\.9["']/i.test(sitemap)) {
+      report('sitemap.xml', 'must be a sitemap URL set with the standard namespace.');
+    }
+    if (new Set(locations).size !== locations.length) report('sitemap.xml', 'contains duplicate URLs.');
+    for (const url of locations) {
+      if (!indexableUrls.has(url)) report('sitemap.xml', `contains a noncanonical, missing, or noindex page: ${url}`);
+    }
+    for (const url of indexableUrls) {
+      if (!locations.includes(url)) report('sitemap.xml', `is missing indexable page ${url}`);
+    }
+  }
+  if (!files.has('robots.txt')) {
+    report('robots.txt', 'is missing from the static build.');
+  } else {
+    const robots = parseRobots(await readFile(path.join(dist, 'robots.txt'), 'utf8'));
+    const expectedSitemap = new URL('sitemap.xml', deploymentRoot).href;
+    if (!robots.sitemaps.includes(expectedSitemap)) report('robots.txt', 'must reference the canonical sitemap URL.');
+    if (!robots.groups.some((group) => group.agents.includes('*'))) report('robots.txt', 'must declare public crawler access with User-agent: *.');
+    const crawlPaths = [...files].map((file) => new URL(file.replace(/index\.html$/, ''), deploymentRoot).pathname);
+    for (const group of robots.groups.filter((group) => group.agents.some((agent) => ['*', 'googlebot', 'bingbot'].includes(agent)))) {
+      if (crawlPaths.some((pathname) => blocksPath(group.rules, pathname))) {
+        report('robots.txt', `blocks published pages or assets for ${group.agents.join(', ')}.`);
+      }
+    }
   }
 
   if (errors.size) {
@@ -231,7 +392,7 @@ async function verify() {
     process.exitCode = 1;
     return;
   }
-  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; navigation, excluded routes, metadata, and output hygiene checked.`);
+  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; navigation, sitemap, crawl rules, unique metadata, JSON-LD, excluded routes, and output hygiene checked.`);
 }
 
 verify().catch(() => {

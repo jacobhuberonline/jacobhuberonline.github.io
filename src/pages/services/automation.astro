@@ -1,0 +1,78 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Icon from '../../components/Icon.astro';
+import { withBase } from '../../lib/paths';
+
+const examples = [
+  { icon: 'automation', title: 'Data handoffs', detail: 'Move records between existing systems through APIs.' },
+  { icon: 'check', title: 'File & data checks', detail: 'Check CSVs, clean up formatting, and flag records that need attention.' },
+  { icon: 'tools', title: 'Repeatable reports', detail: 'Turn recurring SQL queries and data exports into reusable scripts.' },
+] as const;
+const questions = [
+  { question: 'What can be automated?', answer: 'Tasks with repeatable rules are a good starting point: moving records, checking files, or preparing exports.' },
+  { question: 'Will it work with my current tools?', answer: 'We’ll check available APIs, file formats, access, and permissions before deciding how to connect them.' },
+  { question: 'Where do we start?', answer: 'Pick one repeated task. Share its inputs, the steps you follow, and the result you need.' },
+];
+---
+
+<BaseLayout
+  title="Workflow & Business Process Automation"
+  description="Reduce repetitive manual work with scripts, data checks, and API integrations built by Jacob Huber using C#/.NET, SQL, and PowerShell."
+>
+  <div class="container service-detail">
+    <header class="page-intro">
+      <p class="eyebrow"><a href={withBase('/services/')}>Services</a> <span aria-hidden="true">/</span> Automation</p>
+      <h1 class="display-title">Workflow automation.<br />Less repeat work.</h1>
+      <p class="lede">I build scripts and API integrations that help businesses move data, check files, and cut repeated manual steps.</p>
+      <div class="button-row detail-actions">
+        <a class="button" href={withBase('/contact/')}><Icon name="message" size={20} /> Start a project</a>
+      </div>
+    </header>
+
+    <section class="automation-examples" aria-label="Business process automation examples">
+      {examples.map((example) => (
+        <article class="surface example">
+          <span class="detail-icon"><Icon name={example.icon} /></span>
+          <h2>{example.title}</h2>
+          <p>{example.detail}</p>
+        </article>
+      ))}
+    </section>
+
+    <section class="section split-layout" aria-labelledby="automation-experience-heading">
+      <h2 id="automation-experience-heading">Built on software experience.</h2>
+      <div class="prose-copy">
+        <p>My background includes healthcare integrations, custom C#/.NET applications, SQL data work, and PowerShell automation.</p>
+        <a class="text-link experience-link" href={withBase('/experience/')}>See my experience <Icon name="arrow-up-right" size={18} /></a>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="automation-questions-heading">
+      <div class="section-heading"><h2 id="automation-questions-heading">Good to know.</h2></div>
+      <div class="service-questions">
+        {questions.map((item) => (
+          <details><summary>{item.question}</summary><p>{item.answer}</p></details>
+        ))}
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .page-intro .eyebrow a { text-decoration: underline; text-underline-offset: 4px; }
+  .page-intro .eyebrow > span { margin-inline: 0.6rem; }
+  .detail-actions { margin-top: 1.8rem; }
+  .automation-examples { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1.2rem; margin-bottom: 3rem; }
+  .example:first-child { background: #f1f3e6; }
+  .detail-icon { display: grid; place-items: center; width: 2.8rem; height: 2.8rem; border-radius: 12px; background: var(--accent); margin-bottom: 1.2rem; }
+  .example h2 { font-size: 1.4rem; letter-spacing: -0.025em; }
+  .example p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-top: 0.6rem; }
+  .experience-link { margin-top: 1.4rem; }
+  .service-questions { max-width: 860px; }
+  .service-questions details { padding: 1.1rem 0; border-bottom: 1px solid var(--line); }
+  .service-questions summary { font-size: 1rem; font-weight: 600; }
+  .service-questions p { color: var(--muted); line-height: 1.75; margin-top: 0.75rem; max-width: 65ch; }
+  @media (max-width: 760px) {
+    .automation-examples { grid-template-columns: 1fr; margin-bottom: 2rem; }
+  }
+</style>

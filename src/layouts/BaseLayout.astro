@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { withBase } from '../lib/paths';
 import SocialLinks from '../components/SocialLinks.astro';
 import Icon from '../components/Icon.astro';
+import { pageSchema } from '../lib/seo';
 
 interface Props {
   title?: string;
@@ -14,21 +15,23 @@ interface Props {
 
 const {
   title,
-  description = 'Websites for small businesses and organizations, built by Jacob Huber in Edwardsville, Illinois. Explore website builds, redesigns, and custom software help.',
+  description = 'Business websites, redesigns, and workflow automation by Jacob Huber. Based in Edwardsville, Illinois, working with local and nationwide clients.',
   image = '/images/portrait.jpeg',
   hideChrome = false,
   noindex = false,
 } = Astro.props;
-const pageTitle = title ? `${title} · Jacob Huber` : 'Jacob Huber · Websites for Small Businesses';
+const pageTitle = title ? `${title} · Huber Builds` : 'Business Websites & Workflow Automation · Huber Builds';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(withBase(image), Astro.site);
+const structuredData = Astro.site && !noindex ? pageSchema(Astro.site, canonical, pageTitle, description) : undefined;
 const navItems = [
   { href: '/services/', label: 'Services' },
   { href: '/projects/', label: 'My work' },
   { href: '/about/', label: 'About me' },
   { href: '/contact/', label: 'Start a project' },
 ];
-const isActive = (href: string) => Astro.url.pathname === withBase(href);
+const isActive = (href: string) => Astro.url.pathname === withBase(href)
+  || (href !== '/' && Astro.url.pathname.startsWith(withBase(href)));
 ---
 <!doctype html>
 <html lang="en">
@@ -47,12 +50,14 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
     <meta property="og:title" content={pageTitle} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
-    <meta property="og:site_name" content="Jacob Huber" />
+    <meta property="og:site_name" content="Huber Builds" />
     <meta property="og:image" content={socialImage} />
+    <meta property="og:image:alt" content="Jacob Huber outdoors by the water" />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    {structuredData && <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />}
   </head>
   <body>
     <a href="#main-content" class="skip-link">Skip to content</a>
@@ -61,7 +66,7 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
         <div class="container header-inner">
           <a href={withBase('/')} aria-label="Jacob Huber home" class="wordmark">
             <span class="monogram" aria-hidden="true">jh.</span>
-            <span>Jacob Huber<span class="wordmark-note">Websites & software</span></span>
+            <span>Jacob Huber<span class="wordmark-note">Websites & automation</span></span>
           </a>
           <nav aria-label="Main navigation" class="desktop-navigation">
             {navItems.map((item) => (
@@ -85,11 +90,11 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
       <footer class="site-footer">
         <div class="container">
           {!isActive('/contact/') && <div class="footer-top">
-            <h2>Let’s talk about your website.</h2>
+            <h2>Let’s talk about your project.</h2>
             <a href={withBase('/contact/')} class="button button-light">Start a project <Icon name="arrow-up-right" size={18} /></a>
           </div>}
           <div class="footer-bottom">
-            <p>© <span id="copyright-year">2026</span> Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>
+            <p>© <span id="copyright-year">2026</span> Huber Builds by Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>
             <div class="footer-links">
               <nav aria-label="Footer navigation">
                 <a href={withBase('/')}>Home</a>

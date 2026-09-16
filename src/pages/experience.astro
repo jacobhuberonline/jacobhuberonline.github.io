@@ -9,7 +9,7 @@ import { aiWorkflows, education, experience, skillGroups } from '../data/profile
 >
   <div class="container">
     <div class="resume-print-header">
-      <h1>Jacob Huber</h1>
+      <p class="resume-name">Jacob Huber</p>
       <p>Software Engineer · Edwardsville, Illinois</p>
       <p>jhuber.mail@icloud.com · linkedin.com/in/jacobhuberonline</p>
     </div>
@@ -119,8 +119,8 @@ import { aiWorkflows, education, experience, skillGroups } from '../data/profile
   .ai-workflow .prose-copy { font-size: 0.95rem; }
   @media print {
     .resume-print-header { display: block; margin-bottom: 1.5rem; }
-    .resume-print-header h1 { margin: 0 0 0.5rem; font-size: 2rem; }
     .resume-print-header p { margin: 0.25rem 0; font-size: 0.85rem; }
+    .resume-print-header .resume-name { margin: 0 0 0.5rem; font-size: 2rem; font-weight: 600; }
     .page-intro { display: none; }
   }
 </style>

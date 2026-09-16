@@ -44,3 +44,26 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v5
+
+  notify-search:
+    needs: deploy
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Check out public search notification script
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - name: Set up Node
+        uses: actions/setup-node@v7
+        with:
+          node-version: '24'
+          package-manager-cache: false
+      - name: Notify IndexNow after publishing
+        id: indexnow
+        continue-on-error: true
+        run: node scripts/submit-indexnow.mjs
+      - name: Report a search notification failure
+        if: steps.indexnow.outcome == 'failure'
+        run: echo '::warning::The site deployed successfully, but IndexNow notification failed. Check the preceding step and resubmit after resolving the error.'
