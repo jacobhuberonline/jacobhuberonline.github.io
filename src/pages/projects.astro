@@ -1,0 +1,25 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import { projects } from '../data/projects';
+---
+
+<BaseLayout
+  title="Projects"
+  description="Websites, web products, healthcare tools, and personal projects built or maintained by Jacob Huber."
+>
+  <div class="space-y-6">
+    <div class="space-y-2">
+      <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
+        Projects
+      </h1>
+      <p class="text-neutral-700 dark:text-neutral-200">
+        Websites, web products, healthcare tools, and personal projects from
+        the systems I build or maintain.
+      </p>
+    </div>
+    <div class="grid gap-5 sm:grid-cols-2">
+      {projects.map((project) => <ProjectCard project={project} />)}
+    </div>
+  </div>
+</BaseLayout>

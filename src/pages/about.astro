@@ -1,0 +1,61 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
+---
+
+<BaseLayout
+  title="About"
+  description="Meet Jacob Huber, a software engineer building websites, healthcare integrations, web tools, and reliable automation."
+>
+  <article class="prose prose-neutral max-w-none dark:prose-invert">
+    <div class="not-prose mb-6">
+      <div class="inline-flex items-center gap-4 rounded-2xl border border-neutral-200/80 bg-white/80 px-4 py-3 shadow-sm dark:border-neutral-800/70 dark:bg-neutral-900/80">
+        <img
+          src={withBase('/images/portrait.jpeg')}
+          alt="Portrait of Jacob Huber"
+          width="80"
+          height="80"
+          class="h-16 w-16 rounded-full object-cover shadow-sm ring-2 ring-white dark:ring-neutral-800"
+          decoding="async"
+        />
+        <div>
+          <p class="text-sm font-semibold text-neutral-900 dark:text-neutral-50">
+            Jacob Huber
+          </p>
+          <p class="text-sm text-neutral-600 dark:text-neutral-300">
+            Engineer building websites, web tools, and reliable automations.
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <h1>About</h1>
+
+    <p>
+      I'm a software engineer who builds websites, web tools, and automation for
+      businesses and organizations that need practical systems instead of fragile
+      one-off pages. I care about clear messaging, fast pages, maintainable code,
+      and making it obvious how a visitor should take the next step.
+    </p>
+
+    <p>
+      My background also includes healthcare data integrations, API-driven automation,
+      and high-reliability import/export pipelines. That experience shapes how I
+      approach client websites: the public site should be easy to use, and the
+      systems behind it should make the business easier to run.
+    </p>
+
+    <p>
+      I work extensively with C#, .NET, SQL, PowerShell, Next.js, and TypeScript.
+      I enjoy taking messy systems and making them predictable: validating data,
+      tightening workflows, improving interfaces, and automating the parts teams
+      struggle with the most.
+    </p>
+
+    <p>
+      When I'm not coding, I'm usually spending time with my wife and our baby,
+      playing games, studying systems and strategy, or experimenting with new
+      technology I can integrate into future projects.
+    </p>
+  </article>
+</BaseLayout>

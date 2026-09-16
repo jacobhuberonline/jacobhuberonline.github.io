@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout
+  title="Contact"
+  description="Get in touch with Jacob Huber about websites, software engineering, and simpler business workflows."
+>
+  <div class="space-y-4">
+    <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
+      Contact
+    </h1>
+    <p class="text-neutral-700 dark:text-neutral-200">
+      Have a website idea, an outdated site, or a business workflow that could
+      be simpler? Send me a note and I'll follow up.
+    </p>
+    <div class="max-w-xl rounded-2xl border border-neutral-200/70 bg-white/70 p-6 shadow-sm backdrop-blur dark:border-neutral-800/70 dark:bg-neutral-900/80">
+      <ul class="space-y-5 text-sm text-neutral-800 dark:text-neutral-100">
+        <li class="flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            Email
+          </span>
+          <a
+            href="mailto:jhuber.mail@icloud.com"
+            class="text-base font-medium underline decoration-neutral-300 underline-offset-4 transition hover:decoration-neutral-500 dark:decoration-neutral-600 dark:hover:decoration-neutral-300"
+          >
+            jhuber.mail@icloud.com
+          </a>
+        </li>
+        <li class="flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            Helpful details
+          </span>
+          <p class="text-base text-neutral-700 dark:text-neutral-200">
+            Include the business or project name, your current website if you
+            have one, what you want the site to help with, and any timeline you
+            already have in mind.
+          </p>
+        </li>
+        <li class="flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            LinkedIn
+          </span>
+          <a
+            href="https://www.linkedin.com/in/jacobhuberonline/"
+            class="text-base font-medium underline decoration-neutral-300 underline-offset-4 transition hover:decoration-neutral-500 dark:decoration-neutral-600 dark:hover:decoration-neutral-300"
+          >
+            Jacob Huber on LinkedIn
+          </a>
+        </li>
+        <li class="flex flex-col gap-1">
+          <span class="text-xs font-semibold uppercase tracking-wide text-neutral-500 dark:text-neutral-400">
+            GitHub
+          </span>
+          <a
+            href="https://github.com/jacobhuberonline"
+            class="text-base font-medium underline decoration-neutral-300 underline-offset-4 transition hover:decoration-neutral-500 dark:decoration-neutral-600 dark:hover:decoration-neutral-300"
+          >
+            github.com/jacobhuberonline
+          </a>
+        </li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
