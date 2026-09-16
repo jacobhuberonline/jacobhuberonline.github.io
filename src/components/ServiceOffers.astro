@@ -1,5 +1,5 @@
 ---
-import type { ServiceOffer } from '../data/services';
+import { formatPrice, type ServiceOffer } from '../data/services';
 import Icon from './Icon.astro';
 import { withBase } from '../lib/paths';
 
@@ -17,6 +17,8 @@ const { offers, headingLevel: Heading = 'h2' } = Astro.props;
       <span class="offer-icon"><Icon name={offer.icon} /></span>
       <Heading id={`${offer.id}-title`}>{offer.title}</Heading>
       <p class="offer-fit">{offer.fit}</p>
+      <p class="offer-price"><span>Starting at</span> <strong>{formatPrice(offer.startingPrice)}</strong></p>
+      <p class="offer-price-unit">USD · one-time project</p>
       <ul aria-label={`Included with ${offer.title.toLowerCase()}`}>
         {offer.included.map((item) => <li><Icon name="check" size={17} /><span>{item}</span></li>)}
       </ul>
@@ -24,6 +26,7 @@ const { offers, headingLevel: Heading = 'h2' } = Astro.props;
     </article>
   ))}
 </div>
+<p class="pricing-note">Website prices assume ready-to-use content. Your written quote confirms the scope and total before work begins. Hosting, paid services, and optional ongoing support are separate.</p>
 
 <style>
   .offer-grid { display: grid; grid-template-columns: repeat(var(--offer-columns), minmax(0, 1fr)); gap: 20px; }
@@ -33,6 +36,11 @@ const { offers, headingLevel: Heading = 'h2' } = Astro.props;
   .offer-icon { display: grid; place-items: center; width: 46px; height: 46px; background: var(--paper); color: var(--forest); border-radius: 13px; margin-bottom: 24px; }
   .offer-card h2, .offer-card h3 { font-size: clamp(1.45rem, 2.3vw, 1.8rem); line-height: 1.18; }
   .offer-fit { color: var(--muted); font-size: 14px; line-height: 1.6; margin-top: 13px; }
+  .offer-price { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 10px; margin-top: 22px; color: var(--forest); }
+  .offer-price span { font-size: 14px; }
+  .offer-price strong { font-size: 2rem; line-height: 1.2; letter-spacing: -.04em; }
+  .offer-price-unit { color: var(--muted); font-size: 12px; margin-top: 5px; }
+  .pricing-note { max-width: 76ch; margin-top: 22px; color: var(--muted); font-size: 13px; line-height: 1.7; }
   ul { list-style: none; display: grid; gap: 13px; margin: 25px 0 30px; padding: 0; }
   li { display: flex; align-items: start; gap: 10px; font-size: 14px; line-height: 1.55; }
   li :global(svg) { margin-top: 3px; color: var(--forest); }

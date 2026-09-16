@@ -5,10 +5,19 @@ export type ServiceOffer = {
   title: string;
   description: string;
   fit: string;
+  startingPrice: number;
   icon: keyof typeof icons;
   included: string[];
   href: string;
 };
+
+const priceFormatter = new Intl.NumberFormat('en-US', {
+  style: 'currency',
+  currency: 'USD',
+  maximumFractionDigits: 0,
+});
+
+export const formatPrice = (amount: number): string => priceFormatter.format(amount);
 
 export const serviceOffers: ServiceOffer[] = [
   {
@@ -16,6 +25,7 @@ export const serviceOffers: ServiceOffer[] = [
     title: 'Starter website',
     description: 'Introduce your business and give people one clear next step.',
     fit: 'A simple first website or landing page',
+    startingPrice: 1000,
     icon: 'website',
     included: [
       'One page with agreed sections',
@@ -30,9 +40,10 @@ export const serviceOffers: ServiceOffer[] = [
     title: 'Business website or redesign',
     description: 'Give your services and work room to shine, on a new site or a refreshed one.',
     fit: 'A business that needs more than one page',
+    startingPrice: 2500,
     icon: 'refresh',
     included: [
-      'An agreed set of pages and features',
+      'Up to five standard content pages',
       'Design around your brand and content',
       'Mobile, browser & search setup checks',
       'Launch, project files & a walkthrough',
@@ -44,10 +55,11 @@ export const serviceOffers: ServiceOffer[] = [
     title: 'Workflow automation project',
     description: 'Take a repeated task off your plate and make the result easier to rely on.',
     fit: 'One time-consuming, repeatable process',
+    startingPrice: 1500,
     icon: 'automation',
     included: [
-      'Map the steps and agree the result',
-      'A script, integration or small tool',
+      'One workflow with agreed inputs & outputs',
+      'A script or integration with failure checks',
       'Testing with agreed sample cases',
       'Setup, source files & operating notes',
     ],

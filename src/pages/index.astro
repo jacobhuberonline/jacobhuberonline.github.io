@@ -3,7 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
 import { projects } from '../data/projects';
-import { serviceOffers } from '../data/services';
+import { formatPrice, serviceOffers } from '../data/services';
 import { withBase } from '../lib/paths';
 ---
 <BaseLayout>
@@ -38,16 +38,18 @@ import { withBase } from '../lib/paths';
       </div>
       <div class="service-grid">
         {serviceOffers.map((service) => (
-          <a class="service-card" href={withBase(service.href)} aria-label={service.title}>
+          <a class="service-card" href={withBase(service.href)}>
             <div class="service-card-top">
               <span class="service-symbol"><Icon name={service.icon} /></span>
               <Icon name="arrow-up-right" size={18} />
             </div>
             <h3>{service.title}</h3>
             <p class="service-description">{service.description}</p>
+            <p class="service-price">Starting at {formatPrice(service.startingPrice)} <span>USD</span></p>
           </a>
         ))}
       </div>
+      <p class="service-pricing-note">One-time projects. Final scope and price agreed before work begins.</p>
     </section>
 
     <section class="section" aria-labelledby="work-heading">
@@ -86,6 +88,9 @@ import { withBase } from '../lib/paths';
   .service-card:first-child .service-symbol { background: var(--accent); }
   .service-card h3 { font-size: 22px; }
   .service-description { color: var(--muted); font-size: 16px; line-height: 1.7; margin-top: 14px; }
+  .service-price { margin-top: auto; padding-top: 22px; color: var(--forest); font-size: 18px; font-weight: 600; }
+  .service-price span { font-size: 11px; font-weight: 400; }
+  .service-pricing-note { margin-top: 18px; color: var(--muted); font-size: 13px; line-height: 1.7; }
   @media (max-width: 1000px) {
     .home-hero { gap: 36px; grid-template-columns: minmax(0, 1.4fr) minmax(0, .85fr); }
     h1 { font-size: clamp(3rem, 5.8vw, 4rem); }

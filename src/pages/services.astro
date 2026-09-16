@@ -11,7 +11,8 @@ const steps = [
   { icon: 'tools', title: 'Build, review & hand over', detail: 'You try the work, we check the agreed scope, and you receive the files and a walkthrough.' },
 ] as const;
 const questions = [
-  { question: 'What will my project cost?', answer: 'Each project gets a written quote based on the pages, features, content, or systems involved. If a workflow needs investigation first, we agree that scope and cost separately. New requests are quoted before extra work begins.' },
+  { question: 'What will my project cost?', answer: 'The starting prices assume ready-to-use content for websites, or a clearly defined workflow with accessible tools and sample data. Your written quote sets a fixed price for the agreed scope. Extra pages, content creation, online stores, logins, and complex integrations are quoted separately. If a workflow needs investigation first, we agree that scope and cost before starting.' },
+  { question: 'How do revisions work?', answer: 'A starter website includes one round of revisions; a business website includes two. Automation includes one refinement round and checks against the agreed test cases. Each round is one collected feedback list within the original scope. New requests are quoted before extra work begins.' },
   { question: 'What do I own?', answer: 'Your domain and hosting accounts are set up in your name. Your paid project includes the finished website or automation source files and a handoff. Third-party software, fonts, and services keep their own licenses.' },
   { question: 'What happens after launch?', answer: 'The quote defines the period and scope for fixing delivery issues. Future content updates, new features, and ongoing maintenance are optional paid work, agreed separately.' },
   { question: 'How do hosting and ongoing costs work?', answer: 'I recommend a setup that fits your project and who will maintain it. The quote separates the build from domain renewals, hosting, email, and any paid services. You see the expected running costs before choosing.' },
@@ -19,7 +20,7 @@ const questions = [
 ];
 ---
 
-<BaseLayout title="Website & Automation Project Options" description="Compare starter websites, business websites and redesigns, and workflow automation projects. Clear scope, client ownership, and optional ongoing support.">
+<BaseLayout title="Website & Automation Pricing" description="Compare starting prices for starter websites, business websites and redesigns, and workflow automation. Clear quotes, client ownership, and optional support.">
   <div class="container">
     <header class="page-intro">
       <p class="eyebrow">Services</p>
