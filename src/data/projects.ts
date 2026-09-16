@@ -10,6 +10,10 @@ export type Project = {
   accent: "sand" | "forest" | "moss" | "stone";
   highlights: string[];
   url?: string;
+  testimonial?: {
+    quote: string;
+    attribution: string;
+  };
   caseStudy?: {
     screenshot: ImageMetadata;
     screenshotAlt: string;
@@ -28,6 +32,10 @@ export const projects: Project[] = [
       "Interior design work, services, and a simple way to request a consultation.",
     tech: ["Next.js", "TypeScript", "Vercel"],
     url: "https://www.krhdesignco.com",
+    testimonial: {
+      quote: "Jacob welcomed collaboration, listened carefully to feedback, and provided timely, thoughtful solutions.",
+      attribution: "KRH Design Co.",
+    },
     caseStudy: {
       screenshot: krhHomepage,
       screenshotAlt: "KRH Design Co. homepage with lime-green branding, interior photography, and a consultation link",
