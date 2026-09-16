@@ -91,6 +91,21 @@ export const skillGroups: SkillGroup[] = [
   },
 ];
 
+export const aiWorkflows = [
+  {
+    tool: 'Claude Code',
+    context: 'At symplr',
+    description:
+      'I use Claude Code in my software development work at symplr. As a Change Champion in Professional Services, I also help colleagues get started with AI-assisted development and apply it to their own work.',
+  },
+  {
+    tool: 'Codex',
+    context: 'On my own projects',
+    description:
+      'I use Codex to explore ideas, write and refine code, troubleshoot issues, and test changes. For this site, that included moving from Next.js to Astro, refining the design, and setting up automatic publishing with GitHub Pages.',
+  },
+];
+
 export const education: Education[] = [
   {
     qualification: "Bachelor's Degree, Management Information Systems",

@@ -94,7 +94,7 @@ export const projects: Project[] = [
     accent: "moss",
     highlights: ["Engineering", "Projects", "GitHub Pages"],
     description:
-      "The site you’re on now. Built with Astro, with updates published automatically through GitHub Pages.",
+      "The site you’re on now. I used Codex to help move it to Astro, refine the design, and check the pages, with updates published automatically through GitHub Pages.",
     tech: ["Astro", "TypeScript", "GitHub Pages"],
     url: "https://github.com/jacobhuberonline/jacobhuberonline.github.io",
   },

@@ -1,6 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { education, experience, skillGroups } from '../data/profile';
+import { aiWorkflows, education, experience, skillGroups } from '../data/profile';
 ---
 
 <BaseLayout
@@ -61,6 +61,22 @@ import { education, experience, skillGroups } from '../data/profile';
       </div>
     </section>
 
+    <section class="section split-layout" aria-labelledby="ai-heading">
+      <div>
+        <h2 id="ai-heading" class="section-heading">AI in my toolbox.</h2>
+        <p class="prose-copy">Coding assistants are part of how I build, learn, and help other developers. Here’s where each one fits.</p>
+      </div>
+      <div class="ai-workflows">
+        {aiWorkflows.map((workflow) => (
+          <article class="ai-workflow">
+            <p class="meta">{workflow.context}</p>
+            <h3>{workflow.tool}</h3>
+            <p class="prose-copy">{workflow.description}</p>
+          </article>
+        ))}
+      </div>
+    </section>
+
     <section class="section split-layout" aria-labelledby="education-heading">
       <div>
         <h2 id="education-heading" class="section-heading">Where I studied.</h2>
@@ -96,6 +112,11 @@ import { education, experience, skillGroups } from '../data/profile';
   .skill-groups h3 { margin: 0 0 0.9rem; font-size: 1.25rem; }
   .education-list h3 { margin: 0.6rem 0; font-size: 1.4rem; }
   .education-list p { margin: 0; }
+  .ai-workflows { display: grid; gap: 1.25rem; }
+  .ai-workflow { padding: 1.5rem; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); break-inside: avoid; }
+  .ai-workflow:last-child { background: #f1f3e6; }
+  .ai-workflow h3 { margin: 0.35rem 0 0.85rem; font-size: 1.3rem; }
+  .ai-workflow .prose-copy { font-size: 0.95rem; }
   @media print {
     .resume-print-header { display: block; margin-bottom: 1.5rem; }
     .resume-print-header h1 { margin: 0 0 0.5rem; font-size: 2rem; }
