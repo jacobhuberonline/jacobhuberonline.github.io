@@ -2,6 +2,7 @@
 import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import ServiceOffers from '../../components/ServiceOffers.astro';
+import AutomationDemo from '../../components/AutomationDemo.astro';
 import { serviceOffers } from '../../data/services';
 import { withBase } from '../../lib/paths';
 
@@ -26,6 +27,8 @@ const examples = [
         <a class="button" href={withBase('/contact/')}><Icon name="message" size={20} /> Get a project estimate</a>
       </div>
     </header>
+
+    <AutomationDemo />
 
     <section class="automation-offer" aria-label="Workflow automation project">
       <ServiceOffers offers={automationOffers} headingLevel="h2" />

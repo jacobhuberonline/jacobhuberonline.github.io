@@ -3,6 +3,8 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import ServiceOffers from '../../components/ServiceOffers.astro';
 import WebsiteCare from '../../components/WebsiteCare.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+import { projects } from '../../data/projects';
 import { serviceOffers } from '../../data/services';
 import { withBase } from '../../lib/paths';
 
@@ -35,15 +37,8 @@ const websiteOffers = serviceOffers.filter((offer) =>
 
     <section class="section" aria-labelledby="website-examples-heading">
       <div class="section-heading"><h2 id="website-examples-heading">A couple I’ve built.</h2></div>
-      <div class="examples">
-        <a class="surface example-link" href="https://www.krhdesignco.com">
-          <div><h3>KRH Design Co.</h3><p>Interior design work, services, and consultation requests.</p></div>
-          <Icon name="arrow-up-right" />
-        </a>
-        <a class="surface example-link" href="https://www.vestfirstresponder.com">
-          <div><h3>VEST First Responder</h3><p>Training courses, resources, and class requests.</p></div>
-          <Icon name="arrow-up-right" />
-        </a>
+      <div class="project-grid">
+        {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
       </div>
     </section>
 
@@ -56,12 +51,7 @@ const websiteOffers = serviceOffers.filter((offer) =>
   .detail-actions { margin-top: 1.8rem; }
   .offerings { margin-bottom: 3rem; }
   .project-details-link { margin-top: 1.5rem; }
-  .example-link p { color: var(--muted); font-size: 0.95rem; line-height: 1.75; margin-top: 0.6rem; }
-  .examples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; }
-  .example-link { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; }
-  .example-link:hover h3 { text-decoration: underline; text-underline-offset: 4px; }
   @media (max-width: 760px) {
-    .examples { grid-template-columns: 1fr; }
     .offerings { margin-bottom: 2rem; }
   }
 </style>

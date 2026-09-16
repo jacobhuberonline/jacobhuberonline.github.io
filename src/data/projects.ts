@@ -1,3 +1,7 @@
+import type { ImageMetadata } from 'astro';
+import krhHomepage from '../assets/projects/krh-homepage.jpg';
+import vestHomepage from '../assets/projects/vest-homepage.jpg';
+
 export type Project = {
   name: string;
   description: string;
@@ -6,6 +10,12 @@ export type Project = {
   accent: "sand" | "forest" | "moss" | "stone";
   highlights: string[];
   url?: string;
+  caseStudy?: {
+    screenshot: ImageMetadata;
+    screenshotAlt: string;
+    need: string;
+    built: string;
+  };
 };
 
 export const projects: Project[] = [
@@ -18,6 +28,12 @@ export const projects: Project[] = [
       "Interior design work, services, and a simple way to request a consultation.",
     tech: ["Next.js", "TypeScript", "Vercel"],
     url: "https://www.krhdesignco.com",
+    caseStudy: {
+      screenshot: krhHomepage,
+      screenshotAlt: "KRH Design Co. homepage with lime-green branding, interior photography, and a consultation link",
+      need: "Introduce the design studio, show its style, and make it easy to enquire.",
+      built: "An image-led site with service pages, a designer introduction, and clear links to enquire.",
+    },
   },
   {
     name: "VEST First Responder",
@@ -28,6 +44,12 @@ export const projects: Project[] = [
       "Training courses, resources, and class requests for first-responder teams.",
     tech: ["Next.js", "Supabase", "Bunny.net"],
     url: "https://www.vestfirstresponder.com",
+    caseStudy: {
+      screenshot: vestHomepage,
+      screenshotAlt: "VEST First Responder homepage with its gold shield branding, training introduction, and contact links",
+      need: "Help first-responder and healthcare teams understand the training and find the right course.",
+      built: "Course descriptions, instructor profiles, training resources, video, and a direct path to request a class.",
+    },
   },
   {
     name: "VEST First Responder Reviews",

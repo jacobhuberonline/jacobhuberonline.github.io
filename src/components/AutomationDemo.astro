@@ -1,0 +1,224 @@
+---
+import Icon from './Icon.astro';
+import { SAMPLE_ENQUIRIES } from '../lib/automation-demo';
+
+interface Props {
+  id?: string;
+}
+
+const { id = 'automation-demo' } = Astro.props;
+const headingId = `${id}-heading`;
+const resultsId = `${id}-results`;
+---
+
+<section id={id} class="automation-demo" aria-labelledby={headingId} data-automation-demo>
+  <header class="demo-header">
+    <span class="demo-eyebrow"><Icon name="automation" size={18} /> Interactive sample</span>
+    <h2 id={headingId}>Turn a messy enquiry list into a useful follow-up list.</h2>
+    <p>Six fictional contacts. Tidy the formatting, catch duplicates, and flag missing details.</p>
+  </header>
+
+  <div class="demo-controls">
+    <button type="button" class="button" data-demo-run aria-controls={resultsId} aria-expanded="false" disabled>
+      <Icon name="automation" size={19} /> Run sample demo
+    </button>
+    <button type="button" class="demo-reset" data-demo-reset disabled>
+      <Icon name="refresh" size={17} /> Reset
+    </button>
+  </div>
+  <noscript><p class="demo-note">Enable JavaScript to run this sample.</p></noscript>
+
+  <dl class="demo-counts" data-demo-counts hidden>
+    <div class="count-ready"><dt>Ready</dt><dd data-count-ready>0</dd></div>
+    <div class="count-duplicate"><dt>Duplicate</dt><dd data-count-duplicate>0</dd></div>
+    <div class="count-review"><dt>Needs review</dt><dd data-count-review>0</dd></div>
+  </dl>
+
+  <div class="demo-board">
+    <section class="demo-pane before-pane" aria-labelledby={`${id}-before-heading`}>
+      <div class="pane-heading">
+        <h3 id={`${id}-before-heading`}>Before</h3>
+        <span>{SAMPLE_ENQUIRIES.length} sample enquiries</span>
+      </div>
+      <ol class="demo-list source-list">
+        {SAMPLE_ENQUIRIES.map((enquiry, index) => (
+          <li class="demo-row">
+            <span class="demo-row-number" aria-label={`Row ${index + 1}`}>{index + 1}</span>
+            <div class="demo-person">
+              <strong class="source-name">{enquiry.name}</strong>
+              <span class:list={['demo-email', { 'missing-email': !enquiry.email }]}>{enquiry.email || 'Email missing'}</span>
+            </div>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="demo-pane after-pane" aria-labelledby={`${id}-after-heading`}>
+      <div class="pane-heading">
+        <h3 id={`${id}-after-heading`}>After</h3>
+        <span>Follow-up list</span>
+      </div>
+      <div class="demo-placeholder" data-demo-placeholder>
+        <span class="placeholder-icon"><Icon name="check" size={32} /></span>
+        <p>Run the sample to see the cleaned list.</p>
+      </div>
+      <div id={resultsId} data-demo-results hidden>
+        <h4 class="result-label">Ready to follow up</h4>
+        <ol class="demo-list" data-demo-ready aria-label="Ready enquiries"></ol>
+        <h4 class="result-label set-aside-label">Set aside for checking</h4>
+        <ol class="demo-list" data-demo-review aria-label="Duplicate and incomplete enquiries"></ol>
+      </div>
+    </section>
+  </div>
+
+  <p class="demo-rules">Checks formatting and exact email duplicates, not whether an address can receive mail. Missing details stay flagged.</p>
+  <p class="demo-note">Illustrative sample data, processed in your browser. No uploads or network requests.</p>
+  <p class="sr-only" role="status" aria-live="polite" aria-atomic="true" data-demo-announcement></p>
+
+  <template data-demo-row-template>
+    <li class="demo-row result-row">
+      <span class="demo-row-number" data-result-number></span>
+      <div class="demo-person">
+        <div class="result-person-heading">
+          <strong data-result-name></strong>
+          <span class="demo-tag" data-result-status></span>
+        </div>
+        <span class="demo-email" data-result-email></span>
+        <span class="demo-reason" data-result-reason hidden></span>
+      </div>
+    </li>
+  </template>
+</section>
+
+<script>
+  import { normalizeEnquiries, SAMPLE_ENQUIRIES, type NormalizedEnquiry } from '../lib/automation-demo';
+
+  document.querySelectorAll<HTMLElement>('[data-automation-demo]').forEach((root) => {
+    const runButton = root.querySelector<HTMLButtonElement>('[data-demo-run]');
+    const resetButton = root.querySelector<HTMLButtonElement>('[data-demo-reset]');
+    const counts = root.querySelector<HTMLElement>('[data-demo-counts]');
+    const readyCount = root.querySelector<HTMLElement>('[data-count-ready]');
+    const duplicateCount = root.querySelector<HTMLElement>('[data-count-duplicate]');
+    const reviewCount = root.querySelector<HTMLElement>('[data-count-review]');
+    const results = root.querySelector<HTMLElement>('[data-demo-results]');
+    const placeholder = root.querySelector<HTMLElement>('[data-demo-placeholder]');
+    const readyList = root.querySelector<HTMLOListElement>('[data-demo-ready]');
+    const reviewList = root.querySelector<HTMLOListElement>('[data-demo-review]');
+    const template = root.querySelector<HTMLTemplateElement>('[data-demo-row-template]');
+    const announcement = root.querySelector<HTMLElement>('[data-demo-announcement]');
+
+    if (!runButton || !resetButton || !counts || !readyCount || !duplicateCount || !reviewCount ||
+        !results || !placeholder || !readyList || !reviewList || !template || !announcement) return;
+
+    function renderRow(row: NormalizedEnquiry, list: HTMLOListElement) {
+      const item = template?.content.firstElementChild?.cloneNode(true);
+      if (!(item instanceof HTMLLIElement)) return;
+      item.dataset.status = row.status;
+
+      const setText = (selector: string, value: string) => {
+        const element = item.querySelector<HTMLElement>(selector);
+        if (element) element.textContent = value;
+      };
+      setText('[data-result-number]', String(row.sourceRow));
+      item.querySelector('[data-result-number]')?.setAttribute('aria-label', `Original row ${row.sourceRow}`);
+      setText('[data-result-name]', row.name || 'Name not provided');
+      setText('[data-result-email]', row.email || 'Email not provided');
+      setText('[data-result-status]', row.status === 'ready' ? 'Ready' : row.status === 'duplicate' ? 'Duplicate' : 'Needs review');
+
+      const reason = item.querySelector<HTMLElement>('[data-result-reason]');
+      if (reason && row.status !== 'ready') {
+        reason.hidden = false;
+        reason.textContent = row.status === 'duplicate'
+          ? `Same email as row ${row.duplicateOf}; that first entry is kept.`
+          : row.issue === 'missing-email'
+            ? 'Add an email before following up.'
+            : 'Check the email format before following up.';
+      }
+      list.append(item);
+    }
+
+    runButton.disabled = false;
+    runButton.addEventListener('click', () => {
+      const result = normalizeEnquiries(SAMPLE_ENQUIRIES);
+      readyList.replaceChildren();
+      reviewList.replaceChildren();
+      result.rows.forEach((row) => renderRow(row, row.status === 'ready' ? readyList : reviewList));
+      readyCount.textContent = String(result.counts.ready);
+      duplicateCount.textContent = String(result.counts.duplicate);
+      reviewCount.textContent = String(result.counts.needsReview);
+      counts.hidden = false;
+      results.hidden = false;
+      placeholder.hidden = true;
+      resetButton.disabled = false;
+      runButton.setAttribute('aria-expanded', 'true');
+      announcement.textContent = `Sample complete: ${result.counts.ready} ready to follow up, ${result.counts.duplicate} duplicate set aside, and ${result.counts.needsReview} needs review.`;
+    });
+
+    resetButton.addEventListener('click', () => {
+      readyList.replaceChildren();
+      reviewList.replaceChildren();
+      readyCount.textContent = '0';
+      duplicateCount.textContent = '0';
+      reviewCount.textContent = '0';
+      counts.hidden = true;
+      results.hidden = true;
+      placeholder.hidden = false;
+      resetButton.disabled = true;
+      runButton.setAttribute('aria-expanded', 'false');
+      announcement.textContent = 'Sample reset. The original six enquiries are ready to run again.';
+      runButton.focus();
+    });
+  });
+</script>
+
+<style>
+  .automation-demo { padding: clamp(1.25rem, 3vw, 2.5rem); margin-bottom: 3rem; scroll-margin-top: 115px; border: 1px solid var(--line); border-radius: 24px; background: var(--paper); }
+  .automation-demo :global([hidden]) { display: none !important; }
+  .demo-eyebrow { display: inline-flex; align-items: center; gap: 0.5rem; color: var(--forest); font-size: 0.8rem; font-weight: 600; }
+  .demo-header h2 { max-width: 29ch; margin: 1rem 0; font-size: clamp(1.7rem, 3vw, 2.65rem); }
+  .demo-header > p { color: var(--muted); font-size: 0.95rem; max-width: 59ch; }
+  .demo-controls { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin: 1.5rem 0; }
+  .demo-controls .button { gap: 0.7rem; }
+  .demo-controls button:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+  .demo-reset { display: inline-flex; align-items: center; gap: 0.45rem; padding: 0.7rem 0; font-size: 0.85rem; text-decoration: underline; text-underline-offset: 4px; }
+  .demo-counts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 0.7rem; margin: 0 0 1.5rem; }
+  .demo-counts > div { display: flex; flex-direction: column-reverse; gap: 0.1rem; padding: 0.85rem 1rem; border-radius: 12px; }
+  .demo-counts dt { font-size: 0.8rem; font-weight: 500; }
+  .demo-counts dd { margin: 0; font-size: 1.7rem; font-weight: 650; line-height: 1.2; }
+  .count-ready { background: #e6efd3; color: #2b432e; }
+  .count-duplicate { background: #f9dfc7; color: #633e28; }
+  .count-review { background: #f4ebd4; color: #574a27; }
+  .demo-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.2rem; align-items: start; }
+  .demo-pane { min-width: 0; padding: 1.2rem; border: 1px solid var(--line); border-radius: 16px; background: var(--canvas); }
+  .after-pane { background: #f3f6ea; }
+  .pane-heading { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 0.3rem 1rem; margin-bottom: 1rem; }
+  .pane-heading h3 { font-size: 1.15rem; }
+  .pane-heading > span { color: var(--muted); font-size: 0.78rem; }
+  .demo-list { list-style: none; margin: 0; padding: 0; }
+  .demo-row { display: flex; align-items: start; gap: 0.6rem; padding: 0.85rem 0; border-bottom: 1px solid var(--line); }
+  .demo-row:last-child { border-bottom: 0; }
+  .demo-row-number { display: grid; flex: 0 0 1.3rem; height: 1.3rem; place-items: center; margin-top: 0.15rem; border: 1px solid var(--line); border-radius: 50%; color: var(--muted); font-size: 0.68rem; font-weight: 500; }
+  .demo-person { min-width: 0; flex: 1; }
+  .demo-person strong { display: block; font-size: 0.9rem; font-weight: 600; line-height: 1.5; }
+  .source-name { white-space: pre-wrap; }
+  .demo-email { display: block; margin-top: 0.15rem; font: 0.8rem/1.6 ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--muted); white-space: pre-wrap; overflow-wrap: anywhere; }
+  .missing-email { font-family: inherit; font-style: italic; color: #805438; }
+  .demo-placeholder { display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 1rem; min-height: 19rem; text-align: center; color: var(--muted); font-size: 0.9rem; padding: 1rem; }
+  .placeholder-icon { display: grid; place-items: center; width: 3.5rem; height: 3.5rem; border-radius: 50%; background: var(--accent); color: var(--forest); }
+  .result-label { margin: 0; color: var(--forest); font-size: 0.8rem; font-weight: 650; }
+  .set-aside-label { margin-top: 1.4rem; color: #633e28; }
+  .result-person-heading { display: flex; align-items: center; flex-wrap: wrap; justify-content: space-between; gap: 0.25rem 0.5rem; }
+  .demo-tag { display: inline-block; padding: 0.12rem 0.5rem; border-radius: 20px; background: #e1ebca; color: #2b432e; font-size: 0.72rem; font-weight: 600; line-height: 1.6; }
+  .result-row[data-status='duplicate'] .demo-tag { background: #f9dfc7; color: #633e28; }
+  .result-row[data-status='needs-review'] .demo-tag { background: #f4ebd4; color: #574a27; }
+  .demo-reason { display: block; margin-top: 0.3rem; color: #76533a; font-size: 0.78rem; line-height: 1.6; }
+  .demo-rules { margin-top: 1.2rem; color: var(--muted); font-size: 0.83rem; }
+  .demo-note { margin-top: 0.4rem; color: var(--muted); font-size: 0.75rem; }
+  @media (max-width: 760px) {
+    .automation-demo { margin-bottom: 2rem; }
+    .demo-board { grid-template-columns: 1fr; }
+    .demo-placeholder { min-height: 10rem; }
+    .demo-counts > div { padding: 0.8rem; }
+    .demo-pane { padding: 1rem; }
+  }
+</style>

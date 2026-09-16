@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import type { Project } from '../data/projects';
 import { withBase } from '../lib/paths';
 import Icon from './Icon.astro';
@@ -14,18 +15,37 @@ const projectUrl = project.url?.startsWith('/')
   ? withBase(project.url)
   : project.url;
 const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code' : 'See the site';
+const previewHost = projectUrl?.startsWith('https://') ? new URL(projectUrl).hostname.replace(/^www\./, '') : '';
 ---
 
 <article class:list={['project-card', { 'project-card-featured': featured }]}>
+  {project.caseStudy ? (
+    <div class="project-screenshot">
+      <div class="browser-bar"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{previewHost}</span></div>
+      <a href={project.caseStudy.screenshot.src} aria-label={`View full screenshot of ${project.name}`}>
+        <Image src={project.caseStudy.screenshot} alt={project.caseStudy.screenshotAlt} width={1152} format="webp" quality={85} loading="lazy" decoding="async" />
+      </a>
+    </div>
+  ) : (
   <div class:list={['project-preview', `project-preview-${project.accent}`]}>
     <div class="preview-topline">
       <span>{project.category}</span>
     </div>
     <Heading class="preview-title">{project.name}</Heading>
   </div>
+  )}
 
   <div class="project-copy">
-    <p class="project-description">{project.description}</p>
+    {project.caseStudy ? (
+      <>
+        <p class="project-category">{project.category}</p>
+        <Heading class="case-title">{project.name}</Heading>
+        <dl class="case-summary">
+          <div><dt>The need</dt><dd>{project.caseStudy.need}</dd></div>
+          <div><dt>What I built</dt><dd>{project.caseStudy.built}</dd></div>
+        </dl>
+      </>
+    ) : <p class="project-description">{project.description}</p>}
     <div class="project-footer">
       {!featured && <ul class="tag-list" aria-label="Technologies">
         {project.tech.map((tag) => <li class="tag">{tag}</li>)}
@@ -94,6 +114,19 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code
 
   .project-card-featured .project-preview { min-height: 240px; }
   .project-card-featured .preview-title { font-size: clamp(2.5rem, 4.6vw, 4.25rem); }
+
+  .project-screenshot { border: 1px solid var(--line); border-radius: 13px; overflow: hidden; background: var(--canvas); }
+  .browser-bar { display: flex; align-items: center; gap: 14px; min-height: 35px; padding: 8px 13px; color: var(--muted); font-size: 11px; }
+  .browser-dots { display: flex; gap: 4px; }
+  .browser-dots i { width: 6px; height: 6px; border-radius: 50%; background: #b9c2b5; }
+  .project-screenshot a { display: block; }
+  .project-screenshot a:focus-visible { outline-offset: -5px; }
+  .project-screenshot img { width: 100%; height: auto; }
+  .project-category { color: var(--forest); font-size: 12px; margin-bottom: 9px; }
+  .case-title { font-size: clamp(1.6rem, 2.5vw, 2rem); line-height: 1.2; }
+  .case-summary { display: grid; gap: 15px; margin: 22px 0 18px; }
+  .case-summary dt { color: var(--ink); font-size: 12px; font-weight: 650; margin-bottom: 4px; }
+  .case-summary dd { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
 
   .project-copy {
     flex: 1;

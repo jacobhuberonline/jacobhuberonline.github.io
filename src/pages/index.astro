@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import AutomationPreview from '../components/AutomationPreview.astro';
 import Icon from '../components/Icon.astro';
 import { projects } from '../data/projects';
 import { formatPrice, serviceOffers, websiteCare } from '../data/services';
@@ -66,6 +67,7 @@ import { withBase } from '../lib/paths';
         {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
       </div>
     </section>
+    <AutomationPreview />
   </div>
 </BaseLayout>
 

@@ -28,7 +28,7 @@ jobs:
         uses: withastro/action@v6
         with:
           node-version: '24'
-          build-cmd: git diff --exit-code -- package-lock.json && npm ci && npm run check && npm run build && npm run verify
+          build-cmd: git diff --exit-code -- package-lock.json && npm ci && npm run check && npm test && npm run build && npm run verify
 
   deploy:
     if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'

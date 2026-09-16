@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
+import AutomationPreview from '../components/AutomationPreview.astro';
 import { projects } from '../data/projects';
 import { withBase } from '../lib/paths';
 
@@ -15,7 +16,7 @@ const moreProjects = projects.slice(2);
   <div class="container">
     <header class="page-intro">
       <h1 class="display-title">A few websites I’ve built.</h1>
-      <p class="lede">Websites for businesses and communities, plus a few useful tools.</p>
+      <p class="lede">A look at the websites, the needs behind them, and the work I built.</p>
       <div class="button-row projects-actions">
         <a class="button" href={withBase('/contact/')}>Start a project <span aria-hidden="true">↗</span></a>
         <a class="text-link" href={withBase('/services/')}>See how I can help <span aria-hidden="true">↗</span></a>
@@ -30,6 +31,8 @@ const moreProjects = projects.slice(2);
         {featuredProjects.map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
       </div>
     </section>
+
+    <AutomationPreview />
 
     <section class="section" aria-labelledby="more-work-heading">
       <div class="section-heading">

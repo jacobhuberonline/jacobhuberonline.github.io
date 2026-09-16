@@ -1,0 +1,33 @@
+---
+import Icon from './Icon.astro';
+import { withBase } from '../lib/paths';
+---
+
+<aside class="automation-preview" aria-labelledby="automation-preview-heading">
+  <div class="preview-icon"><Icon name="automation" size={26} /></div>
+  <div class="preview-copy">
+    <p class="eyebrow">Try a sample</p>
+    <h2 id="automation-preview-heading">What can automation do?</h2>
+    <p>See a messy enquiry list become a clear follow-up list, with duplicates and missing details flagged.</p>
+  </div>
+  <a class="button" href={withBase('/services/automation/#automation-demo')}>Try the demo <Icon name="arrow-up-right" size={18} /></a>
+</aside>
+
+<style>
+  .automation-preview { display: flex; align-items: center; gap: 24px; padding: 30px; margin: 0 0 48px; background: #eef2dc; border: 1px solid var(--line); border-radius: 20px; }
+  .preview-icon { display: grid; place-items: center; width: 56px; height: 56px; flex-shrink: 0; border-radius: 16px; color: var(--forest); background: var(--accent); }
+  .preview-copy { flex: 1; }
+  .eyebrow { color: var(--forest); margin-bottom: 7px; }
+  h2 { font-size: clamp(1.5rem, 2.8vw, 2rem); }
+  .preview-copy > p:last-child { color: var(--muted); font-size: 14px; line-height: 1.7; max-width: 55ch; margin-top: 10px; }
+  .button { flex-shrink: 0; }
+  @media (max-width: 800px) {
+    .automation-preview { align-items: start; flex-wrap: wrap; padding: 24px; gap: 18px; }
+    .preview-copy { flex-basis: calc(100% - 74px); }
+    .button { margin-left: 74px; }
+  }
+  @media (max-width: 440px) {
+    .automation-preview { display: grid; }
+    .button { margin-left: 0; justify-self: start; }
+  }
+</style>
