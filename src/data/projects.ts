@@ -62,13 +62,6 @@ export const projects: Project[] = [
     tech: [".NET", "C#", "SQL"],
   },
   {
-    name: "Baby Schedule",
-    description:
-      "Live, shareable daily schedule for the baby with feeding, wake-window, and nap blocks that adjust as they grow—built so caregivers can always see what’s happening now and what’s next.",
-    tech: ["Astro", "React", "TypeScript"],
-    url: "/family/baby/",
-  },
-  {
     name: "Personal Site",
     description:
       "This site: a home for my software engineering work, websites, and personal projects, built as a static Astro site with automatic publishing through GitHub Pages.",

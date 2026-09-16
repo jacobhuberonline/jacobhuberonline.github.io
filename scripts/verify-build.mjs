@@ -8,10 +8,6 @@ const requiredRoutes = [
   'about',
   'projects',
   'contact',
-  'family/baby',
-  'family/schedule',
-  'psyduck-collection',
-  'missingcat',
   '404',
 ];
 const urlAttributes = ['href', 'src', 'component-url', 'renderer-url'];
@@ -78,7 +74,7 @@ async function listFiles(directory, relativeDirectory = '') {
       continue;
     }
     if (entry.isDirectory()) {
-      if (/^(?:blog|lapquest|api)$/i.test(relative)) {
+      if (/^(?:blog|lapquest|api|family|psyduck-collection|missingcat)$/i.test(relative)) {
         report('Build output', 'contains a route deferred or excluded from this migration.');
       }
       result.push(...await listFiles(path.join(directory, entry.name), relative));
@@ -111,7 +107,7 @@ async function verify() {
   }
 
   for (const file of files) {
-    if (/^(?:blog|lapquest|api)(?:\/|\.html$|$)/i.test(file)) {
+    if (/^(?:blog|lapquest|api|family|psyduck-collection|missingcat)(?:\/|\.html$|$)/i.test(file)) {
       report('Build output', 'contains a route deferred or excluded from this migration.');
     }
     if (!file.endsWith('.html')) continue;
@@ -177,10 +173,8 @@ async function verify() {
   }
 
   for (const [file, document] of documents) {
-    const redirect = file === 'family/schedule/index.html';
     const canonicalUrls = [];
     const openGraphUrls = [];
-    let redirectUrl;
     for (const { name, attributes } of document.tags) {
       if (name === 'form') report(file, 'contains a form before form handling is implemented.');
       if (name === 'base') report(file, 'contains an HTML base tag that changes local URL resolution.');
@@ -201,22 +195,10 @@ async function verify() {
       if (name === 'meta' && ['og:image', 'twitter:image'].includes(attributes.get('property') ?? attributes.get('name'))) {
         checkUrl(attributes.get('content') ?? '', file, document, 'social image');
       }
-      if (name === 'meta' && attributes.get('http-equiv')?.toLowerCase() === 'refresh') {
-        redirectUrl = /(?:^|;)\s*url\s*=\s*["']?([^"']+)/i.exec(attributes.get('content') ?? '')?.[1]?.trim();
-      }
     }
-    if (redirect) {
-      const expected = new URL('family/baby/', deploymentRoot).href;
-      if (!redirectUrl || new URL(redirectUrl, document.url).href !== expected) {
-        report(file, 'redirect does not point to the baby schedule under the configured base path.');
-      } else {
-        checkUrl(redirectUrl, file, document, 'redirect');
-      }
-    } else {
-      for (const [label, urls] of [['Canonical URL', canonicalUrls], ['Open Graph URL', openGraphUrls]]) {
-        if (urls.length !== 1 || urls[0] !== document.url.href) {
-          report(file, `${label} must match this page at the configured site and base path.`);
-        }
+    for (const [label, urls] of [['Canonical URL', canonicalUrls], ['Open Graph URL', openGraphUrls]]) {
+      if (urls.length !== 1 || urls[0] !== document.url.href) {
+        report(file, `${label} must match this page at the configured site and base path.`);
       }
     }
   }
@@ -227,7 +209,7 @@ async function verify() {
     process.exitCode = 1;
     return;
   }
-  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; excluded routes, metadata, redirect, and output hygiene checked.`);
+  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; excluded routes, metadata, and output hygiene checked.`);
 }
 
 verify().catch(() => {

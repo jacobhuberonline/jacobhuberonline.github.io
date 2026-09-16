@@ -1,6 +1,6 @@
 # Jacob Huber — Personal Site
 
-An Astro portfolio with static pages and React islands for the baby schedule and Psyduck collection.
+A static Astro portfolio for software engineering, website projects, and contact information.
 
 **Site:** https://jacobhuberonline.github.io/personal-site/
 
@@ -24,7 +24,7 @@ npm run verify
 npm run preview
 ```
 
-`check` validates Astro and TypeScript. `verify` checks the generated pages, local links, assets, metadata, and the schedule redirect. It also confirms that Blog, LapQuest, forms, and environment files are absent from the published output.
+`check` validates Astro and TypeScript. `verify` checks the generated pages, local links, assets, and metadata. It also confirms that Blog, LapQuest, forms, and environment files are absent from the published output.
 
 ## Publishing
 
@@ -47,17 +47,13 @@ The site origin and project path are set in `astro.config.mjs`. `src/lib/paths.t
 | `/projects/` | `src/pages/projects.astro`, `src/data/projects.ts` |
 | `/about/` | `src/pages/about.astro` |
 | `/contact/` — email and social links | `src/pages/contact.astro` |
-| `/family/baby/` | `src/pages/family/baby.astro`, `src/components/ScheduleClient.tsx` |
-| `/family/schedule/` — legacy redirect | `src/pages/family/schedule.astro` |
-| `/psyduck-collection/` | `src/pages/psyduck-collection.astro`, `src/data/psyduckCollection.ts` |
-| `/missingcat/` | `src/pages/missingcat.astro` |
+| Custom not-found page | `src/pages/404.astro` |
 
 Shared navigation, metadata, system color theme, and footer live in `src/layouts/BaseLayout.astro`. Styling uses Tailwind CSS 3 and `src/styles/global.css`.
 
-Blog pages and the contact form are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest is excluded; its previous implementation remains in Git history before the Astro migration.
+Blog pages and the contact form are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
 
 ## Documentation
 
 - [Astro: migrate from Next.js](https://docs.astro.build/en/guides/migrate-to-astro/from-nextjs/)
 - [Astro: deploy to GitHub Pages](https://docs.astro.build/en/guides/deploy/github/)
-- [Astro: React integration](https://docs.astro.build/en/guides/integrations-guide/react/)
