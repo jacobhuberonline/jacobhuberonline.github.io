@@ -91,7 +91,7 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href)
         <div class="container">
           {!isActive('/contact/') && <div class="footer-top">
             <h2>Let’s talk about your project.</h2>
-            <a href={withBase('/contact/')} class="button button-light">Start a project <Icon name="arrow-up-right" size={18} /></a>
+            <a href={withBase('/contact/')} class="button button-light">Get a project estimate <Icon name="arrow-up-right" size={18} /></a>
           </div>}
           <div class="footer-bottom">
             <p>© <span id="copyright-year">2026</span> Huber Builds by Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>

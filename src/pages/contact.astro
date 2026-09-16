@@ -5,18 +5,19 @@ import SocialLinks from '../components/SocialLinks.astro';
 import { withBase } from '../lib/paths';
 
 const email = 'jhuber.mail@icloud.com';
-const projectEmail = `mailto:${email}?subject=${encodeURIComponent('A website or automation project')}`;
+const projectEmail = `mailto:${email}?subject=${encodeURIComponent('Project estimate: website or automation')}&body=${encodeURIComponent('Hi Jacob,\n\nMy business:\nProject type (starter website, business website/redesign, or automation):\nWhat I would like to improve:\nCurrent website or tools (if any):\nIdeal timing:\nBudget range (optional):\n\nThanks!')}`;
 ---
 <BaseLayout title="Start a Website or Automation Project" description="Contact Jacob Huber about a business website, redesign, or repetitive task you’d like to automate. Local and nationwide projects welcome.">
   <div class="container">
     <header class="page-intro contact-intro">
-      <p class="eyebrow">Start a project</p>
+      <p class="eyebrow">Get a project estimate</p>
       <h1 class="display-title">Tell me what you<br />have in mind<span class="hello-dot">.</span></h1>
-      <p class="lede">Tell me about the website you need or the repeated task taking up your time.</p>
+      <p class="lede">Tell me what you need. I’ll help define the scope and send a written quote before work begins.</p>
       <div class="button-row contact-first-action">
-        <a class="button" href={projectEmail}><Icon name="mail" /> Email me about your project</a>
-        <span class="meta">Opens your email app.</span>
+        <a class="button" href={projectEmail}><Icon name="mail" /> Get a project estimate</a>
+        <span class="meta">Opens an email with a few prompts to get started.</span>
       </div>
+      <a class="text-link compare-offers" href={withBase('/services/')}>Compare the three project options <Icon name="arrow-up-right" size={18} /></a>
     </header>
 
     <section class="contact-grid" aria-label="Contact details">
@@ -63,6 +64,7 @@ const projectEmail = `mailto:${email}?subject=${encodeURIComponent('A website or
   .contact-intro { max-width: 850px; padding-bottom: 42px; }
   .contact-intro .display-title { font-size: clamp(2.8rem, 6vw, 4.7rem); }
   .contact-first-action { margin-top: 24px; }
+  .compare-offers { margin-top: 22px; }
   .hello-dot { color: #ad532f; }
   .contact-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: clamp(2.5rem, 6vw, 5rem); padding: 8px 0 64px; align-items: center; }
   .contact-panel { padding: clamp(1.7rem, 3.5vw, 2.5rem); color: var(--ink); background: #f9dfc7; border: 1px solid #e9c9ab; border-radius: 24px; box-shadow: 4px 7px 0 #f0dec957; }

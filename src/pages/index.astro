@@ -3,13 +3,8 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import Icon from '../components/Icon.astro';
 import { projects } from '../data/projects';
+import { serviceOffers } from '../data/services';
 import { withBase } from '../lib/paths';
-
-const services = [
-  { icon: 'website', title: 'A new website', description: 'Get your business online with clear services and an easy way to connect.', href: '/services/websites/' },
-  { icon: 'refresh', title: 'A website refresh', description: 'Make your current site clearer, easier to use, and more like you.', href: '/services/websites/' },
-  { icon: 'tools', title: 'Workflow automation', description: 'Cut repeated data entry, connect apps, and simplify routine reports.', href: '/services/automation/' },
-] as const;
 ---
 <BaseLayout>
   <div class="container">
@@ -19,7 +14,7 @@ const services = [
         <h1 id="intro-title">Websites that help people <span>choose your business.</span></h1>
         <p class="lede">Business websites, thoughtful redesigns, and automation that takes repetitive work off your plate.</p>
         <div class="button-row">
-          <a href={withBase('/contact/')} class="button">Start a project <span aria-hidden="true">↗</span></a>
+          <a href={withBase('/contact/')} class="button">Get a project estimate <span aria-hidden="true">↗</span></a>
           <a href={withBase('/projects/')} class="text-link">See my work <span aria-hidden="true">↗</span></a>
         </div>
       </div>
@@ -42,7 +37,7 @@ const services = [
         <a href={withBase('/services/')} class="text-link">Explore services <span aria-hidden="true">↗</span></a>
       </div>
       <div class="service-grid">
-        {services.map((service) => (
+        {serviceOffers.map((service) => (
           <a class="service-card" href={withBase(service.href)} aria-label={service.title}>
             <div class="service-card-top">
               <span class="service-symbol"><Icon name={service.icon} /></span>

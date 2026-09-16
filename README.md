@@ -57,6 +57,8 @@ Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` re
 
 Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The cream, peach, and green palette, rounded cards, and responsive layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view. Contact offers email links with suggested subjects and a copy-email button; email is sent through the visitor's own mail app.
 
+The three service offers are defined in `src/data/services.ts` and rendered by `src/components/ServiceOffers.astro` on the overview and relevant detail pages. The homepage uses the same offer names and descriptions. Ownership, quote preparation, running costs, and optional support are explained in `/services/#project-details`. Prices remain unpublished until rates are established; each quote defines scope, revisions, timing, payment, and delivery support. The estimate email includes editable prompts and is never sent automatically.
+
 Blog pages and the contact form are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
 
 ## Search discovery
