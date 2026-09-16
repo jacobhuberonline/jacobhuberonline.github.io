@@ -2,119 +2,175 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
+import { experience } from '../data/profile';
 import { withBase } from '../lib/paths';
-const featuredProjects = projects.slice(0, 4);
-const services = [
-  {
-    title: "Business websites",
-    description:
-      "Clear, mobile-friendly sites for small businesses, service providers, and local organizations that need to look current and be easy to contact.",
-  },
-  {
-    title: "Service pages and landing pages",
-    description:
-      "Focused pages for a specific offer, location, campaign, or audience, with copy and structure built around the action you want visitors to take.",
-  },
-  {
-    title: "Portfolio and content structure",
-    description:
-      "Project galleries, journals, FAQs, resource pages, and other content systems that make it easier to explain your work and keep the site useful.",
-  },
-  {
-    title: "Small web tools",
-    description:
-      "Practical forms, dashboards, automations, and internal tools when a standard brochure site is not enough for the workflow behind the business.",
-  },
-];
 
+const services = [
+  { number: '01', title: 'Websites with a purpose', description: 'Thoughtful sites for businesses and organizations, from the first introduction to the next step.' },
+  { number: '02', title: 'Software that helps', description: 'Web tools and applications built around the way people actually work.' },
+  { number: '03', title: 'Systems that connect', description: 'Integrations, data workflows, and automation that reduce repetitive work.' },
+];
 ---
 <BaseLayout>
-    <div class="space-y-12">
-      <section class="space-y-6">
-        <div class="space-y-2">
-          <h1 class="text-3xl font-bold text-neutral-900 sm:text-4xl dark:text-neutral-50">
-            Jacob
-          </h1>
-          <p class="text-sm font-semibold tracking-wide text-neutral-500">
-            Websites, web tools, and automation for businesses
-          </p>
+  <div class="container">
+    <section class="home-hero" aria-labelledby="intro-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="location-dot" aria-hidden="true"></span> Edwardsville, Illinois</p>
+        <h1 id="intro-title">Jacob Huber<span class="name-period">.</span></h1>
+        <p class="hero-role">Software engineer.<br />Builder at heart.</p>
+        <p class="lede">I turn complicated problems into useful software. At work, that means healthcare systems and automation. On the side, it means websites that help people share what they do.</p>
+        <div class="button-row">
+          <a href={withBase('/experience/')} class="button">Explore my experience <span aria-hidden="true">↗</span></a>
+          <a href={withBase('/about/')} class="text-link">A little about me <span aria-hidden="true">↗</span></a>
         </div>
-        <div class="space-y-3">
-          <p class="max-w-2xl text-lg text-neutral-700 dark:text-neutral-200">
-            I build practical websites for small businesses, service providers,
-            and community organizations that need a cleaner way to show up
-            online and turn visitors into real conversations.
-          </p>
-          <p class="max-w-2xl text-sm text-neutral-600 dark:text-neutral-300">
-            My background is software engineering, healthcare data integrations,
-            and automation, so I can help with both the public website and the
-            behind-the-scenes workflows that make a business easier to run.
-          </p>
+      </div>
+      <figure class="hero-portrait">
+        <div class="portrait-image">
+          <img src={withBase('/images/portrait.jpeg')} alt="Jacob Huber outdoors by the water" width="886" height="886" fetchpriority="high" decoding="async" />
+          <span class="portrait-stamp" aria-hidden="true">Hello,<br /><em>I’m Jacob.</em></span>
         </div>
-        <div class="flex flex-col gap-3 sm:flex-row">
-          <a
-            href={withBase("/contact/")}
-            class="inline-flex items-center justify-center rounded-xl bg-neutral-900 px-5 py-3 text-sm font-semibold text-white transition hover:bg-neutral-700 dark:bg-neutral-50 dark:text-neutral-950 dark:hover:bg-neutral-200"
-          >
-            Start a website project
-          </a>
-          <a
-            href={withBase("/projects/")}
-            class="inline-flex items-center justify-center rounded-xl border border-neutral-300 bg-white px-5 py-3 text-sm font-semibold text-neutral-900 transition hover:border-neutral-500 dark:border-neutral-700 dark:bg-neutral-900 dark:text-neutral-50 dark:hover:border-neutral-400"
-          >
-            See recent work
-          </a>
-        </div>
-      </section>
+        <figcaption><span>Engineer. Husband. Dad.</span><a href={withBase('/about/')} aria-label="Read more about Jacob">More than the résumé <span aria-hidden="true">↗</span></a></figcaption>
+      </figure>
+    </section>
 
-      <section id="services" class="space-y-4 scroll-mt-24">
-        <div class="space-y-2">
-          <h2 class="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
-            Website Services
-          </h2>
-          <p class="max-w-2xl text-sm text-neutral-600 dark:text-neutral-300">
-            I help with the parts most business owners need first: a site that
-            explains what you do, shows proof, works well on phones, and gives
-            people a clear next step.
-          </p>
-        </div>
-        <div class="grid gap-5 sm:grid-cols-2">
-          {services.map((service) => (
-            <div
+    <section class="at-a-glance" aria-label="At a glance">
+      <div><span class="eyebrow">Currently</span><p>Software Engineer <span>at symplr</span></p></div>
+      <div><span class="eyebrow">In my toolkit</span><p>C# / .NET / SQL <span>+ the web</span></p></div>
+      <div><span class="eyebrow">Away from the screen</span><p>Family, chess <span>& house projects</span></p></div>
+    </section>
 
-              class="rounded-xl border border-neutral-200 bg-white p-5 shadow-sm dark:border-neutral-800 dark:bg-neutral-900"
-            >
-              <h3 class="text-lg font-semibold text-neutral-900 dark:text-neutral-50">
-                {service.title}
-              </h3>
-              <p class="mt-2 text-sm text-neutral-700 dark:text-neutral-200">
-                {service.description}
-              </p>
-            </div>
+    <section class="section experience-preview">
+      <div class="split-layout">
+        <div class="preview-heading">
+          <p class="eyebrow">01 / Experience</p>
+          <h2>Good with systems.<br />Better with people.</h2>
+          <p>My path has taken me from leading teams to supporting complex software and building the tools behind it. Understanding the person using a system is still where I start.</p>
+          <a href={withBase('/experience/')} class="text-link">The full résumé <span aria-hidden="true">↗</span></a>
+        </div>
+        <ol class="home-timeline">
+          {experience.slice(0, 3).map((job) => (
+            <li>
+              <p class="eyebrow">{job.period}</p>
+              <h3>{job.role}</h3>
+              <p class="company">{job.company}</p>
+              <p class="job-summary">{job.summary}</p>
+            </li>
           ))}
-        </div>
-      </section>
+        </ol>
+      </div>
+    </section>
 
-      <section class="space-y-4">
-        <div class="flex items-center justify-between">
-          <h2 class="text-2xl font-semibold text-neutral-900 dark:text-neutral-50">
-            Recent Website Work
-          </h2>
-          <a
-            href={withBase("/projects/")}
-            class="text-sm font-medium text-neutral-600 transition hover:text-neutral-900 dark:text-neutral-300 dark:hover:text-neutral-50"
-          >
-            View all
+    <section class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">02 / Selected work</p><h2>Ideas, made real.</h2></div>
+        <a href={withBase('/projects/')} class="text-link">Explore all projects <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="project-grid">
+        {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
+      </div>
+    </section>
+
+    <section id="services" class="section">
+      <div class="section-heading">
+        <div><p class="eyebrow">03 / What I offer</p><h2>A practical partner<br />for your next idea.</h2></div>
+        <p>Bring a website idea, a manual process, or a software problem. I can help shape it into something useful.</p>
+      </div>
+      <div class="service-rows">
+        {services.map((service) => (
+          <a href={withBase('/services/')} class="service-row">
+            <span class="eyebrow">{service.number}</span>
+            <h3>{service.title}</h3>
+            <p>{service.description}</p>
+            <span class="service-arrow" aria-hidden="true">↗</span>
           </a>
-        </div>
-        <p class="max-w-2xl text-sm text-neutral-600 dark:text-neutral-300">
-          A few examples of websites and web products I&apos;ve built, from
-          service businesses to training programs and custom tools.
-        </p>
-        <div class="grid gap-6 md:grid-cols-2">
-          {featuredProjects.map((project) => <ProjectCard project={project} headingLevel="h3" />)}
-        </div>
-      </section>
+        ))}
+      </div>
+    </section>
 
-    </div>
+    <section class="personal-note">
+      <div><p class="eyebrow">04 / The rest of life</p><h2>Always building.<br />Sometimes it’s a home.</h2></div>
+      <div><p>Outside of work, life is about my wife and son, making our house feel like home, a good game of chess, and catching the Blues when I can.</p><a href={withBase('/about/')} class="text-link">Meet the person behind the projects <span aria-hidden="true">↗</span></a></div>
+      <span class="chess-mark" aria-hidden="true">♘</span>
+    </section>
+  </div>
 </BaseLayout>
+
+<style>
+  .home-hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 75px; align-items: center; padding: 68px 0 58px; }
+  .hero-copy > .eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 26px; }
+  .location-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--forest); }
+  h1 { font-size: clamp(4rem, 7.6vw, 6.6rem); line-height: 1.04; white-space: nowrap; }
+  .name-period { color: var(--forest); }
+  .hero-role { font-size: clamp(1.65rem, 2.8vw, 2.25rem); line-height: 1.25; letter-spacing: -.035em; margin-top: 23px; font-weight: 450; }
+  .hero-copy .lede { font-size: 16px; line-height: 1.85; margin-top: 22px; max-width: 505px; }
+  .hero-copy .button-row { margin-top: 30px; }
+  .hero-portrait { margin: 0; transform: rotate(2deg); }
+  .portrait-image { position: relative; border-radius: 6px; background: #d9dfce; padding: 10px; }
+  .portrait-image img { width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; border-radius: 2px; }
+  .portrait-stamp { position: absolute; bottom: 29px; left: -27px; background: var(--accent); color: var(--ink); padding: 16px 22px; font-size: 12px; line-height: 1.5; transform: rotate(-6deg); box-shadow: 0 3px 12px #202d2812; }
+  .portrait-stamp em { font: italic 23px var(--serif); }
+  figcaption { display: flex; justify-content: space-between; gap: 12px; margin: 14px 4px 0; font-size: 10px; color: var(--muted); }
+  figcaption a { text-decoration: underline; text-underline-offset: 3px; }
+  .at-a-glance { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--line); padding-block: 28px; }
+  .at-a-glance > div { padding-inline: 32px; border-left: 1px solid var(--line); }
+  .at-a-glance > div:first-child { padding-left: 0; border-left: 0; }
+  .at-a-glance > div:last-child { padding-right: 0; }
+  .at-a-glance p { margin-top: 8px; font-size: 13px; font-weight: 600; }
+  .at-a-glance p span { color: var(--muted); font-weight: 400; }
+  .preview-heading .eyebrow { margin-bottom: 20px; }
+  .preview-heading h2 { font-size: clamp(2.2rem, 3.7vw, 3.1rem); }
+  .preview-heading > p:not(.eyebrow) { margin-top: 24px; font-size: 15px; color: var(--muted); }
+  .preview-heading .text-link { margin-top: 28px; }
+  .home-timeline { list-style: none; padding: 0 0 0 24px; margin: 0; border-left: 1px solid var(--line); }
+  .home-timeline li { position: relative; padding-bottom: 30px; }
+  .home-timeline li:last-child { padding-bottom: 0; }
+  .home-timeline li::before { content: ''; position: absolute; left: -28px; top: 5px; height: 7px; width: 7px; border-radius: 50%; background: var(--forest); box-shadow: 0 0 0 5px var(--canvas); }
+  .home-timeline h3 { font-size: 20px; margin-top: 7px; }
+  .company { font-size: 13px; color: var(--forest); margin-top: 3px; }
+  .job-summary { margin-top: 12px; color: var(--muted); font-size: 14px; }
+  .service-row { display: grid; grid-template-columns: 40px .85fr 1fr 38px; align-items: center; gap: 20px; padding: 26px 0; border-top: 1px solid var(--line); }
+  .service-row:last-child { border-bottom: 1px solid var(--line); }
+  .service-row h3 { font-size: 19px; }
+  .service-row p { color: var(--muted); font-size: 14px; }
+  .service-arrow { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; transition: background .18s, transform .18s; }
+  .service-row:hover .service-arrow { background: var(--accent); transform: rotate(8deg); }
+  .personal-note { display: grid; grid-template-columns: 1fr 1fr; position: relative; gap: 65px; overflow: hidden; padding: 50px; margin: 10px 0 64px; border-radius: 5px; background: #e6e9db; }
+  .personal-note .eyebrow { margin-bottom: 20px; }
+  .personal-note h2 { font-size: clamp(2.2rem, 3.5vw, 2.8rem); }
+  .personal-note > div { position: relative; z-index: 1; }
+  .personal-note > div + div { padding-top: 33px; }
+  .personal-note p:not(.eyebrow) { color: var(--muted); font-size: 15px; }
+  .personal-note .text-link { margin-top: 24px; font-size: 13px; }
+  .chess-mark { position: absolute; right: -5px; bottom: -65px; font: 220px var(--serif); color: #214c3f09; transform: rotate(-13deg); }
+  @media (max-width: 1000px) {
+    .home-hero { gap: 42px; }
+    h1 { font-size: clamp(3.4rem, 7.5vw, 5.4rem); }
+    .hero-copy .button-row { align-items: start; flex-direction: column; gap: 18px; }
+    figcaption { flex-direction: column; gap: 4px; }
+    .at-a-glance > div { padding-inline: 22px; }
+    .at-a-glance p span { display: block; }
+    .personal-note { padding: 35px; gap: 35px; }
+  }
+  @media (max-width: 700px) {
+    .home-hero { grid-template-columns: 1fr; gap: 40px; padding: 42px 0 40px; }
+    h1 { font-size: clamp(3.7rem, 13vw, 5.5rem); white-space: normal; }
+    .hero-role { font-size: 27px; margin-top: 18px; }
+    .hero-copy .lede { font-size: 15px; margin-top: 20px; }
+    .hero-copy .button-row { flex-direction: row; align-items: center; margin-top: 24px; gap: 20px; }
+    .hero-portrait { max-width: 400px; margin: 0 auto; width: calc(100% - 18px); transform: rotate(1.5deg); }
+    .portrait-image img { aspect-ratio: 1.13; object-position: center 40%; }
+    .portrait-stamp { left: -13px; bottom: 23px; padding: 12px 18px; }
+    figcaption { flex-direction: row; }
+    .at-a-glance { grid-template-columns: 1fr; gap: 17px; padding: 24px 0; }
+    .at-a-glance > div { display: grid; grid-template-columns: 125px 1fr; align-items: start; padding: 0; border: 0; gap: 16px; }
+    .at-a-glance p { margin: 0; }
+    .at-a-glance p span { display: inline; }
+    .at-a-glance .eyebrow { font-size: 9px; }
+    .service-row { grid-template-columns: 24px 1fr 34px; gap: 14px; padding-block: 22px; }
+    .service-row h3 { font-size: 18px; }
+    .service-row p { grid-column: 2 / 3; font-size: 13px; }
+    .service-arrow { grid-column: 3; grid-row: 1 / 3; }
+    .personal-note { grid-template-columns: 1fr; gap: 22px; padding: 30px 24px; margin-bottom: 36px; }
+    .personal-note > div + div { padding-top: 0; }
+  }
+</style>

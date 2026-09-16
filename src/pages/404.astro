@@ -3,10 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/paths';
 ---
 <BaseLayout title="Page not found" noindex>
-  <section class="space-y-4">
-    <p class="text-sm font-semibold text-neutral-500">404</p>
-    <h1 class="text-3xl font-bold">Page not found</h1>
-    <p class="text-neutral-600 dark:text-neutral-300">This page may have moved. You can find my latest work on the home page.</p>
-    <a class="inline-block font-semibold underline underline-offset-4" href={withBase('/')}>Back to home</a>
-  </section>
+  <div class="container">
+    <section class="page-intro">
+      <p class="eyebrow">404 / A wrong turn</p>
+      <h1 class="display-title">Let’s get you<br />back on track.</h1>
+      <p class="lede">This page may have moved. My experience, projects, and contact details are all a click away.</p>
+      <a class="button" style="margin-top: 28px" href={withBase('/')}>Back to home <span aria-hidden="true">↗</span></a>
+    </section>
+  </div>
 </BaseLayout>

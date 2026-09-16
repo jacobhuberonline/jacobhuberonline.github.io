@@ -1,61 +1,99 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/paths';
+
+const interests = [
+  {
+    title: 'Family time',
+    description: 'Spending time with my wife and son is the part of life everything else fits around.',
+  },
+  {
+    title: 'Making a home',
+    description: 'Working on our house, figuring things out as I go, and enjoying the small improvements.',
+  },
+  {
+    title: 'A game of chess',
+    description: 'A chance to slow down, think a few moves ahead, and keep learning.',
+  },
+  {
+    title: 'Blues hockey',
+    description: 'Following the St. Louis Blues and catching a game when I can.',
+  },
+];
 ---
 
 <BaseLayout
   title="About"
-  description="Meet Jacob Huber, a software engineer building websites, healthcare integrations, web tools, and reliable automation."
+  description="Meet Jacob Huber: software engineer, husband, and dad in Edwardsville, Illinois. A little about my work and life beyond it."
 >
-  <article class="prose prose-neutral max-w-none dark:prose-invert">
-    <div class="not-prose mb-6">
-      <div class="inline-flex items-center gap-4 rounded-2xl border border-neutral-200/80 bg-white/80 px-4 py-3 shadow-sm dark:border-neutral-800/70 dark:bg-neutral-900/80">
+  <div class="container">
+    <header class="page-intro">
+      <p class="eyebrow">A little about me</p>
+      <h1 class="display-title">Hi, I'm Jacob.</h1>
+      <p class="lede">A software engineer, husband, and dad who likes making things work a little better.</p>
+    </header>
+
+    <section class="section split-layout about-introduction" aria-labelledby="my-story">
+      <figure class="about-portrait">
         <img
           src={withBase('/images/portrait.jpeg')}
-          alt="Portrait of Jacob Huber"
-          width="80"
-          height="80"
-          class="h-16 w-16 rounded-full object-cover shadow-sm ring-2 ring-white dark:ring-neutral-800"
+          alt="Jacob Huber outdoors beside the water"
+          width="886"
+          height="886"
           decoding="async"
+          fetchpriority="high"
         />
-        <div>
-          <p class="text-sm font-semibold text-neutral-900 dark:text-neutral-50">
-            Jacob Huber
-          </p>
-          <p class="text-sm text-neutral-600 dark:text-neutral-300">
-            Engineer building websites, web tools, and reliable automations.
-          </p>
-        </div>
+        <figcaption class="meta">Based in Edwardsville, Illinois.</figcaption>
+      </figure>
+      <div class="prose-copy">
+        <p class="eyebrow">The person behind the projects</p>
+        <h2 id="my-story" class="section-heading">Curious about how things work.</h2>
+        <p>
+          My work has taken me from running a restaurant and developing a team to
+          supporting healthcare software and building the tools behind it. The
+          settings have changed, but I still enjoy understanding a problem,
+          working with the people involved, and finding a useful way forward.
+        </p>
+        <p>
+          Today, I'm a software engineer at symplr. I build custom applications,
+          connect systems through APIs, and create automation that makes
+          complicated workflows easier to manage. I also work through the
+          production issues that need a closer look.
+        </p>
+        <p>
+          On the side, I build websites for businesses and organizations. I like
+          bringing the same care to a small website that I bring to an integration:
+          understand what people need, make it clear to use, and leave something
+          that can be maintained.
+        </p>
+        <a class="text-link" href={withBase('/experience/')}>Explore my experience <span aria-hidden="true">↗</span></a>
       </div>
-    </div>
+    </section>
 
-    <h1>About</h1>
+    <section class="section split-layout" aria-labelledby="beyond-work">
+      <div>
+        <p class="eyebrow">Away from work</p>
+        <h2 id="beyond-work" class="section-heading">The rest of life.</h2>
+        <p class="lede">Home, family, and a few things I always make time for.</p>
+      </div>
+      <ul class="rule-list interests-list">
+        {interests.map((interest) => (
+          <li>
+            <h3>{interest.title}</h3>
+            <p>{interest.description}</p>
+          </li>
+        ))}
+      </ul>
+    </section>
 
-    <p>
-      I'm a software engineer who builds websites, web tools, and automation for
-      businesses and organizations that need practical systems instead of fragile
-      one-off pages. I care about clear messaging, fast pages, maintainable code,
-      and making it obvious how a visitor should take the next step.
-    </p>
-
-    <p>
-      My background also includes healthcare data integrations, API-driven automation,
-      and high-reliability import/export pipelines. That experience shapes how I
-      approach client websites: the public site should be easy to use, and the
-      systems behind it should make the business easier to run.
-    </p>
-
-    <p>
-      I work extensively with C#, .NET, SQL, PowerShell, Next.js, and TypeScript.
-      I enjoy taking messy systems and making them predictable: validating data,
-      tightening workflows, improving interfaces, and automating the parts teams
-      struggle with the most.
-    </p>
-
-    <p>
-      When I'm not coding, I'm usually spending time with my wife and our baby,
-      playing games, studying systems and strategy, or experimenting with new
-      technology I can integrate into future projects.
-    </p>
-  </article>
+  </div>
 </BaseLayout>
+
+<style>
+  .about-introduction { align-items: start; }
+  .about-portrait { margin: 0; }
+  .about-portrait img { display: block; width: 100%; max-width: 30rem; height: auto; border-radius: 0.5rem; }
+  .about-portrait figcaption { margin-top: 1rem; }
+  .interests-list h3 { margin: 0 0 0.5rem; font-size: 1.3rem; }
+  .interests-list p { margin: 0; }
+</style>

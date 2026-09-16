@@ -1,6 +1,6 @@
 # Jacob Huber — Personal Site
 
-A static Astro portfolio for software engineering, website projects, and contact information.
+A personal introduction and portfolio for Jacob Huber: software engineering experience, selected projects, website services, and ways to get in touch. Built with Astro and published as a static site on GitHub Pages.
 
 **Site:** https://jacobhuberonline.github.io/
 
@@ -24,7 +24,7 @@ npm run verify
 npm run preview
 ```
 
-`check` validates Astro and TypeScript. `verify` checks the generated pages, local links, assets, and metadata. It also confirms that Blog, LapQuest, forms, and environment files are absent from the published output.
+`check` validates Astro and TypeScript. `verify` requires every portfolio page, checks navigation, local links, assets, and canonical/social metadata, and catches URLs left under an old base path. It also confirms that Blog, LapQuest, forms, and excluded personal pages or environment files are absent from the published output.
 
 ## Publishing
 
@@ -43,13 +43,15 @@ The repository is `jacobhuberonline/jacobhuberonline.github.io`, which publishes
 
 | URL | Source |
 | --- | --- |
-| `/` — Home and Services | `src/pages/index.astro` |
+| `/` — personal introduction | `src/pages/index.astro` |
+| `/about/` — background and interests | `src/pages/about.astro` |
+| `/experience/` — resume and work history | `src/pages/experience.astro` |
 | `/projects/` | `src/pages/projects.astro`, `src/data/projects.ts` |
-| `/about/` | `src/pages/about.astro` |
+| `/services/` — website and software services | `src/pages/services.astro` |
 | `/contact/` — email and social links | `src/pages/contact.astro` |
 | Custom not-found page | `src/pages/404.astro` |
 
-Shared navigation, metadata, system color theme, and footer live in `src/layouts/BaseLayout.astro`. Styling uses Tailwind CSS 3 and `src/styles/global.css`.
+Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The warm light palette and responsive editorial layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view.
 
 Blog pages and the contact form are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
 

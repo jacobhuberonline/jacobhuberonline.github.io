@@ -1,0 +1,111 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../lib/paths';
+
+const services = [
+  {
+    number: '01',
+    title: 'Websites with a clear purpose.',
+    category: 'Your public presence',
+    description: 'A site should make it easy to understand what you do, see your work, and take the next step. I build websites for small businesses, service providers, and community organizations.',
+    details: ['Business and portfolio websites', 'Service pages and focused landing pages', 'Content structure, resources, and project galleries', 'Responsive layouts and straightforward navigation'],
+    tech: ['Astro', 'Next.js', 'TypeScript'],
+  },
+  {
+    number: '02',
+    title: 'Software for the way you work.',
+    category: 'Useful tools',
+    description: 'When a workflow needs more than a website, I can help turn it into a focused application: a dashboard, a review hub, a reporting portal, or a tool your team uses every day.',
+    details: ['Custom web applications and internal tools', 'Dashboards and reporting workflows', 'Data validation and import/export tools', 'Practical improvements to existing software'],
+    tech: ['C# / .NET', 'TypeScript', 'SQL'],
+  },
+  {
+    number: '03',
+    title: 'Systems that work together.',
+    category: 'Integrations & automation',
+    description: 'My software engineering work includes healthcare integrations, APIs, and automation. I bring that experience to connecting services, moving data, and making repetitive steps easier to manage.',
+    details: ['API connections between existing systems', 'Data cleanup and repeatable transfers', 'Automation for recurring workflows', 'Troubleshooting and supportable handoffs'],
+    tech: ['REST APIs', 'SQL', 'PowerShell'],
+  },
+];
+---
+
+<BaseLayout
+  title="Services"
+  description="Websites, custom software, API integrations, and automation by Jacob Huber, a software engineer based in Edwardsville, Illinois."
+>
+  <div class="container">
+    <header class="page-intro">
+      <p class="eyebrow">What I offer</p>
+      <h1 class="display-title">A thoughtful build.<br />A useful result.</h1>
+      <p class="lede">
+        I bring a software engineer’s perspective to websites and business tools:
+        understand the need, keep the experience clear, and build something that fits.
+      </p>
+    </header>
+
+    <div class="service-list">
+      {services.map((service) => (
+        <section class="service-row" aria-labelledby={`service-${service.number}`}>
+          <div class="service-number" aria-hidden="true">{service.number}</div>
+          <div class="service-description">
+            <p class="eyebrow">{service.category}</p>
+            <h2 id={`service-${service.number}`}>{service.title}</h2>
+            <p class="prose-copy">{service.description}</p>
+            <ul class="tag-list" aria-label="Technologies">
+              {service.tech.map((tech) => <li class="tag">{tech}</li>)}
+            </ul>
+          </div>
+          <ul class="rule-list service-details" aria-label={`${service.category} services`}>
+            {service.details.map((detail) => <li>{detail}</li>)}
+          </ul>
+        </section>
+      ))}
+    </div>
+
+    <section class="section split-layout approach" aria-labelledby="approach-heading">
+      <div>
+        <p class="eyebrow">The approach</p>
+        <h2 id="approach-heading">Start with the problem.<br />Build from there.</h2>
+      </div>
+      <div class="prose-copy">
+        <p>
+          Tell me what you’re trying to accomplish, what already exists, and
+          where things get difficult. We can use that to define the right scope
+          and the most useful place to start.
+        </p>
+        <p>
+          Whether it’s a new website or an improvement behind the scenes, the
+          goal is a clear experience and software that makes sense to maintain.
+        </p>
+        <div class="service-actions">
+          <a class="button" href={withBase('/contact/')}>Talk through a project <span aria-hidden="true">↗</span></a>
+          <a class="text-link" href={withBase('/projects/')}>Explore my work <span aria-hidden="true">→</span></a>
+        </div>
+      </div>
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .service-list { border-top: 1px solid var(--line, #d7ddd1); }
+  .service-row { display: grid; grid-template-columns: 4rem minmax(0, 1.3fr) minmax(0, 1fr); gap: 2.5rem; padding: 3.25rem 0; border-bottom: 1px solid var(--line, #d7ddd1); }
+  .service-number { padding-top: 0.1rem; color: #6b7965; font-family: var(--font-serif, Georgia, serif); font-size: 2rem; line-height: 1; }
+  .service-description h2 { max-width: 20ch; font-size: clamp(1.9rem, 3vw, 2.65rem); margin: 1rem 0; }
+  .service-description .prose-copy { font-size: 0.96rem; }
+  .service-description .tag-list { margin-top: 1.35rem; }
+  .service-details { margin-top: 2rem; align-self: start; font-size: 0.87rem; }
+  .service-details li { padding-block: 0.9rem; }
+  .approach h2 { max-width: 20ch; }
+  .service-actions { display: flex; flex-wrap: wrap; align-items: center; gap: 1.5rem; margin-top: 2rem; }
+
+  @media (max-width: 820px) {
+    .service-row { grid-template-columns: 2rem minmax(0, 1fr); gap: 1.5rem; }
+    .service-details { grid-column: 2; margin-top: 0; }
+  }
+
+  @media (max-width: 480px) {
+    .service-row { padding-block: 2.5rem; gap: 1rem; }
+    .service-number { font-size: 1.45rem; }
+  }
+</style>

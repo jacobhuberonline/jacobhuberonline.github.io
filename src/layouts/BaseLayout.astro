@@ -12,22 +12,22 @@ interface Props {
 
 const {
   title,
-  description = 'Jacob Huber — software engineer building websites, integrations, and automation.',
-  image = '/images/default-social.png',
+  description = 'Meet Jacob Huber: software engineer, husband, dad, and independent website builder in Edwardsville, Illinois. Explore my experience, projects, and services.',
+  image = '/images/portrait.jpeg',
   hideChrome = false,
   noindex = false,
 } = Astro.props;
-const pageTitle = title ? `${title} · Jacob Huber` : 'Jacob Huber · Websites & Software';
+const pageTitle = title ? `${title} · Jacob Huber` : 'Jacob Huber · Software Engineer & Builder';
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(withBase(image), Astro.site);
 const navItems = [
-  { href: '/#services', label: 'Services' },
-  { href: '/projects/', label: 'Projects' },
   { href: '/about/', label: 'About' },
+  { href: '/experience/', label: 'Experience' },
+  { href: '/projects/', label: 'Projects' },
+  { href: '/services/', label: 'Services' },
   { href: '/contact/', label: 'Contact' },
 ];
-const footerItems = [{ href: '/', label: 'Home' }, ...navItems];
-const isActive = (href: string) => !href.includes('#') && Astro.url.pathname === withBase(href);
+const isActive = (href: string) => Astro.url.pathname === withBase(href);
 ---
 <!doctype html>
 <html lang="en">
@@ -35,6 +35,7 @@ const isActive = (href: string) => !href.includes('#') && Astro.url.pathname ===
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
+    <meta name="theme-color" content="#f4f3ed" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Jacob Huber" />
@@ -51,48 +52,63 @@ const isActive = (href: string) => !href.includes('#') && Astro.url.pathname ===
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
-    <script is:inline>
-      // Apply the system theme before paint and follow later system changes.
-      const theme = window.matchMedia('(prefers-color-scheme: dark)');
-      document.documentElement.classList.toggle('dark', theme.matches);
-      theme.addEventListener('change', (event) => {
-        document.documentElement.classList.toggle('dark', event.matches);
-      });
-    </script>
   </head>
-  <body class="min-h-screen overflow-x-hidden bg-neutral-50 text-neutral-900 dark:bg-neutral-950 dark:text-neutral-50">
-    <a href="#main-content" class="sr-only focus:not-sr-only focus:absolute focus:left-4 focus:top-4 focus:z-50 focus:rounded-lg focus:bg-white focus:p-3 focus:text-neutral-900">Skip to content</a>
-    <div class="flex min-h-screen flex-col">
-      {!hideChrome && (
-        <header class="border-b border-neutral-200 bg-white/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80">
-          <div class="mx-auto flex w-full max-w-7xl flex-wrap items-center justify-between gap-4 px-4 py-4 sm:px-6">
-            <a href={withBase('/')} aria-label="Jacob Huber home" class="text-base font-semibold">JH</a>
-            <nav aria-label="Main navigation" class="flex flex-wrap items-center gap-4 sm:gap-6">
+  <body>
+    <a href="#main-content" class="skip-link">Skip to content</a>
+    {!hideChrome && (
+      <header class="site-header">
+        <div class="container header-inner">
+          <a href={withBase('/')} aria-label="Jacob Huber home" class="wordmark">
+            <span class="monogram" aria-hidden="true">jh.</span>
+            <span>Jacob Huber<span class="wordmark-note">Engineer & builder</span></span>
+          </a>
+          <nav aria-label="Main navigation" class="desktop-navigation">
+            {navItems.map((item) => (
+              <a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+            ))}
+          </nav>
+          <details class="mobile-menu">
+            <summary>Menu <span aria-hidden="true">+</span></summary>
+            <nav aria-label="Mobile navigation">
+              <a href={withBase('/')} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
               {navItems.map((item) => (
-                <a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined} class:list={[
-                  'text-sm font-medium text-neutral-700 transition hover:text-neutral-900 dark:text-neutral-200 dark:hover:text-neutral-50',
-                  { 'underline underline-offset-4': isActive(item.href) },
-                ]}>{item.label}</a>
+                <a href={withBase(item.href)} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
               ))}
             </nav>
+          </details>
+        </div>
+      </header>
+    )}
+    <main id="main-content" tabindex="-1"><slot /></main>
+    {!hideChrome && (
+      <footer class="site-footer">
+        <div class="container">
+          <div class="footer-top">
+            <div><p class="eyebrow">A conversation is a good start</p><h2>Let’s build something useful.</h2></div>
+            <a href={withBase('/contact/')} class="button button-light">Get in touch <span aria-hidden="true">↗</span></a>
           </div>
-        </header>
-      )}
-      <main id="main-content" class="mx-auto w-full max-w-7xl flex-1 px-4 py-10 sm:px-6"><slot /></main>
-      {!hideChrome && (
-        <footer class="border-t border-neutral-200 bg-white/80 backdrop-blur dark:border-neutral-800 dark:bg-neutral-900/80">
-          <div class="mx-auto flex w-full max-w-7xl flex-col gap-4 px-4 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-6">
-            <p class="text-xs font-medium uppercase tracking-[0.2em] text-neutral-500 dark:text-neutral-400">© <span id="copyright-year">2026</span> Jacob Huber</p>
-            <nav aria-label="Footer navigation" class="flex flex-wrap items-center gap-4 text-sm font-medium text-neutral-700 dark:text-neutral-200">
-              {footerItems.map((item) => <a href={withBase(item.href)} class="transition hover:text-neutral-900 dark:hover:text-neutral-50">{item.label}</a>)}
+          <div class="footer-bottom">
+            <p>© <span id="copyright-year">2026</span> Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>
+            <nav aria-label="Footer navigation">
+              <a href={withBase('/')}>Home</a>
+              <a href="https://www.linkedin.com/in/jacobhuberonline/">LinkedIn <span aria-hidden="true">↗</span></a>
+              <a href="https://github.com/jacobhuberonline">GitHub <span aria-hidden="true">↗</span></a>
+              <a href="mailto:jhuber.mail@icloud.com">Email <span aria-hidden="true">↗</span></a>
             </nav>
           </div>
-        </footer>
-      )}
-    </div>
+        </div>
+      </footer>
+    )}
     <script>
       const copyrightYear = document.getElementById('copyright-year');
       if (copyrightYear) copyrightYear.textContent = String(new Date().getFullYear());
+      const menu = document.querySelector<HTMLDetailsElement>('.mobile-menu');
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && menu?.open) {
+          menu.open = false;
+          menu.querySelector('summary')?.focus();
+        }
+      });
     </script>
   </body>
 </html>

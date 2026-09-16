@@ -2,24 +2,55 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import { projects } from '../data/projects';
+
+const featuredProjects = projects.slice(0, 2);
+const moreProjects = projects.slice(2);
 ---
 
 <BaseLayout
   title="Projects"
-  description="Websites, web products, healthcare tools, and personal projects built or maintained by Jacob Huber."
+  description="Selected websites, software, and healthcare data tools by Jacob Huber, including KRH Design Co. and VEST First Responder."
 >
-  <div class="space-y-6">
-    <div class="space-y-2">
-      <h1 class="text-3xl font-bold text-neutral-900 dark:text-neutral-50">
-        Projects
-      </h1>
-      <p class="text-neutral-700 dark:text-neutral-200">
-        Websites, web products, healthcare tools, and personal projects from
-        the systems I build or maintain.
+  <div class="container">
+    <header class="page-intro">
+      <p class="eyebrow">Selected work</p>
+      <h1 class="display-title">Ideas, put to work.</h1>
+      <p class="lede">
+        Websites that give a business a clear presence. Tools that make a
+        workflow easier to manage. A selection of what I build and maintain.
       </p>
-    </div>
-    <div class="grid gap-5 sm:grid-cols-2">
-      {projects.map((project) => <ProjectCard project={project} />)}
-    </div>
+    </header>
+
+    <section class="section featured-work" aria-labelledby="featured-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">In focus</p>
+          <h2 id="featured-heading">Two recent favorites.</h2>
+        </div>
+        <p>Different audiences. The same care for clarity and usefulness.</p>
+      </div>
+      <div class="project-grid">
+        {featuredProjects.map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="more-work-heading">
+      <div class="section-heading">
+        <div>
+          <p class="eyebrow">Across the workbench</p>
+          <h2 id="more-work-heading">More projects.</h2>
+        </div>
+        <p>Community sites, web products, and practical software.</p>
+      </div>
+      <div class="project-grid more-projects">
+        {moreProjects.map((project) => <ProjectCard project={project} headingLevel="h3" />)}
+      </div>
+    </section>
+
   </div>
 </BaseLayout>
+
+<style>
+  .featured-work { padding-top: 0; }
+  .more-projects { row-gap: 3.5rem; }
+</style>

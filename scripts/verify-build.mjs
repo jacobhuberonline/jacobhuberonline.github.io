@@ -6,7 +6,9 @@ const projectRoot = fileURLToPath(new URL('../', import.meta.url));
 const requiredRoutes = [
   '',
   'about',
+  'experience',
   'projects',
+  'services',
   'contact',
   '404',
 ];
@@ -111,10 +113,16 @@ async function verify() {
       report('Build output', 'contains a route deferred or excluded from this migration.');
     }
     if (!file.endsWith('.html')) continue;
-    const tags = parseTags(await readFile(path.join(dist, file), 'utf8'));
+    const html = await readFile(path.join(dist, file), 'utf8');
+    const tags = parseTags(html);
+    const navigationLinks = [...html.matchAll(/<nav\b[^>]*>([\s\S]*?)<\/nav\s*>/gi)]
+      .flatMap((match) => parseTags(match[1]))
+      .filter(({ name, attributes }) => name === 'a' && attributes.has('href'))
+      .map(({ attributes }) => attributes.get('href'));
     const pagePath = file === '404.html' ? '404/' : file.replace(/index\.html$/, '');
     documents.set(file, {
       tags,
+      navigationLinks,
       url: new URL(pagePath, deploymentRoot),
       ids: new Set(tags.flatMap(({ name, attributes }) => [
         attributes.get('id'),
@@ -173,6 +181,20 @@ async function verify() {
   }
 
   for (const [file, document] of documents) {
+    const navigationUrls = new Set(document.navigationLinks.map((href) => {
+      try {
+        const url = new URL(href, document.url);
+        return url.origin + url.pathname;
+      } catch {
+        return undefined;
+      }
+    }));
+    for (const route of requiredRoutes.filter((route) => route !== '404')) {
+      const expected = new URL(route ? `${route}/` : '', deploymentRoot);
+      if (!navigationUrls.has(expected.origin + expected.pathname)) {
+        report(file, `Navigation is missing a link to ${expected.pathname}.`);
+      }
+    }
     const canonicalUrls = [];
     const openGraphUrls = [];
     for (const { name, attributes } of document.tags) {
@@ -209,7 +231,7 @@ async function verify() {
     process.exitCode = 1;
     return;
   }
-  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; excluded routes, metadata, and output hygiene checked.`);
+  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; navigation, excluded routes, metadata, and output hygiene checked.`);
 }
 
 verify().catch(() => {

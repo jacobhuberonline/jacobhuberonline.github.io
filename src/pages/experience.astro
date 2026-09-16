@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { education, experience, skillGroups } from '../data/profile';
+---
+
+<BaseLayout
+  title="Experience"
+  description="Jacob Huber's experience in software engineering, healthcare integrations, technical support, and people leadership."
+>
+  <div class="container">
+    <div class="resume-print-header">
+      <h1>Jacob Huber</h1>
+      <p>Software Engineer · Edwardsville, Illinois</p>
+      <p>jhuber.mail@icloud.com · linkedin.com/in/jacobhuberonline</p>
+    </div>
+    <header class="page-intro">
+      <p class="eyebrow">Experience & skills</p>
+      <h1 class="display-title">A practical path<br />into software.</h1>
+      <p class="lede">
+        Software engineering, healthcare technology, and a foundation in leading
+        people. My work brings those experiences together.
+      </p>
+      <button class="button button-secondary print-hide" type="button" id="print-resume">Print résumé <span aria-hidden="true">↗</span></button>
+    </header>
+
+    <section class="section" aria-labelledby="career-heading">
+      <p class="eyebrow">The journey so far</p>
+      <h2 id="career-heading" class="section-heading">Career.</h2>
+      <ol class="timeline">
+        {experience.map((position) => (
+          <li class="timeline-item">
+            <div class="timeline-date">
+              <p>{position.period}</p>
+              <p class="meta">{position.location}</p>
+            </div>
+            <article class="timeline-body">
+              <p class="eyebrow">{position.company}</p>
+              <h3>{position.role}</h3>
+              <p class="role-summary">{position.summary}</p>
+              <ul class="experience-highlights">
+                {position.highlights.map((highlight) => <li>{highlight}</li>)}
+              </ul>
+            </article>
+          </li>
+        ))}
+      </ol>
+    </section>
+
+    <section class="section split-layout" aria-labelledby="skills-heading">
+      <div>
+        <p class="eyebrow">What I bring</p>
+        <h2 id="skills-heading" class="section-heading">Tools and ways<br />of working.</h2>
+        <p class="prose-copy">The technical tools matter. So do clear communication, careful investigation, and helping a team move forward.</p>
+      </div>
+      <div class="skill-groups">
+        {skillGroups.map((group) => (
+          <section aria-label={group.title}>
+            <h3>{group.title}</h3>
+            <ul class="tag-list">
+              {group.items.map((skill) => <li class="tag">{skill}</li>)}
+            </ul>
+          </section>
+        ))}
+      </div>
+    </section>
+
+    <section class="section split-layout" aria-labelledby="education-heading">
+      <div>
+        <p class="eyebrow">Education</p>
+        <h2 id="education-heading" class="section-heading">A foundation<br />in information systems.</h2>
+      </div>
+      <ul class="rule-list education-list">
+        {education.map((entry) => (
+          <li>
+            <p class="meta">{entry.institution} · {entry.year}</p>
+            <h3>{entry.qualification}</h3>
+            {entry.detail && <p>{entry.detail}</p>}
+          </li>
+        ))}
+      </ul>
+    </section>
+
+  </div>
+</BaseLayout>
+
+<script>
+  document.getElementById('print-resume')?.addEventListener('click', () => window.print());
+</script>
+
+<style>
+  .resume-print-header { display: none; }
+  #print-resume { margin-top: 1.5rem; }
+  .timeline-date p { margin: 0 0 0.5rem; }
+  .timeline-body h3 { margin: 0 0 1rem; font-size: clamp(1.6rem, 3vw, 2.2rem); }
+  .role-summary { margin: 0 0 1.25rem; font-weight: 500; }
+  .experience-highlights { margin: 0; padding-left: 1.15rem; list-style: disc; }
+  .experience-highlights li + li { margin-top: 0.75rem; }
+  .skill-groups { display: grid; gap: 2rem; }
+  .skill-groups h3 { margin: 0 0 0.9rem; font-size: 1.25rem; }
+  .education-list h3 { margin: 0.6rem 0; font-size: 1.4rem; }
+  .education-list p { margin: 0; }
+  @media print {
+    .resume-print-header { display: block; margin-bottom: 1.5rem; }
+    .resume-print-header h1 { margin: 0 0 0.5rem; font-size: 2rem; }
+    .resume-print-header p { margin: 0.25rem 0; font-size: 0.85rem; }
+    .page-intro { display: none; }
+  }
+</style>
