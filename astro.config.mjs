@@ -1,7 +1,7 @@
 import { defineConfig } from 'astro/config';
 
 export default defineConfig({
-  site: 'https://jacobhuberonline.github.io',
+  site: 'https://huberbuilds.com',
   base: '/',
   output: 'static',
   trailingSlash: 'always',

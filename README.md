@@ -2,7 +2,7 @@
 
 A personal introduction and portfolio for Jacob Huber: software engineering experience, selected projects, website services, and ways to get in touch. Built with Astro and published as a static site on GitHub Pages.
 
-**Site:** https://jacobhuberonline.github.io/
+**Site:** https://huberbuilds.com/
 
 ## Local development
 
@@ -37,7 +37,9 @@ The GitHub Actions workflow in `.github/workflows/deploy.yml` follows Astro's of
 
 No personal access token, Resend key, database, or environment file is required. Deployment uses GitHub's built-in workflow identity. A failed build or check prevents publishing that change.
 
-The repository is `jacobhuberonline/jacobhuberonline.github.io`, which publishes the site at the root of `jacobhuberonline.github.io`. The site origin and root path are set in `astro.config.mjs`. `src/lib/paths.ts` prefixes internal links and public assets with Astro's configured base. If adding a custom domain later, update `site`, keep `base` as `/`, and configure the domain in GitHub Pages before publishing.
+The repository is `jacobhuberonline/jacobhuberonline.github.io`. The public site origin is `https://huberbuilds.com`, with `base` kept as `/` in `astro.config.mjs`. `src/lib/paths.ts` prefixes internal links and public assets with Astro's configured base. GitHub **Settings → Pages** uses `huberbuilds.com` as the custom domain with **Enforce HTTPS** enabled. This GitHub Actions deployment does not require a `CNAME` file.
+
+Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` records pointing to `jacobhuberonline.github.io`; Cloudflare flattens the root record to GitHub's IP addresses. GitHub redirects `www` and the original GitHub Pages address to the custom domain. Keep the `_github-pages-challenge-jacobhuberonline` TXT record in place to preserve GitHub's domain ownership verification.
 
 ## Content and pages
 
