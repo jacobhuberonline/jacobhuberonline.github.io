@@ -12,14 +12,13 @@ const { project, headingLevel: Heading = 'h2', featured = false } = Astro.props;
 const projectUrl = project.url?.startsWith('/')
   ? withBase(project.url)
   : project.url;
-const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source' : 'Visit website';
+const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code' : 'See the site';
 ---
 
 <article class:list={['project-card', { 'project-card-featured': featured }]}>
   <div class:list={['project-preview', `project-preview-${project.accent}`]} aria-hidden="true">
     <div class="preview-topline">
       <span>{project.category}</span>
-      <span class="preview-mark">JH / Work</span>
     </div>
     <div class="preview-title">{project.name}</div>
     <div class="preview-bottomline">
@@ -29,12 +28,8 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source'
   </div>
 
   <div class="project-copy">
-    <p class="eyebrow project-category">{project.category}</p>
     <Heading class="project-title">{project.name}</Heading>
     <p class="project-description">{project.description}</p>
-    <ul class="project-highlights" aria-label={`${project.name} features`}>
-      {project.highlights.map((highlight) => <li>{highlight}</li>)}
-    </ul>
     <div class="project-footer">
       <ul class="tag-list" aria-label="Technologies">
         {project.tech.map((tech) => <li class="tag">{tech}</li>)}
@@ -53,11 +48,15 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source'
     min-width: 0;
     display: flex;
     flex-direction: column;
+    padding: 0.7rem;
+    border: 1px solid var(--line, #e4ded2);
+    border-radius: 20px;
+    background: var(--paper, #fffdf7);
   }
 
   .project-preview {
     --preview-ink: #344238;
-    --preview-background: #e8e5d8;
+    --preview-background: var(--peach, #f6c8a7);
     min-height: 230px;
     padding: clamp(1.25rem, 3vw, 2.25rem);
     display: flex;
@@ -67,13 +66,12 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source'
     overflow: hidden;
     color: var(--preview-ink);
     background: var(--preview-background);
-    border: 1px solid rgb(32 45 40 / 8%);
-    border-radius: 4px;
+    border-radius: 14px;
   }
 
   .project-preview-forest { --preview-ink: #edf0dd; --preview-background: #314b3f; }
-  .project-preview-moss { --preview-ink: #293d2b; --preview-background: #dce4ba; }
-  .project-preview-stone { --preview-ink: #334642; --preview-background: #d9e2df; }
+  .project-preview-moss { --preview-ink: #293d2b; --preview-background: #e0eaa9; }
+  .project-preview-stone { --preview-ink: #334642; --preview-background: #d5e5df; }
 
   .preview-topline,
   .preview-bottomline {
@@ -82,14 +80,12 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source'
     justify-content: space-between;
     gap: 1rem;
     font-family: var(--font-sans, sans-serif);
-    font-size: 0.64rem;
+    font-size: 0.77rem;
     line-height: 1.5;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
+    letter-spacing: 0.01em;
   }
 
-  .preview-topline { opacity: 0.7; }
-  .preview-mark { white-space: nowrap; }
+  .preview-topline { opacity: 0.85; }
 
   .preview-title {
     max-width: 15ch;
@@ -102,8 +98,7 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source'
   }
 
   .preview-bottomline {
-    padding-top: 1.1rem;
-    border-top: 1px solid currentColor;
+    padding-top: 0.6rem;
   }
 
   .preview-symbol { font-size: 1.2rem; line-height: 1; }
@@ -114,27 +109,12 @@ const linkLabel = project.url?.startsWith('https://github.com/') ? 'View source'
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding: 1.65rem 0 0;
+    padding: 1.4rem 0.6rem 0.6rem;
   }
 
-  .project-category { margin: 0 0 0.65rem; }
   .project-title { margin: 0; font-size: clamp(1.55rem, 2.2vw, 2rem); line-height: 1.18; }
-  .project-description { margin: 0.85rem 0 0; color: var(--muted, #5b6860); line-height: 1.75; font-size: 0.93rem; }
-
-  .project-highlights {
-    display: flex;
-    flex-wrap: wrap;
-    column-gap: 0.75rem;
-    row-gap: 0.35rem;
-    margin: 1rem 0 1.5rem;
-    padding: 0;
-    list-style: none;
-    color: var(--muted, #5b6860);
-    font-size: 0.75rem;
-  }
-
-  .project-highlights li + li::before { content: '·'; margin-right: 0.75rem; }
-  .project-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; margin-top: auto; padding-top: 1rem; border-top: 1px solid var(--line, #d7ddd1); }
+  .project-description { margin: 0.85rem 0 1.6rem; color: var(--muted, #5b6860); line-height: 1.75; font-size: 0.96rem; }
+  .project-footer { display: flex; flex-wrap: wrap; align-items: center; gap: 1rem; justify-content: space-between; margin-top: auto; padding-top: 0.6rem; }
   .project-footer .tag-list { margin: 0; }
   .project-link { font-size: 0.78rem; white-space: nowrap; }
 

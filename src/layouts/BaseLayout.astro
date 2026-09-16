@@ -21,11 +21,11 @@ const pageTitle = title ? `${title} · Jacob Huber` : 'Jacob Huber · Software E
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const socialImage = new URL(withBase(image), Astro.site);
 const navItems = [
-  { href: '/about/', label: 'About' },
+  { href: '/about/', label: 'About me' },
   { href: '/experience/', label: 'Experience' },
   { href: '/projects/', label: 'Projects' },
-  { href: '/services/', label: 'Services' },
-  { href: '/contact/', label: 'Contact' },
+  { href: '/services/', label: 'Work with me' },
+  { href: '/contact/', label: 'Say hello' },
 ];
 const isActive = (href: string) => Astro.url.pathname === withBase(href);
 ---
@@ -35,7 +35,7 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="generator" content={Astro.generator} />
-    <meta name="theme-color" content="#f4f3ed" />
+    <meta name="theme-color" content="#fff9ef" />
     <title>{pageTitle}</title>
     <meta name="description" content={description} />
     <meta name="author" content="Jacob Huber" />
@@ -60,7 +60,7 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
         <div class="container header-inner">
           <a href={withBase('/')} aria-label="Jacob Huber home" class="wordmark">
             <span class="monogram" aria-hidden="true">jh.</span>
-            <span>Jacob Huber<span class="wordmark-note">Engineer & builder</span></span>
+            <span>Jacob Huber<span class="wordmark-note">Software engineer & dad</span></span>
           </a>
           <nav aria-label="Main navigation" class="desktop-navigation">
             {navItems.map((item) => (
@@ -83,10 +83,10 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href);
     {!hideChrome && (
       <footer class="site-footer">
         <div class="container">
-          <div class="footer-top">
-            <div><p class="eyebrow">A conversation is a good start</p><h2>Let’s build something useful.</h2></div>
-            <a href={withBase('/contact/')} class="button button-light">Get in touch <span aria-hidden="true">↗</span></a>
-          </div>
+          {!isActive('/contact/') && <div class="footer-top">
+            <div><p class="eyebrow">Thanks for stopping by.</p><h2>Have an idea? I’m all ears.</h2></div>
+            <a href={withBase('/contact/')} class="button button-light">Say hello <span aria-hidden="true">↗</span></a>
+          </div>}
           <div class="footer-bottom">
             <p>© <span id="copyright-year">2026</span> Jacob Huber <span class="footer-location">· Edwardsville, Illinois</span></p>
             <nav aria-label="Footer navigation">

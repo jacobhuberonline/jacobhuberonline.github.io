@@ -4,13 +4,15 @@
 
 :root {
   color-scheme: light;
-  --canvas: #f4f3ed;
+  --canvas: #fff9ef;
   --ink: #202d28;
   --muted: #5b6860;
   --line: #d7ddd1;
   --paper: #fffef9;
   --forest: #214c3f;
   --accent: #ddea8e;
+  --peach: #f6c8a7;
+  --heading-font: 'Avenir Next', 'Trebuchet MS', 'Segoe UI', sans-serif;
   --serif: Georgia, 'Times New Roman', serif;
 }
 * { box-sizing: border-box; }
@@ -24,7 +26,7 @@ button, a, summary { -webkit-tap-highlight-color: transparent; }
 :focus-visible { outline: 3px solid var(--forest); outline-offset: 5px; }
 main:focus { outline: none; }
 h1, h2, h3, p { margin: 0; }
-h1, h2 { font-family: var(--serif); font-weight: 400; letter-spacing: -.045em; line-height: 1.08; text-wrap: balance; }
+h1, h2 { font-family: var(--heading-font); font-weight: 600; letter-spacing: -.045em; line-height: 1.12; text-wrap: balance; }
 h3 { font-size: 1.15rem; line-height: 1.35; font-weight: 650; letter-spacing: -.02em; }
 .container { width: min(1184px, calc(100% - 96px)); max-width: 1184px; margin-inline: auto; }
 .skip-link { position: fixed; left: 20px; top: -100px; z-index: 100; padding: 10px 18px; background: var(--accent); color: var(--ink); border-radius: 4px; }
@@ -38,10 +40,10 @@ h3 { font-size: 1.15rem; line-height: 1.35; font-weight: 650; letter-spacing: -.
 .desktop-navigation a { padding: 8px 0; border-bottom: 1px solid transparent; }
 .desktop-navigation a:hover, .desktop-navigation a[aria-current='page'] { border-bottom-color: var(--forest); }
 .mobile-menu { display: none; }
-.eyebrow { display: block; font-family: ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; font-size: 11px; font-weight: 500; line-height: 1.7; letter-spacing: .13em; color: var(--muted); }
+.eyebrow { display: block; font-size: 12px; font-weight: 600; line-height: 1.7; letter-spacing: .01em; color: var(--muted); }
 .page-intro { padding: 84px 0 58px; max-width: 860px; }
 .page-intro .eyebrow { margin-bottom: 24px; }
-.display-title { font-size: clamp(3.2rem, 6.5vw, 5.5rem); }
+.display-title { font-size: clamp(2.8rem, 5.7vw, 4.5rem); }
 .page-intro .lede { margin-top: 26px; max-width: 690px; }
 .lede { font-size: 18px; line-height: 1.75; color: var(--muted); }
 .meta { font-size: 13px; line-height: 1.6; color: var(--muted); }
@@ -54,7 +56,7 @@ h2.section-heading { margin-top: 16px; color: var(--ink); }
 .section-heading > p { max-width: 410px; color: var(--muted); }
 .text-link { display: inline-flex; align-items: center; gap: 12px; width: fit-content; border-bottom: 1px solid var(--ink); padding-bottom: 4px; font-size: 14px; font-weight: 600; transition: color .18s, gap .18s; }
 .text-link:hover { color: var(--forest); gap: 18px; }
-.button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; padding: 14px 22px; border: 1px solid var(--forest); border-radius: 4px; background: var(--forest); color: var(--paper); font-size: 13px; font-weight: 600; line-height: 1.5; transition: background .18s, transform .18s; }
+.button { display: inline-flex; align-items: center; justify-content: center; gap: 24px; padding: 14px 22px; border: 1px solid var(--forest); border-radius: 30px; background: var(--forest); color: var(--paper); font-size: 13px; font-weight: 600; line-height: 1.5; transition: background .18s, transform .18s; }
 .button:hover { background: #163b30; transform: translateY(-2px); }
 .button-secondary { background: transparent; color: var(--forest); }
 .button-secondary:hover { background: #e8ebde; }
@@ -68,7 +70,7 @@ h2.section-heading { margin-top: 16px; color: var(--ink); }
 .prose-copy strong { font-weight: 600; color: var(--ink); }
 .split-layout { display: grid; grid-template-columns: .8fr 1.4fr; gap: 80px; align-items: start; }
 .split-layout > * { min-width: 0; }
-.surface { background: var(--paper); border: 1px solid var(--line); border-radius: 6px; padding: 30px; }
+.surface { background: var(--paper); border: 1px solid var(--line); border-radius: 20px; padding: 30px; }
 .rule-list { margin: 0; padding: 0; list-style: none; }
 .rule-list > li { padding: 20px 0; border-bottom: 1px solid var(--line); }
 .rule-list > li:first-child { padding-top: 0; }

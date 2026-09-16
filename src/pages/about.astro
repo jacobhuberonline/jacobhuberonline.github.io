@@ -1,25 +1,6 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import { withBase } from '../lib/paths';
-
-const interests = [
-  {
-    title: 'Family time',
-    description: 'Spending time with my wife and son is the part of life everything else fits around.',
-  },
-  {
-    title: 'Making a home',
-    description: 'Working on our house, figuring things out as I go, and enjoying the small improvements.',
-  },
-  {
-    title: 'A game of chess',
-    description: 'A chance to slow down, think a few moves ahead, and keep learning.',
-  },
-  {
-    title: 'Blues hockey',
-    description: 'Following the St. Louis Blues and catching a game when I can.',
-  },
-];
 ---
 
 <BaseLayout
@@ -28,9 +9,8 @@ const interests = [
 >
   <div class="container">
     <header class="page-intro">
-      <p class="eyebrow">A little about me</p>
       <h1 class="display-title">Hi, I'm Jacob.</h1>
-      <p class="lede">A software engineer, husband, and dad who likes making things work a little better.</p>
+      <p class="lede">I'm a software engineer living in Edwardsville, Illinois, with my wife and son.</p>
     </header>
 
     <section class="section split-layout about-introduction" aria-labelledby="my-story">
@@ -43,47 +23,40 @@ const interests = [
           decoding="async"
           fetchpriority="high"
         />
-        <figcaption class="meta">Based in Edwardsville, Illinois.</figcaption>
+        <figcaption class="meta">Dune Bird Winery · Northport, Michigan.</figcaption>
       </figure>
       <div class="prose-copy">
-        <p class="eyebrow">The person behind the projects</p>
-        <h2 id="my-story" class="section-heading">Curious about how things work.</h2>
+        <h2 id="my-story" class="section-heading">How I got here.</h2>
         <p>
-          My work has taken me from running a restaurant and developing a team to
-          supporting healthcare software and building the tools behind it. The
-          settings have changed, but I still enjoy understanding a problem,
-          working with the people involved, and finding a useful way forward.
+          Before I worked in software, I ran a restaurant and helped people grow
+          into managers. I later moved into healthcare technology, first in
+          support and then in software engineering.
         </p>
         <p>
-          Today, I'm a software engineer at symplr. I build custom applications,
-          connect systems through APIs, and create automation that makes
-          complicated workflows easier to manage. I also work through the
-          production issues that need a closer look.
+          Today, I work at symplr, where I build applications, connect systems,
+          and automate repetitive work. I also help untangle the software and
+          data problems that need a closer look.
         </p>
         <p>
-          On the side, I build websites for businesses and organizations. I like
-          bringing the same care to a small website that I bring to an integration:
-          understand what people need, make it clear to use, and leave something
-          that can be maintained.
+          I build websites on the side, too. VEST First Responder and KRH Design
+          Co. are two of the projects I've been working on. You can see those
+          and more on my <a class="inline-link" href={withBase('/projects/')}>projects page</a>.
         </p>
-        <a class="text-link" href={withBase('/experience/')}>Explore my experience <span aria-hidden="true">↗</span></a>
+        <a class="text-link" href={withBase('/experience/')}>See where I've worked <span aria-hidden="true">↗</span></a>
       </div>
     </section>
 
     <section class="section split-layout" aria-labelledby="beyond-work">
       <div>
-        <p class="eyebrow">Away from work</p>
-        <h2 id="beyond-work" class="section-heading">The rest of life.</h2>
-        <p class="lede">Home, family, and a few things I always make time for.</p>
+        <h2 id="beyond-work" class="section-heading">When I'm not working.</h2>
       </div>
-      <ul class="rule-list interests-list">
-        {interests.map((interest) => (
-          <li>
-            <h3>{interest.title}</h3>
-            <p>{interest.description}</p>
-          </li>
-        ))}
-      </ul>
+      <div class="prose-copy">
+        <p>
+          I'm spending time with my wife and son or working on projects around
+          our house. We've been making it our own, one improvement at a time.
+        </p>
+        <p>I also enjoy a game of chess and watching the St. Louis Blues.</p>
+      </div>
     </section>
 
   </div>
@@ -94,6 +67,6 @@ const interests = [
   .about-portrait { margin: 0; }
   .about-portrait img { display: block; width: 100%; max-width: 30rem; height: auto; border-radius: 0.5rem; }
   .about-portrait figcaption { margin-top: 1rem; }
-  .interests-list h3 { margin: 0 0 0.5rem; font-size: 1.3rem; }
-  .interests-list p { margin: 0; }
+  .inline-link { text-decoration: underline; text-underline-offset: 0.2em; }
+  .about-introduction .text-link { margin-top: 1.5rem; }
 </style>

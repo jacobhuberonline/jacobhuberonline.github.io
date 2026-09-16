@@ -51,7 +51,7 @@ The repository is `jacobhuberonline/jacobhuberonline.github.io`, which publishes
 | `/contact/` — email and social links | `src/pages/contact.astro` |
 | Custom not-found page | `src/pages/404.astro` |
 
-Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The warm light palette and responsive editorial layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view.
+Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The cream, peach, and green palette, rounded cards, and responsive layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view. Contact offers email links with suggested subjects and a copy-email button; email is sent through the visitor's own mail app.
 
 Blog pages and the contact form are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
 

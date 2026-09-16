@@ -14,18 +14,16 @@ import { education, experience, skillGroups } from '../data/profile';
       <p>jhuber.mail@icloud.com · linkedin.com/in/jacobhuberonline</p>
     </div>
     <header class="page-intro">
-      <p class="eyebrow">Experience & skills</p>
-      <h1 class="display-title">A practical path<br />into software.</h1>
+      <h1 class="display-title">The road so far.</h1>
       <p class="lede">
-        Software engineering, healthcare technology, and a foundation in leading
-        people. My work brings those experiences together.
+        I started in restaurants, moved into healthcare technology, and now build
+        software at symplr. Here's what I've worked on along the way.
       </p>
       <button class="button button-secondary print-hide" type="button" id="print-resume">Print résumé <span aria-hidden="true">↗</span></button>
     </header>
 
     <section class="section" aria-labelledby="career-heading">
-      <p class="eyebrow">The journey so far</p>
-      <h2 id="career-heading" class="section-heading">Career.</h2>
+      <h2 id="career-heading" class="section-heading">Where I've worked.</h2>
       <ol class="timeline">
         {experience.map((position) => (
           <li class="timeline-item">
@@ -34,7 +32,7 @@ import { education, experience, skillGroups } from '../data/profile';
               <p class="meta">{position.location}</p>
             </div>
             <article class="timeline-body">
-              <p class="eyebrow">{position.company}</p>
+              <p class="company-name">{position.company}</p>
               <h3>{position.role}</h3>
               <p class="role-summary">{position.summary}</p>
               <ul class="experience-highlights">
@@ -48,9 +46,8 @@ import { education, experience, skillGroups } from '../data/profile';
 
     <section class="section split-layout" aria-labelledby="skills-heading">
       <div>
-        <p class="eyebrow">What I bring</p>
-        <h2 id="skills-heading" class="section-heading">Tools and ways<br />of working.</h2>
-        <p class="prose-copy">The technical tools matter. So do clear communication, careful investigation, and helping a team move forward.</p>
+        <h2 id="skills-heading" class="section-heading">What I work with.</h2>
+        <p class="prose-copy">The languages, tools, and skills I use to build software and help people use it.</p>
       </div>
       <div class="skill-groups">
         {skillGroups.map((group) => (
@@ -66,8 +63,7 @@ import { education, experience, skillGroups } from '../data/profile';
 
     <section class="section split-layout" aria-labelledby="education-heading">
       <div>
-        <p class="eyebrow">Education</p>
-        <h2 id="education-heading" class="section-heading">A foundation<br />in information systems.</h2>
+        <h2 id="education-heading" class="section-heading">Where I studied.</h2>
       </div>
       <ul class="rule-list education-list">
         {education.map((entry) => (
@@ -91,6 +87,7 @@ import { education, experience, skillGroups } from '../data/profile';
   .resume-print-header { display: none; }
   #print-resume { margin-top: 1.5rem; }
   .timeline-date p { margin: 0 0 0.5rem; }
+  .timeline-body .company-name { margin: 0 0 0.5rem; font-weight: 600; color: var(--forest); }
   .timeline-body h3 { margin: 0 0 1rem; font-size: clamp(1.6rem, 3vw, 2.2rem); }
   .role-summary { margin: 0 0 1.25rem; font-weight: 500; }
   .experience-highlights { margin: 0; padding-left: 1.15rem; list-style: disc; }

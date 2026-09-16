@@ -6,46 +6,46 @@ import { experience } from '../data/profile';
 import { withBase } from '../lib/paths';
 
 const services = [
-  { number: '01', title: 'Websites with a purpose', description: 'Thoughtful sites for businesses and organizations, from the first introduction to the next step.' },
-  { number: '02', title: 'Software that helps', description: 'Web tools and applications built around the way people actually work.' },
-  { number: '03', title: 'Systems that connect', description: 'Integrations, data workflows, and automation that reduce repetitive work.' },
+  { number: '↗', title: 'A website that feels like you', description: 'A home for your business, your work, or that idea you’re ready to share.' },
+  { number: '+', title: 'A tool to make life easier', description: 'Something built for the problem you keep running into at work.' },
+  { number: '↔', title: 'A little less busywork', description: 'Help getting your software talking and those repetitive jobs out of your way.' },
 ];
 ---
 <BaseLayout>
   <div class="container">
     <section class="home-hero" aria-labelledby="intro-title">
       <div class="hero-copy">
-        <p class="eyebrow"><span class="location-dot" aria-hidden="true"></span> Edwardsville, Illinois</p>
+        <p class="hero-hello"><span aria-hidden="true">👋</span> Hey there, I’m</p>
         <h1 id="intro-title">Jacob Huber<span class="name-period">.</span></h1>
-        <p class="hero-role">Software engineer.<br />Builder at heart.</p>
-        <p class="lede">I turn complicated problems into useful software. At work, that means healthcare systems and automation. On the side, it means websites that help people share what they do.</p>
+        <p class="hero-role">I like figuring things out.<br />Then putting what I learn to use.</p>
+        <p class="lede">I’m a software engineer in Edwardsville, Illinois. I spend my workdays solving problems in healthcare software, build websites on the side, and spend the best parts of my day with my wife and son.</p>
         <div class="button-row">
-          <a href={withBase('/experience/')} class="button">Explore my experience <span aria-hidden="true">↗</span></a>
-          <a href={withBase('/about/')} class="text-link">A little about me <span aria-hidden="true">↗</span></a>
+          <a href={withBase('/projects/')} class="button">See what I’ve built <span aria-hidden="true">↗</span></a>
+          <a href={withBase('/about/')} class="text-link">Get to know me <span aria-hidden="true">↗</span></a>
         </div>
       </div>
       <figure class="hero-portrait">
         <div class="portrait-image">
           <img src={withBase('/images/portrait.jpeg')} alt="Jacob Huber outdoors by the water" width="886" height="886" fetchpriority="high" decoding="async" />
-          <span class="portrait-stamp" aria-hidden="true">Hello,<br /><em>I’m Jacob.</em></span>
+          <span class="portrait-stamp" aria-hidden="true">Usually building<br /><em>something.</em></span>
         </div>
-        <figcaption><span>Engineer. Husband. Dad.</span><a href={withBase('/about/')} aria-label="Read more about Jacob">More than the résumé <span aria-hidden="true">↗</span></a></figcaption>
+        <figcaption><span>Engineer, husband & dad.</span><a href={withBase('/about/')} aria-label="Read more about Jacob">The rest of the story <span aria-hidden="true">↗</span></a></figcaption>
       </figure>
     </section>
 
     <section class="at-a-glance" aria-label="At a glance">
-      <div><span class="eyebrow">Currently</span><p>Software Engineer <span>at symplr</span></p></div>
-      <div><span class="eyebrow">In my toolkit</span><p>C# / .NET / SQL <span>+ the web</span></p></div>
-      <div><span class="eyebrow">Away from the screen</span><p>Family, chess <span>& house projects</span></p></div>
+      <div><span class="eyebrow">My day job</span><p>Software Engineer <span>at symplr</span></p></div>
+      <div><span class="eyebrow">Things I work with</span><p>C# / .NET / SQL <span>+ the web</span></p></div>
+      <div><span class="eyebrow">Off the clock</span><p>Family, chess <span>& house projects</span></p></div>
     </section>
 
     <section class="section experience-preview">
       <div class="split-layout">
         <div class="preview-heading">
-          <p class="eyebrow">01 / Experience</p>
-          <h2>Good with systems.<br />Better with people.</h2>
-          <p>My path has taken me from leading teams to supporting complex software and building the tools behind it. Understanding the person using a system is still where I start.</p>
-          <a href={withBase('/experience/')} class="text-link">The full résumé <span aria-hidden="true">↗</span></a>
+          <p class="eyebrow">How I got here</p>
+          <h2>It hasn’t all<br />been code.</h2>
+          <p>I’ve run a restaurant, helped people untangle software problems, and learned how to build the tools myself. Each job taught me something I still use.</p>
+          <a href={withBase('/experience/')} class="text-link">My work experience <span aria-hidden="true">↗</span></a>
         </div>
         <ol class="home-timeline">
           {experience.slice(0, 3).map((job) => (
@@ -62,8 +62,8 @@ const services = [
 
     <section class="section">
       <div class="section-heading">
-        <div><p class="eyebrow">02 / Selected work</p><h2>Ideas, made real.</h2></div>
-        <a href={withBase('/projects/')} class="text-link">Explore all projects <span aria-hidden="true">↗</span></a>
+        <div><p class="eyebrow">Made by me</p><h2>A few things I’ve built.</h2></div>
+        <a href={withBase('/projects/')} class="text-link">See the rest <span aria-hidden="true">↗</span></a>
       </div>
       <div class="project-grid">
         {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
@@ -72,8 +72,8 @@ const services = [
 
     <section id="services" class="section">
       <div class="section-heading">
-        <div><p class="eyebrow">03 / What I offer</p><h2>A practical partner<br />for your next idea.</h2></div>
-        <p>Bring a website idea, a manual process, or a software problem. I can help shape it into something useful.</p>
+        <div><p class="eyebrow">Need a hand?</p><h2>Let’s figure it out.</h2></div>
+        <p>Maybe your website needs some love, or there’s a task you’re tired of doing by hand. I’d be happy to take a look.</p>
       </div>
       <div class="service-rows">
         {services.map((service) => (
@@ -88,8 +88,8 @@ const services = [
     </section>
 
     <section class="personal-note">
-      <div><p class="eyebrow">04 / The rest of life</p><h2>Always building.<br />Sometimes it’s a home.</h2></div>
-      <div><p>Outside of work, life is about my wife and son, making our house feel like home, a good game of chess, and catching the Blues when I can.</p><a href={withBase('/about/')} class="text-link">Meet the person behind the projects <span aria-hidden="true">↗</span></a></div>
+      <div><p class="eyebrow">Also very much me</p><h2>Family time.<br />A few house projects.<br />Maybe some chess.</h2></div>
+      <div><p>There’s plenty going on away from the keyboard. I’m making a home with my wife and son, working on the house, playing chess, and catching the Blues when I can.</p><a href={withBase('/about/')} class="text-link">A little more about life <span aria-hidden="true">↗</span></a></div>
       <span class="chess-mark" aria-hidden="true">♘</span>
     </section>
   </div>
@@ -97,17 +97,17 @@ const services = [
 
 <style>
   .home-hero { display: grid; grid-template-columns: 1.35fr 1fr; gap: 75px; align-items: center; padding: 68px 0 58px; }
-  .hero-copy > .eyebrow { display: flex; align-items: center; gap: 9px; margin-bottom: 26px; }
-  .location-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--forest); }
-  h1 { font-size: clamp(4rem, 7.6vw, 6.6rem); line-height: 1.04; white-space: nowrap; }
+  .hero-hello { display: flex; align-items: center; gap: 11px; margin-bottom: 18px; color: var(--forest); font-size: 18px; }
+  .hero-hello span { display: inline-block; font-size: 25px; transform: rotate(-10deg); }
+  h1 { font-size: clamp(4rem, 7vw, 6rem); line-height: 1.04; white-space: nowrap; }
   .name-period { color: var(--forest); }
   .hero-role { font-size: clamp(1.65rem, 2.8vw, 2.25rem); line-height: 1.25; letter-spacing: -.035em; margin-top: 23px; font-weight: 450; }
   .hero-copy .lede { font-size: 16px; line-height: 1.85; margin-top: 22px; max-width: 505px; }
   .hero-copy .button-row { margin-top: 30px; }
   .hero-portrait { margin: 0; transform: rotate(2deg); }
-  .portrait-image { position: relative; border-radius: 6px; background: #d9dfce; padding: 10px; }
-  .portrait-image img { width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; border-radius: 2px; }
-  .portrait-stamp { position: absolute; bottom: 29px; left: -27px; background: var(--accent); color: var(--ink); padding: 16px 22px; font-size: 12px; line-height: 1.5; transform: rotate(-6deg); box-shadow: 0 3px 12px #202d2812; }
+  .portrait-image { position: relative; border-radius: 24px; background: #e5edcc; padding: 10px; }
+  .portrait-image img { width: 100%; aspect-ratio: 1 / 1.1; object-fit: cover; border-radius: 16px; }
+  .portrait-stamp { position: absolute; bottom: 29px; left: -27px; background: var(--peach); color: var(--ink); border-radius: 4px 4px 16px 4px; padding: 16px 22px; font-size: 12px; line-height: 1.5; transform: rotate(-6deg); box-shadow: 0 3px 12px #202d2812; }
   .portrait-stamp em { font: italic 23px var(--serif); }
   figcaption { display: flex; justify-content: space-between; gap: 12px; margin: 14px 4px 0; font-size: 10px; color: var(--muted); }
   figcaption a { text-decoration: underline; text-underline-offset: 3px; }
@@ -134,14 +134,14 @@ const services = [
   .service-row p { color: var(--muted); font-size: 14px; }
   .service-arrow { display: grid; place-items: center; width: 34px; height: 34px; border: 1px solid var(--line); border-radius: 50%; transition: background .18s, transform .18s; }
   .service-row:hover .service-arrow { background: var(--accent); transform: rotate(8deg); }
-  .personal-note { display: grid; grid-template-columns: 1fr 1fr; position: relative; gap: 65px; overflow: hidden; padding: 50px; margin: 10px 0 64px; border-radius: 5px; background: #e6e9db; }
+  .personal-note { display: grid; grid-template-columns: 1fr 1fr; position: relative; gap: 65px; overflow: hidden; padding: 50px; margin: 10px 0 64px; border-radius: 24px; background: #f9dfc7; }
   .personal-note .eyebrow { margin-bottom: 20px; }
   .personal-note h2 { font-size: clamp(2.2rem, 3.5vw, 2.8rem); }
   .personal-note > div { position: relative; z-index: 1; }
   .personal-note > div + div { padding-top: 33px; }
   .personal-note p:not(.eyebrow) { color: var(--muted); font-size: 15px; }
   .personal-note .text-link { margin-top: 24px; font-size: 13px; }
-  .chess-mark { position: absolute; right: -5px; bottom: -65px; font: 220px var(--serif); color: #214c3f09; transform: rotate(-13deg); }
+  .chess-mark { position: absolute; right: -5px; bottom: -65px; font: 220px var(--serif); color: #214c3f14; transform: rotate(-13deg); }
   @media (max-width: 1000px) {
     .home-hero { gap: 42px; }
     h1 { font-size: clamp(3.4rem, 7.5vw, 5.4rem); }

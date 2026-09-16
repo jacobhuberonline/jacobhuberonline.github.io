@@ -26,12 +26,11 @@ export const experience: Experience[] = [
     period: 'January 2024 – Present',
     location: 'Remote',
     summary:
-      'Custom software development, API consulting, and Tier 3 support for healthcare technology clients and internal teams.',
+      'I build custom software and help healthcare teams connect their systems, including API consulting and Tier 3 support.',
     highlights: [
-      'Design and support applications, integrations, reporting tools, and automation using C#/.NET, SQL, PowerShell, and TypeScript.',
-      'Guide payer and provider API engagements, from authentication and implementation decisions to testing and troubleshooting.',
-      'Investigate complex production issues across application behavior, APIs, data, and customer workflows, coordinating with Support, Professional Services, Product, and Engineering.',
-      'Build reusable tools and repeatable processes, and help colleagues adopt AI-assisted development as a Claude Code Change Champion within Professional Services.',
+      'I use C#/.NET, SQL, PowerShell, and TypeScript to build and support applications, integrations, reports, and automation for clients and internal teams.',
+      'I help payer and provider teams set up, test, and troubleshoot APIs, including authentication. For tricky production issues, I work across software, data, and customer workflows with Support, Professional Services, Product, and Engineering.',
+      'I turn repeat work into reusable tools and processes. As a Claude Code Change Champion in Professional Services, I also help colleagues use AI-assisted development.',
     ],
   },
   {
@@ -40,11 +39,10 @@ export const experience: Experience[] = [
     period: 'October 2020 – February 2024',
     location: 'Remote',
     summary:
-      'Functional and technical support for healthcare clients, with a focus on understanding the full workflow behind an issue.',
+      'I helped healthcare clients figure out what was going wrong in their software and how to fix it.',
     highlights: [
-      'Investigated application behavior, integrations, and data by reproducing issues, working with users, querying SQL Server, and testing with customers.',
-      'Resolved incidents independently and alongside engineering and delivery teams, keeping customers informed throughout the investigation.',
-      'Created investigation documentation, knowledge-transfer materials, and practical resolution guidance.',
+      'I worked with users to reproduce problems, checked application behavior and integrations, queried SQL Server, and tested fixes with customers.',
+      'I solved issues on my own and with engineering and delivery teams, kept customers updated, and wrote notes and guides so others could follow the investigation and resolution.',
     ],
   },
   {
@@ -53,11 +51,10 @@ export const experience: Experience[] = [
     period: 'February 2019 – March 2020',
     location: 'Kansas City, Missouri',
     summary:
-      'Application support and incident investigation for healthcare clients and clinical workflows.',
+      'I supported healthcare applications and helped clients work through problems in their clinical workflows.',
     highlights: [
-      'Owned investigation planning, customer communication, application maintenance, and incident resolution.',
-      'Used diagnostic tools, evidence gathering, and end-user observation to reproduce problems and coordinate fixes with internal teams.',
-      'Documented findings and shared knowledge to keep investigations moving across teams.',
+      'I planned investigations, maintained applications, and kept customers informed while working toward a fix.',
+      'I used diagnostic tools and worked alongside users to reproduce problems, gathered evidence for internal teams, and documented what we found so the next person could pick it up.',
     ],
   },
   {
@@ -66,31 +63,31 @@ export const experience: Experience[] = [
     period: 'June 2012 – August 2017',
     location: 'Kansas City, Missouri',
     summary:
-      'A foundation in hands-on leadership, progressing through Kitchen Manager, Service Manager, and Apprentice before becoming General Manager.',
+      'I started as a crew member and worked my way through Kitchen Manager, Service Manager, and Apprentice to General Manager.',
     highlights: [
-      'Led a high-volume restaurant with a 40-person workforce and a management team, balancing service quality, staffing, and financial responsibility.',
-      'Hired, trained, coached, and promoted employees, including developing new kitchen and service managers.',
-      'Managed schedules, budgets, profit and loss, food and labor costs, and day-to-day operations.',
+      'I ran a busy restaurant with a 40-person workforce and a management team, keeping service, staffing, and costs on track.',
+      'I hired, trained, coached, and promoted employees, including helping people grow into kitchen and service manager roles.',
+      'I handled schedules, budgets, profit and loss, food and labor costs, and the day-to-day work of running the restaurant.',
     ],
   },
 ];
 
 export const skillGroups: SkillGroup[] = [
   {
-    title: 'Software & data',
+    title: 'Code & data',
     items: ['C#', '.NET Framework', 'SQL Server', 'TypeScript', 'PowerShell', 'Next.js'],
   },
   {
-    title: 'Integrations & automation',
+    title: 'Connecting systems',
     items: ['REST APIs', 'ETL & data integration', 'SSRS', 'SFTP', 'Process automation', 'Git & GitHub'],
   },
   {
-    title: 'Technical delivery',
+    title: 'Solving problems',
     items: ['API consulting', 'Tier 3 support', 'Production troubleshooting', 'Testing', 'Documentation', 'Client communication'],
   },
   {
-    title: 'People & leadership',
-    items: ['Coaching & peer training', 'Team development', 'Change enablement', 'Customer escalations', 'Operational planning'],
+    title: 'Working with people',
+    items: ['Coaching & peer training', 'Team development', 'Helping teams adopt new tools', 'Customer escalations', 'Operational planning'],
   },
 ];
 

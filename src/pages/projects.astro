@@ -13,21 +13,20 @@ const moreProjects = projects.slice(2);
 >
   <div class="container">
     <header class="page-intro">
-      <p class="eyebrow">Selected work</p>
-      <h1 class="display-title">Ideas, put to work.</h1>
+      <p class="eyebrow">Projects</p>
+      <h1 class="display-title">A few things I’ve built.</h1>
       <p class="lede">
-        Websites that give a business a clear presence. Tools that make a
-        workflow easier to manage. A selection of what I build and maintain.
+        Websites for businesses and communities, plus a few tools that solve
+        everyday problems. Here’s a look at my work.
       </p>
     </header>
 
     <section class="section featured-work" aria-labelledby="featured-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">In focus</p>
-          <h2 id="featured-heading">Two recent favorites.</h2>
+          <h2 id="featured-heading">Two I’d start with.</h2>
         </div>
-        <p>Different audiences. The same care for clarity and usefulness.</p>
+        <p>A site for an interior designer, and one for a first-responder training team.</p>
       </div>
       <div class="project-grid">
         {featuredProjects.map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
@@ -37,10 +36,9 @@ const moreProjects = projects.slice(2);
     <section class="section" aria-labelledby="more-work-heading">
       <div class="section-heading">
         <div>
-          <p class="eyebrow">Across the workbench</p>
           <h2 id="more-work-heading">More projects.</h2>
         </div>
-        <p>Community sites, web products, and practical software.</p>
+        <p>A little more of what I’ve been building.</p>
       </div>
       <div class="project-grid more-projects">
         {moreProjects.map((project) => <ProjectCard project={project} headingLevel="h3" />)}
