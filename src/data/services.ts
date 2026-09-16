@@ -19,6 +19,11 @@ const priceFormatter = new Intl.NumberFormat('en-US', {
 
 export const formatPrice = (amount: number): string => priceFormatter.format(amount);
 
+export const websiteCare = {
+  monthlyPrice: 99,
+  editMinutes: 30,
+};
+
 export const serviceOffers: ServiceOffer[] = [
   {
     id: 'starter-website',
@@ -31,7 +36,7 @@ export const serviceOffers: ServiceOffer[] = [
       'One page with agreed sections',
       'Layout for phones and computers',
       'Search titles, descriptions & sitemap',
-      'Contact links, launch & handoff',
+      'Contact links & launch setup',
     ],
     href: '/services/websites/#starter-website',
   },
@@ -46,7 +51,7 @@ export const serviceOffers: ServiceOffer[] = [
       'Up to five standard content pages',
       'Design around your brand and content',
       'Mobile, browser & search setup checks',
-      'Launch, project files & a walkthrough',
+      'Launch setup & your website files',
     ],
     href: '/services/websites/#business-website',
   },

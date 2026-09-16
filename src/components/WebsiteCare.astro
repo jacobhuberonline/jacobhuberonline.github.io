@@ -1,0 +1,53 @@
+---
+import Icon from './Icon.astro';
+import { formatPrice, websiteCare } from '../data/services';
+import { withBase } from '../lib/paths';
+
+const included = [
+  'Standard website hosting & publishing',
+  'Domain connection & HTTPS management',
+  'Uptime checks, site file backups & upkeep',
+  `${websiteCare.editMinutes} minutes of small content updates each month`,
+];
+---
+
+<section id="website-care" class="website-care" aria-labelledby="website-care-heading">
+  <div class="care-copy">
+    <p class="eyebrow">Optional website care</p>
+    <h2 id="website-care-heading">I can keep it running, too.</h2>
+    <p class="care-intro">Send me the changes. I’ll handle the hosting, upkeep, and updates so you can get on with your business.</p>
+    <ul>
+      {included.map((item) => <li><Icon name="check" size={18} /><span>{item}</span></li>)}
+    </ul>
+  </div>
+  <div class="care-price-panel">
+    <p class="care-price">From <strong>{formatPrice(websiteCare.monthlyPrice)}</strong><span>/month</span></p>
+    <p class="care-billing">USD · after the separately quoted website build</p>
+    <a class="button button-light" href={withBase('/contact/')}>Have me manage it <Icon name="arrow-up-right" size={18} /></a>
+    <p class="care-ownership">You own your domain and paid-for website. I handle the day-to-day work.</p>
+  </div>
+  <p class="care-limits">For straightforward business websites. Domain renewals, email, paid services, and larger changes are quoted separately. <a href={withBase('/services/#project-details')}>See care details & cancellation</a>.</p>
+</section>
+
+<style>
+  .website-care { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 24px 60px; padding: clamp(26px, 4vw, 48px); margin-block: 48px; border-radius: 24px; background: var(--forest); color: var(--paper); scroll-margin-top: 115px; }
+  .eyebrow { color: var(--accent); margin-bottom: 14px; }
+  h2 { max-width: 17ch; font-size: clamp(2rem, 3.7vw, 3rem); }
+  .care-intro { max-width: 49ch; margin-top: 18px; color: #e1e9df; font-size: 15px; line-height: 1.7; }
+  ul { list-style: none; display: grid; gap: 11px; padding: 0; margin: 24px 0 0; }
+  li { display: flex; align-items: start; gap: 10px; font-size: 14px; }
+  li :global(svg) { color: var(--accent); margin-top: 3px; }
+  .care-price-panel { align-self: center; }
+  .care-price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 7px; font-size: 15px; }
+  .care-price strong { font-size: 3.5rem; line-height: 1.2; letter-spacing: -.05em; }
+  .care-billing { color: #e1e9df; font-size: 12px; margin-top: 8px; }
+  .button { margin-top: 26px; }
+  .care-ownership { max-width: 33ch; margin-top: 20px; color: #e1e9df; font-size: 13px; line-height: 1.7; }
+  .care-limits { grid-column: 1 / -1; border-top: 1px solid #648173; padding-top: 22px; color: #e1e9df; font-size: 12px; line-height: 1.7; }
+  .care-limits a { text-decoration: underline; text-underline-offset: 3px; }
+  :focus-visible { outline-color: var(--accent); }
+  @media (max-width: 760px) {
+    .website-care { grid-template-columns: 1fr; gap: 28px; margin-block: 32px; }
+    .care-price strong { font-size: 3rem; }
+  }
+</style>

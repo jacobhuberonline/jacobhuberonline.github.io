@@ -2,30 +2,34 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import ServiceOffers from '../components/ServiceOffers.astro';
-import { serviceOffers } from '../data/services';
+import WebsiteCare from '../components/WebsiteCare.astro';
+import { formatPrice, serviceOffers, websiteCare } from '../data/services';
 import { withBase } from '../lib/paths';
 
 const steps = [
   { icon: 'message', title: 'Tell me what you need', detail: 'Share your business, your goal, and the site or task you want to improve.' },
   { icon: 'check', title: 'Agree on a clear quote', detail: 'We settle the deliverables, revisions, timing, payment terms, and running costs before work starts.' },
-  { icon: 'tools', title: 'Build, review & hand over', detail: 'You try the work, we check the agreed scope, and you receive the files and a walkthrough.' },
+  { icon: 'tools', title: 'Launch & keep it running', detail: 'We review the work and launch. Choose website care and I’ll handle the ongoing upkeep, or take the files and a walkthrough.' },
 ] as const;
 const questions = [
   { question: 'What will my project cost?', answer: 'The starting prices assume ready-to-use content for websites, or a clearly defined workflow with accessible tools and sample data. Your written quote sets a fixed price for the agreed scope. Extra pages, content creation, online stores, logins, and complex integrations are quoted separately. If a workflow needs investigation first, we agree that scope and cost before starting.' },
   { question: 'How do revisions work?', answer: 'A starter website includes one round of revisions; a business website includes two. Automation includes one refinement round and checks against the agreed test cases. Each round is one collected feedback list within the original scope. New requests are quoted before extra work begins.' },
-  { question: 'What do I own?', answer: 'Your domain and hosting accounts are set up in your name. Your paid project includes the finished website or automation source files and a handoff. Third-party software, fonts, and services keep their own licenses.' },
-  { question: 'What happens after launch?', answer: 'The quote defines the period and scope for fixing delivery issues. Future content updates, new features, and ongoing maintenance are optional paid work, agreed separately.' },
-  { question: 'How do hosting and ongoing costs work?', answer: 'I recommend a setup that fits your project and who will maintain it. The quote separates the build from domain renewals, hosting, email, and any paid services. You see the expected running costs before choosing.' },
+  { question: 'Can you manage the website for me?', answer: `Yes. Optional website care starts at ${formatPrice(websiteCare.monthlyPrice)}/month after the separately quoted build. I manage standard hosting, publishing, the domain connection, HTTPS, uptime checks, website file backups, and routine upkeep. You contact me for changes. Care starts when the site launches or an existing site is accepted for care. More complex sites and automation support need a separate quote.` },
+  { question: 'What counts as a small update?', answer: `Care includes up to ${websiteCare.editMinutes} minutes each month for text edits, photo swaps, prices, or opening hours on existing pages. Unused time does not roll over. New pages, features, redesigns, major repairs, and work beyond that allowance are quoted before starting. Support availability and maintenance responsibilities are agreed in writing; this is not a 24/7 emergency service.` },
+  { question: 'What do I own?', answer: 'Your domain stays registered in your name, and your paid project includes the website or automation source files. I can manage the hosting and upkeep on your behalf. You keep access to your domain and can take your site to another provider. Third-party software, fonts, and services retain their own licenses.' },
+  { question: 'Can I cancel website care?', answer: 'Care is month to month. Cancel before your next billing date and coverage continues through the paid period. You keep your paid-for website files and domain. We agree where the site will be hosted before managed hosting ends; any migration work is quoted separately. Cancelling care does not change the agreed build price.' },
+  { question: 'What happens without a care plan?', answer: 'You receive your project files and a walkthrough so you or another provider can manage the site. The build quote defines the period and scope for fixing delivery issues. Future updates and maintenance can be quoted as needed.' },
+  { question: 'Are there other ongoing costs?', answer: 'Standard website hosting is included with care. Domain renewals, email mailboxes, and paid services such as booking tools or form delivery are separate. Your quote identifies those costs and any hosting limits before you choose. Without care, hosting is paid separately.' },
   { question: 'What do I need to provide?', answer: 'For a website: your business details, branding, photos, and draft content. For automation: the steps you repeat, sample inputs, and the result you need. We identify any content or access still needed during planning.' },
 ];
 ---
 
-<BaseLayout title="Website & Automation Pricing" description="Compare starting prices for starter websites, business websites and redesigns, and workflow automation. Clear quotes, client ownership, and optional support.">
+<BaseLayout title="Website, Automation & Care Pricing" description="Business websites, redesigns, and workflow automation with clear starting prices. Optional managed website care covers hosting, upkeep, and small updates.">
   <div class="container">
     <header class="page-intro">
       <p class="eyebrow">Services</p>
       <h1 class="display-title">Three ways to<br />move things forward.</h1>
-      <p class="lede">A first website, a better business site, or less repetitive work. Let’s start with what you need.</p>
+      <p class="lede">A first website, a better business site, or less repetitive work. I can keep your website running after launch, too.</p>
       <p class="meta service-location">Based in Edwardsville, Illinois. Working with local and nationwide clients.</p>
     </header>
 
@@ -40,8 +44,10 @@ const questions = [
       </div>
     </section>
 
+    <WebsiteCare />
+
     <section class="section" aria-labelledby="process-heading">
-      <div class="section-heading"><h2 id="process-heading">From idea to handoff.</h2></div>
+      <div class="section-heading"><h2 id="process-heading">From idea to everyday use.</h2></div>
       <div class="process-steps">
         {steps.map((step) => (
           <div>
