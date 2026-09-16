@@ -9,6 +9,10 @@ interface Props {
   title?: string;
   description?: string;
   image?: string;
+  imageAlt?: string;
+  imageWidth?: number;
+  imageHeight?: number;
+  imageType?: string;
   hideChrome?: boolean;
   noindex?: boolean;
 }
@@ -16,7 +20,11 @@ interface Props {
 const {
   title,
   description = 'Business websites, redesigns, and workflow automation by Jacob Huber. Based in Edwardsville, Illinois, working with local and nationwide clients.',
-  image = '/images/portrait.jpeg',
+  image = '/images/huber-builds-social.png',
+  imageAlt = 'Huber Builds: Business websites. Built around you. Website design, ongoing care, and workflow automation at huberbuilds.com.',
+  imageWidth = 1200,
+  imageHeight = 630,
+  imageType = 'image/png',
   hideChrome = false,
   noindex = false,
 } = Astro.props;
@@ -52,11 +60,15 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href)
     <meta property="og:url" content={canonical} />
     <meta property="og:site_name" content="Huber Builds" />
     <meta property="og:image" content={socialImage} />
-    <meta property="og:image:alt" content="Jacob Huber outdoors by the water" />
+    <meta property="og:image:alt" content={imageAlt} />
+    <meta property="og:image:width" content={String(imageWidth)} />
+    <meta property="og:image:height" content={String(imageHeight)} />
+    <meta property="og:image:type" content={imageType} />
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={pageTitle} />
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={socialImage} />
+    <meta name="twitter:image:alt" content={imageAlt} />
     {structuredData && <script is:inline type="application/ld+json" set:html={JSON.stringify(structuredData).replace(/</g, '\\u003c')} />}
   </head>
   <body>
@@ -64,13 +76,13 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href)
     {!hideChrome && (
       <header class="site-header">
         <div class="container header-inner">
-          <a href={withBase('/')} aria-label="Jacob Huber home" class="wordmark">
+          <a href={withBase('/')} aria-label="Huber Builds home" class="wordmark">
             <span class="monogram" aria-hidden="true">jh.</span>
-            <span>Jacob Huber<span class="wordmark-note">Websites & automation</span></span>
+            <span>Huber Builds<span class="wordmark-note">Websites & automation</span></span>
           </a>
           <nav aria-label="Main navigation" class="desktop-navigation">
             {navItems.map((item) => (
-              <a href={withBase(item.href)} class={item.href === '/contact/' ? 'nav-cta' : undefined} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+              <a href={withBase(item.href)} class:list={[{ 'nav-cta': item.href === '/contact/', 'is-active': isActive(item.href) }]} aria-current={Astro.url.pathname === withBase(item.href) ? 'page' : undefined}>{item.label}</a>
             ))}
           </nav>
           <details class="mobile-menu">
@@ -78,7 +90,7 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href)
             <nav aria-label="Mobile navigation">
               <a href={withBase('/')} aria-current={isActive('/') ? 'page' : undefined}>Home</a>
               {navItems.map((item) => (
-                <a href={withBase(item.href)} class={item.href === '/contact/' ? 'nav-cta' : undefined} aria-current={isActive(item.href) ? 'page' : undefined}>{item.label}</a>
+                <a href={withBase(item.href)} class:list={[{ 'nav-cta': item.href === '/contact/', 'is-active': isActive(item.href) }]} aria-current={Astro.url.pathname === withBase(item.href) ? 'page' : undefined}>{item.label}</a>
               ))}
             </nav>
           </details>

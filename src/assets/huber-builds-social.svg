@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" viewBox="0 0 1200 630" role="img" aria-labelledby="title description">
+  <title id="title">Huber Builds — Business websites. Built around you.</title>
+  <desc id="description">A cream, forest-green, and peach card for Huber Builds, with a simple website illustration, website design, ongoing care, workflow automation, and huberbuilds.com.</desc>
+  <!-- Render instructions are in src/assets/README.md.
+       Original vector geometry and text; no client imagery or portrait is used. -->
+  <rect width="1200" height="630" fill="#fff9ef" />
+
+  <circle cx="106" cy="104" r="28" fill="#214c3f" />
+  <text x="104" y="113" text-anchor="middle" fill="#fff9ef" font-family="Georgia, serif" font-size="28" letter-spacing="-2">jh.</text>
+  <text x="153" y="117" fill="#214c3f" font-family="Arial, Helvetica, sans-serif" font-size="38" font-weight="700" letter-spacing="-1">Huber Builds</text>
+
+  <text x="78" y="267" fill="#202d28" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="700" letter-spacing="-2.3">Business websites.</text>
+  <rect x="69" y="290" width="562" height="75" rx="14" fill="#f6c8a7" />
+  <text x="78" y="348" fill="#214c3f" font-family="Arial, Helvetica, sans-serif" font-size="68" font-weight="700" letter-spacing="-2.3">Built around you.</text>
+
+  <g aria-hidden="true">
+    <rect x="874" y="218" width="246" height="212" rx="19" fill="#f6c8a7" />
+    <rect x="858" y="201" width="246" height="212" rx="19" fill="#fffef9" stroke="#214c3f" stroke-width="3" />
+    <path d="M858 241H1104" fill="none" stroke="#214c3f" stroke-width="2" />
+    <circle cx="880" cy="222" r="4" fill="#214c3f" />
+    <circle cx="895" cy="222" r="4" fill="#214c3f" />
+    <circle cx="910" cy="222" r="4" fill="#214c3f" />
+    <rect x="882" y="266" width="94" height="11" rx="5.5" fill="#214c3f" />
+    <rect x="882" y="288" width="151" height="7" rx="3.5" fill="#b9c9bd" />
+    <rect x="882" y="304" width="118" height="7" rx="3.5" fill="#b9c9bd" />
+    <rect x="882" y="336" width="78" height="48" rx="9" fill="#ddea8e" />
+    <rect x="972" y="336" width="108" height="48" rx="9" fill="#f6c8a7" />
+    <path d="M995 361H1055M1045 351L1055 361L1045 371" fill="none" stroke="#214c3f" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+
+  <text x="80" y="453" fill="#435a4d" font-family="Arial, Helvetica, sans-serif" font-size="25">Website design · Ongoing care · Workflow automation</text>
+  <path d="M80 501H1120" fill="none" stroke="#d7ddd1" stroke-width="2" />
+  <text x="80" y="566" fill="#214c3f" font-family="Arial, Helvetica, sans-serif" font-size="32" font-weight="700" letter-spacing="-0.6">huberbuilds.com</text>
+  <g aria-hidden="true">
+    <rect x="1056" y="522" width="64" height="64" rx="32" fill="#214c3f" />
+    <path d="M1076 566L1100 542M1078 542H1100V564" fill="none" stroke="#fff9ef" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" />
+  </g>
+</svg>

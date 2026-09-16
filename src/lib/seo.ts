@@ -26,15 +26,30 @@ const services: Record<string, { name: string; serviceType: string[] }> = {
 export function pageSchema(site: URL, canonical: URL, title: string, description: string) {
   const url = (path: string) => new URL(path, site).href;
   const personId = url('/#jacob-huber');
+  const businessId = url('/#huber-builds');
   const websiteId = url('/#website');
   const service = services[canonical.pathname];
+  const page = publicPages.find((entry) => entry.path === canonical.pathname);
+  const areaServed = [
+    { '@type': 'City', name: 'Edwardsville, Illinois' },
+    { '@type': 'Place', name: 'St. Louis area' },
+    { '@type': 'Country', name: 'United States' },
+  ];
   return {
     '@context': 'https://schema.org',
     '@graph': [
       {
         '@type': 'WebSite', '@id': websiteId,
         url: url('/'), name: 'Huber Builds', alternateName: 'Jacob Huber',
-        inLanguage: 'en-US', publisher: { '@id': personId },
+        inLanguage: 'en-US', publisher: { '@id': businessId },
+      },
+      {
+        '@type': 'Organization', '@id': businessId,
+        name: 'Huber Builds', url: url('/'),
+        description: 'Business website design, redesign, optional website care, and workflow automation by Jacob Huber. Based in Edwardsville, Illinois, serving the St. Louis area and clients across the United States.',
+        email: 'jhuber.mail@icloud.com',
+        founder: { '@id': personId },
+        areaServed,
       },
       {
         '@type': 'Person', '@id': personId, name: 'Jacob Huber',
@@ -46,13 +61,23 @@ export function pageSchema(site: URL, canonical: URL, title: string, description
         '@type': 'WebPage', '@id': `${canonical.href}#webpage`,
         url: canonical.href, name: title, description, inLanguage: 'en-US',
         isPartOf: { '@id': websiteId }, author: { '@id': personId },
-        ...(service ? { mainEntity: { '@id': `${canonical.href}#service` } } : {}),
+        ...(service ? {
+          mainEntity: { '@id': `${canonical.href}#service` },
+          breadcrumb: { '@id': `${canonical.href}#breadcrumb` },
+        } : {}),
       },
       ...(service ? [{
         '@type': 'Service', '@id': `${canonical.href}#service`,
         url: canonical.href, ...service, description,
-        provider: { '@id': personId },
-        areaServed: { '@type': 'Country', name: 'United States' },
+        provider: { '@id': businessId },
+        areaServed,
+      }, {
+        '@type': 'BreadcrumbList', '@id': `${canonical.href}#breadcrumb`,
+        itemListElement: [
+          { '@type': 'ListItem', position: 1, name: 'Home', item: url('/') },
+          { '@type': 'ListItem', position: 2, name: 'Services', item: url('/services/') },
+          { '@type': 'ListItem', position: 3, name: page?.name ?? service.name, item: canonical.href },
+        ],
       }] : []),
     ],
   };

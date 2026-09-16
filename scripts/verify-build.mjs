@@ -324,6 +324,18 @@ async function verify() {
     }
     for (const node of nodes) {
       const types = schemaTypes(node);
+      if (types.includes('BreadcrumbList')) {
+        const items = node.itemListElement;
+        if (!Array.isArray(items) || items.length < 2
+          || items.some((item, index) => item.position !== index + 1 || typeof item.name !== 'string' || !item.name.trim())
+          || items.at(-1)?.item !== document.url.href) {
+          report(file, 'JSON-LD breadcrumbs must have ordered, named steps ending at this page.');
+        }
+      }
+      if (types.includes('WebPage') && node.breadcrumb
+        && !schemaTypes(definitions.get(node.breadcrumb['@id']) ?? {}).includes('BreadcrumbList')) {
+        report(file, 'JSON-LD WebPage must link to its defined breadcrumb trail.');
+      }
       if (types.some((type) => ['WebSite', 'WebPage', 'Person', 'Organization', 'Service'].includes(type))) {
         for (const key of ['@id', 'url']) {
           if (!node[key] && key === 'url' && !types.includes('WebPage')) continue;

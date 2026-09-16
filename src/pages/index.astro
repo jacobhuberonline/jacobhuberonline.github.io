@@ -1,4 +1,6 @@
 ---
+import { Image } from 'astro:assets';
+import portrait from '../assets/portrait.jpeg';
 import BaseLayout from '../layouts/BaseLayout.astro';
 import ProjectCard from '../components/ProjectCard.astro';
 import AutomationPreview from '../components/AutomationPreview.astro';
@@ -7,29 +9,49 @@ import { projects } from '../data/projects';
 import { formatPrice, serviceOffers, websiteCare } from '../data/services';
 import { withBase } from '../lib/paths';
 ---
-<BaseLayout>
+<BaseLayout
+  title="Small Business Web Design & Automation"
+  description={`Custom business websites from ${formatPrice(serviceOffers[0].startingPrice)}, optional website care, and workflow automation. Work with Jacob Huber in Edwardsville, IL, or anywhere in the U.S.`}
+>
   <div class="container">
     <section class="home-hero" aria-labelledby="intro-title">
       <div class="hero-copy">
-        <p class="eyebrow">For small businesses & organizations</p>
+        <p class="eyebrow">Small business website design</p>
         <h1 id="intro-title">Websites that help people <span>choose your business.</span></h1>
-        <p class="lede">Business websites, thoughtful redesigns, and automation that takes repetitive work off your plate.</p>
+        <p class="lede">I design, build, and manage websites that make it easy to see what you offer and get in touch. You focus on running your business.</p>
         <div class="button-row">
           <a href={withBase('/contact/')} class="button">Get a project estimate <span aria-hidden="true">↗</span></a>
-          <a href={withBase('/projects/')} class="text-link">See my work <span aria-hidden="true">↗</span></a>
+          <a href="#work" class="text-link">See my work <span aria-hidden="true">↓</span></a>
         </div>
+        <p class="hero-price">Websites from {formatPrice(serviceOffers[0].startingPrice)} USD · Clear scope and price before we start.</p>
       </div>
       <aside class="hello-card" aria-label="Meet your website builder">
         <div class="hello-photo">
-          <img src={withBase('/images/portrait.jpeg')} alt="Jacob Huber outdoors by the water" width="886" height="886" fetchpriority="high" decoding="async" />
+          <Image src={portrait} alt="Jacob Huber outdoors by the water" width={640} widths={[192, 384, 640]} sizes="(max-width: 700px) 92px, (max-width: 1000px) 32vw, 350px" format="webp" quality={82} loading="eager" fetchpriority="high" decoding="async" />
           <span class="hello-wave" aria-hidden="true">👋</span>
         </div>
         <div class="hello-copy">
           <p class="hello-name">Hey, I’m Jacob.</p>
-          <p>Software engineer & website builder.<br />Based in Edwardsville, Illinois.<br />Working with local & nationwide clients.</p>
+          <p>Your designer, developer & point of contact.<br />Edwardsville & the St. Louis area.<br />Working with clients across the U.S.</p>
           <a href={withBase('/about/')} class="text-link">Get to know me <span aria-hidden="true">↗</span></a>
         </div>
       </aside>
+    </section>
+
+    <ul class="working-together" aria-label="Working with Huber Builds">
+      <li><Icon name="check" size={18} /> Work directly with me</li>
+      <li><Icon name="check" size={18} /> Own your paid-for website</li>
+      <li><Icon name="check" size={18} /> Optional hosting & ongoing care</li>
+    </ul>
+
+    <section id="work" class="section" aria-labelledby="work-heading">
+      <div class="section-heading">
+        <h2 id="work-heading">Real businesses. Real websites.</h2>
+        <a href={withBase('/projects/')} class="text-link">More projects <span aria-hidden="true">↗</span></a>
+      </div>
+      <div class="project-grid">
+        {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
+      </div>
     </section>
 
     <section id="services" class="section" aria-labelledby="services-heading">
@@ -58,15 +80,6 @@ import { withBase } from '../lib/paths';
       </a>
     </section>
 
-    <section class="section" aria-labelledby="work-heading">
-      <div class="section-heading">
-        <h2 id="work-heading">A look at the work.</h2>
-        <a href={withBase('/projects/')} class="text-link">More projects <span aria-hidden="true">↗</span></a>
-      </div>
-      <div class="project-grid">
-        {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
-      </div>
-    </section>
     <AutomationPreview />
   </div>
 </BaseLayout>
@@ -78,6 +91,9 @@ import { withBase } from '../lib/paths';
   h1 span { color: var(--forest); }
   .hero-copy .lede { max-width: 520px; font-size: 17px; line-height: 1.8; margin-top: 24px; }
   .hero-copy .button-row { margin-top: 28px; }
+  .hero-price { max-width: 42ch; margin-top: 16px; font-size: 12px; color: var(--muted); line-height: 1.7; }
+  .working-together { display: flex; flex-wrap: wrap; gap: 14px 32px; list-style: none; padding: 20px 0; margin: 0; border-block: 1px solid var(--line); color: var(--forest); font-size: 13px; }
+  .working-together li { display: flex; align-items: center; gap: 9px; }
   .hello-card { padding: 10px; background: #f9dfc7; border: 1px solid #e9c9ab; border-radius: 24px; transform: rotate(2deg); }
   .hello-photo { position: relative; }
   .hello-photo img { width: 100%; aspect-ratio: 1.35; object-fit: cover; object-position: center 35%; border-radius: 16px; }
