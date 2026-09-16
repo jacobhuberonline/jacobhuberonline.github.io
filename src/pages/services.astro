@@ -3,14 +3,10 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Icon from '../components/Icon.astro';
 import ServiceOffers from '../components/ServiceOffers.astro';
 import WebsiteCare from '../components/WebsiteCare.astro';
+import ProjectPlanning from '../components/ProjectPlanning.astro';
 import { formatPrice, serviceOffers, websiteCare } from '../data/services';
 import { withBase } from '../lib/paths';
 
-const steps = [
-  { icon: 'message', title: 'Tell me what you need', detail: 'Share your business, your goal, and the site or task you want to improve.' },
-  { icon: 'check', title: 'Agree on a clear quote', detail: 'We settle the deliverables, revisions, timing, payment terms, and running costs before work starts.' },
-  { icon: 'tools', title: 'Launch & keep it running', detail: 'We review the work and launch. Choose website care and I’ll handle the ongoing upkeep, or take the files and a walkthrough.' },
-] as const;
 const questions = [
   { question: 'What will my project cost?', answer: 'The starting prices assume ready-to-use content for websites, or a clearly defined workflow with accessible tools and sample data. Your written quote sets a fixed price for the agreed scope. Extra pages, content creation, online stores, logins, and complex integrations are quoted separately. If a workflow needs investigation first, we agree that scope and cost before starting.' },
   { question: 'How do revisions work?', answer: 'A starter website includes one round of revisions; a business website includes two. Automation includes one refinement round and checks against the agreed test cases. Each round is one collected feedback list within the original scope. New requests are quoted before extra work begins.' },
@@ -20,7 +16,6 @@ const questions = [
   { question: 'Can I cancel website care?', answer: 'Care is month to month. Cancel before your next billing date and coverage continues through the paid period. You keep your paid-for website files and domain. We agree where the site will be hosted before managed hosting ends; any migration work is quoted separately. Cancelling care does not change the agreed build price.' },
   { question: 'What happens without a care plan?', answer: 'You receive your project files and a walkthrough so you or another provider can manage the site. The build quote defines the period and scope for fixing delivery issues. Future updates and maintenance can be quoted as needed.' },
   { question: 'Are there other ongoing costs?', answer: 'Standard website hosting is included with care. Domain renewals, email mailboxes, and paid services such as booking tools or form delivery are separate. Your quote identifies those costs and any hosting limits before you choose. Without care, hosting is paid separately.' },
-  { question: 'What do I need to provide?', answer: 'For a website: your business details, branding, photos, and draft content. For automation: the steps you repeat, sample inputs, and the result you need. We identify any content or access still needed during planning.' },
 ];
 ---
 
@@ -44,19 +39,9 @@ const questions = [
       </div>
     </section>
 
-    <WebsiteCare />
+    <ProjectPlanning />
 
-    <section class="section" aria-labelledby="process-heading">
-      <div class="section-heading"><h2 id="process-heading">From idea to everyday use.</h2></div>
-      <div class="process-steps">
-        {steps.map((step) => (
-          <div>
-            <span class="process-icon"><Icon name={step.icon} /></span>
-            <h3>{step.title}</h3><p>{step.detail}</p>
-          </div>
-        ))}
-      </div>
-    </section>
+    <WebsiteCare />
 
     <section id="project-details" class="section project-details" aria-labelledby="details-heading">
       <div class="section-heading"><h2 id="details-heading">Clear from the start.</h2></div>
@@ -71,17 +56,11 @@ const questions = [
 
 <style>
   .service-location { margin-top: 1rem; }
+  .offers-section { padding-bottom: 48px; }
   .anchor-target, .project-details { scroll-margin-top: 115px; }
   .offer-details-links { display: flex; flex-wrap: wrap; gap: 20px 36px; margin-top: 26px; }
-  .process-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
-  .process-icon { display: grid; width: 44px; height: 44px; place-items: center; border-radius: 50%; background: var(--accent); margin-bottom: 20px; }
-  .process-steps h3 { font-size: 20px; margin-bottom: 12px; }
-  .process-steps p { max-width: 32ch; color: var(--muted); font-size: 15px; line-height: 1.8; }
   .project-questions { max-width: 860px; }
   .project-questions details { padding: 19px 0; border-bottom: 1px solid var(--line); }
   .project-questions summary { font-size: 16px; font-weight: 600; }
   .project-questions p { color: var(--muted); font-size: 15px; line-height: 1.8; margin-top: 14px; max-width: 70ch; }
-  @media (max-width: 720px) {
-    .process-steps { grid-template-columns: 1fr; gap: 28px; }
-  }
 </style>

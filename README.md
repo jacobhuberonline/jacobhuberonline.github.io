@@ -57,9 +57,11 @@ Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` re
 
 Shared navigation, metadata, and footer live in `src/layouts/BaseLayout.astro`. The cream, peach, and green palette, rounded cards, and responsive layout use Tailwind CSS 3 and `src/styles/global.css`. The Experience page includes a print-friendly résumé view. Contact offers an on-page enquiry form when its endpoint is configured, with email and copy-email fallbacks. Service links preselect the project type. Visitors are told Jacob usually replies within 1 business day.
 
-The three service offers are defined in `src/data/services.ts` and rendered by `src/components/ServiceOffers.astro` on the overview and relevant detail pages. The homepage uses the same offer names and descriptions. Ownership, quote preparation, running costs, and optional support are explained in `/services/#project-details`. Each quote defines scope, revisions, timing, payment, and delivery support. Contact messages are sent only when a visitor submits the form; the email fallback opens an editable draft.
+The three service offers are defined in `src/data/services.ts` and rendered by `src/components/ServiceOffers.astro` on the overview and relevant detail pages. The homepage uses the same offer names and descriptions. `src/components/ProjectPlanning.astro` shares timeline guidance and client preparation lists across the service pages, with a short summary on Contact. Small websites use a 1–2 week planning estimate from the agreed start once materials and access are ready, with a first-draft target of 1–2 business days for straightforward sites. Automation estimates depend on the workflow and integrations. These are planning estimates, not guaranteed turnaround times. Ownership, running costs, and optional support are explained in `/services/#project-details`. Each quote defines scope, revisions, timing, payment, and delivery support. Contact messages are sent only when a visitor submits the form; the email fallback opens an editable draft.
 
 Blog pages are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
+
+Future service ideas are tracked in GitHub Issues. [Logo previews with an option to purchase (#2)](https://github.com/jacobhuberonline/jacobhuberonline.github.io/issues/2) records the proposed image-generation and checkout flow; it is not an available service yet.
 
 ## Contact form and Resend
 

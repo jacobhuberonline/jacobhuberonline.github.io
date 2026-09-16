@@ -5,6 +5,7 @@ import ServiceOffers from '../../components/ServiceOffers.astro';
 import WebsiteCare from '../../components/WebsiteCare.astro';
 import ProjectCard from '../../components/ProjectCard.astro';
 import ServiceBreadcrumbs from '../../components/ServiceBreadcrumbs.astro';
+import ProjectPlanning from '../../components/ProjectPlanning.astro';
 import { projects } from '../../data/projects';
 import { formatPrice, serviceOffers, websiteCare } from '../../data/services';
 import { withBase } from '../../lib/paths';
@@ -34,6 +35,8 @@ const websiteOffers = serviceOffers.filter((offer) =>
       <ServiceOffers offers={websiteOffers} headingLevel="h2" />
       <a class="text-link project-details-link" href={withBase('/services/#project-details')}>Ownership, support & quotes <Icon name="arrow-up-right" size={18} /></a>
     </section>
+
+    <ProjectPlanning projectType="website" />
 
     <section class="section" aria-labelledby="website-examples-heading">
       <div class="section-heading"><h2 id="website-examples-heading">A couple I’ve built.</h2></div>

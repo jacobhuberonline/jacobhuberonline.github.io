@@ -4,6 +4,7 @@ import Icon from '../../components/Icon.astro';
 import ServiceOffers from '../../components/ServiceOffers.astro';
 import AutomationDemo from '../../components/AutomationDemo.astro';
 import ServiceBreadcrumbs from '../../components/ServiceBreadcrumbs.astro';
+import ProjectPlanning from '../../components/ProjectPlanning.astro';
 import { formatPrice, serviceOffers } from '../../data/services';
 import { withBase } from '../../lib/paths';
 
@@ -37,6 +38,8 @@ const examples = [
       <ServiceOffers offers={automationOffers} headingLevel="h2" />
       <a class="text-link project-details-link" href={withBase('/services/#project-details')}>Ownership, support & quotes <Icon name="arrow-up-right" size={18} /></a>
     </section>
+
+    <ProjectPlanning projectType="automation" />
 
     <section class="section" aria-labelledby="automation-examples-heading">
       <div class="section-heading"><h2 id="automation-examples-heading">A few good starting points.</h2></div>
