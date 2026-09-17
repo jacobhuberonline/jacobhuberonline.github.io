@@ -24,7 +24,7 @@ npm run verify
 npm run preview
 ```
 
-`check` validates Astro and TypeScript. `verify` requires every public page, checks navigation, local links, assets, canonical/social metadata, unique titles/descriptions/headings, valid JSON-LD, sitemap coverage, and crawl rules. It also checks the configured contact form and confirms that Blog, LapQuest, excluded personal pages, and environment files are absent from the published output. When testing an enabled form, set the same `PUBLIC_CONTACT_ENDPOINT` for both `build` and `verify`.
+`check` validates Astro and TypeScript. `verify` requires every public page, checks navigation, local links, assets, canonical/social metadata, unique titles/descriptions/headings, valid JSON-LD, sitemap coverage, and crawl rules. It also checks document language, unrestricted mobile zoom, the skip link and main landmark, unique element IDs, label/ARIA references, image alternatives and dimensions, and responsive sources for large images. It checks the configured contact form and confirms that Blog, LapQuest, excluded personal pages, and environment files are absent from the published output. When testing an enabled form, set the same `PUBLIC_CONTACT_ENDPOINT` for both `build` and `verify`.
 
 ## Publishing
 
@@ -105,6 +105,7 @@ Provider references: [Resend send-email API](https://resend.com/docs/api-referen
 - `src/lib/seo.ts` lists the indexable pages and describes the public WebSite, Person, WebPage, and Service entities. Add new public routes there; the build verifier catches sitemap omissions.
 - `/sitemap.xml` and `/robots.txt` are generated at build time from the canonical site configuration. The 404 page is marked `noindex` and omitted from the sitemap. No fabricated modification dates are emitted.
 - Titles, descriptions, and structured data describe the visible services. Keep the portfolio factual and add useful project details as new work is completed. Do not add invented reviews, outcomes, or city pages with duplicated content.
+- The homepage title identifies Edwardsville, Illinois; visible service-area copy also covers St. Louis and nationwide work. About and Contact use their specific Schema.org page types and link to the person or business they describe. Keep business identity and service areas consistent with the visible content.
 - After a successful production deployment, the workflow submits public sitemap URLs to IndexNow. Its root key file is intentionally public, not an account credential. This notifies participating search engines; receipt does not guarantee crawling or indexing. Notification failure leaves the deployed site intact and creates a workflow warning.
 
 To check the live sitemap and key without submitting, or to resubmit after a notification failure:
@@ -117,6 +118,10 @@ node scripts/submit-indexnow.mjs
 In Google Search Console, verify ownership of `huberbuilds.com` and submit `https://huberbuilds.com/sitemap.xml`. Use indexing and performance reports to see which service queries earn impressions, clicks, and enquiries. Bing Webmaster Tools can also track discovery and search performance. Those account dashboards require the owner's sign-in; the site does not embed their credentials.
 
 Google's AI search features use the same crawlable, helpful content as traditional search. No special AI file or AI-specific schema is required, and neither structured data nor submissions guarantee rankings or citations.
+
+Preparation lists and FAQs remain in the static HTML when collapsed. Important prices, timing, and the verified VEST workflow stay visible. Public pages allow search snippets, while draft stories remain labeled and excluded from indexing. Responsive project screenshots let smaller screens download smaller files. Fragment navigation uses the shared `html` scroll padding in `src/styles/global.css`; do not add the header offset again with component scroll margins.
+
+For a release check, run [PageSpeed Insights](https://pagespeed.web.dev/) on the homepage and key enquiry/service pages. Also check keyboard navigation, the skip link, mobile-menu Escape behavior, disclosure controls, form validation without sending an email, direct section links, and reflow at 320 CSS pixels. Lighthouse scores are lab measurements; Search Console and real visitor data are needed to assess indexing, rankings, and field Core Web Vitals.
 
 ## Documentation
 

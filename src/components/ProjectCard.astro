@@ -24,7 +24,7 @@ const storyUrl = project.caseStudy ? withBase(`/projects/${project.caseStudy.slu
     <div class="project-screenshot">
       <div class="browser-bar"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{previewHost}</span></div>
       <a href={storyUrl} aria-label={`Read draft project story: ${project.name}`}>
-        <Image src={project.caseStudy.screenshot} alt={project.caseStudy.screenshotAlt} width={1152} format="webp" quality={85} loading="lazy" decoding="async" />
+        <Image src={project.caseStudy.screenshot} alt={project.caseStudy.screenshotAlt} width={1152} widths={[320, 640, 960, 1152]} sizes="(max-width: 700px) calc(100vw - 66px), (max-width: 1000px) calc(50vw - 75px), (max-width: 1280px) calc(50vw - 91px), 550px" format="webp" quality={85} loading="lazy" decoding="async" />
       </a>
     </div>
   ) : (

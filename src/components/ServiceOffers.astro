@@ -33,7 +33,7 @@ const automationOnly = offers.every((offer) => offer.id === 'workflow-automation
 
 <style>
   .offer-grid { display: grid; grid-template-columns: repeat(var(--offer-columns), minmax(0, 1fr)); gap: 20px; }
-  .offer-card { display: flex; flex-direction: column; padding: clamp(24px, 3vw, 34px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); scroll-margin-top: 115px; }
+  .offer-card { display: flex; flex-direction: column; padding: clamp(24px, 3vw, 34px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); }
   .offer-card:first-child { background: #f9dfc7; border-color: #e9c9ab; }
   .offer-card:last-child:not(:first-child) { background: #eef2dc; }
   .offer-icon { display: grid; place-items: center; width: 46px; height: 46px; background: var(--paper); color: var(--forest); border-radius: 13px; margin-bottom: 24px; }

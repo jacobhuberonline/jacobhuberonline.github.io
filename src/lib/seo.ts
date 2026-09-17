@@ -30,6 +30,11 @@ export function pageSchema(site: URL, canonical: URL, title: string, description
   const websiteId = url('/#website');
   const service = services[canonical.pathname];
   const page = publicPages.find((entry) => entry.path === canonical.pathname);
+  const pageType = canonical.pathname === '/about/' ? 'AboutPage'
+    : canonical.pathname === '/contact/' ? 'ContactPage' : undefined;
+  const mainEntityId = service ? `${canonical.href}#service`
+    : pageType === 'AboutPage' ? personId
+    : pageType === 'ContactPage' || canonical.pathname === '/' ? businessId : undefined;
   const areaServed = [
     { '@type': 'City', name: 'Edwardsville, Illinois' },
     { '@type': 'Place', name: 'St. Louis area' },
@@ -58,11 +63,11 @@ export function pageSchema(site: URL, canonical: URL, title: string, description
         sameAs: socialLinks.map((social) => social.href),
       },
       {
-        '@type': 'WebPage', '@id': `${canonical.href}#webpage`,
+        '@type': pageType ? ['WebPage', pageType] : 'WebPage', '@id': `${canonical.href}#webpage`,
         url: canonical.href, name: title, description, inLanguage: 'en-US',
         isPartOf: { '@id': websiteId }, author: { '@id': personId },
+        ...(mainEntityId ? { mainEntity: { '@id': mainEntityId } } : {}),
         ...(service ? {
-          mainEntity: { '@id': `${canonical.href}#service` },
           breadcrumb: { '@id': `${canonical.href}#breadcrumb` },
         } : {}),
       },

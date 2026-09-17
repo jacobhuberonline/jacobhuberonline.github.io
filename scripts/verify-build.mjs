@@ -273,6 +273,20 @@ async function verify() {
       report(file, 'placeholder stories must use noindex and include the visible placeholder notice.');
     }
     if (!isNotFound && !isPlaceholderStory && document.noindex) report(file, 'a content page is unexpectedly excluded from indexing.');
+    const htmlTag = document.tags.find(({ name }) => name === 'html');
+    if (!htmlTag?.attributes.get('lang')?.trim()) report(file, 'must declare the document language.');
+    const viewports = document.tags.filter(({ name, attributes }) => name === 'meta' && attributes.get('name') === 'viewport');
+    const viewport = viewports[0]?.attributes.get('content') ?? '';
+    if (viewports.length !== 1 || !/\bwidth\s*=\s*device-width\b/i.test(viewport)
+      || /\b(?:user-scalable\s*=\s*(?:no|0)|maximum-scale\s*=)/i.test(viewport)) {
+      report(file, 'must use a device-width viewport without restricting zoom.');
+    }
+    const mainTags = document.tags.filter(({ name }) => name === 'main');
+    if (mainTags.length !== 1 || mainTags[0].attributes.get('id') !== 'main-content'
+      || mainTags[0].attributes.get('tabindex') !== '-1'
+      || !document.tags.some(({ name, attributes }) => name === 'a' && attributes.get('href') === '#main-content')) {
+      report(file, 'must provide one focusable main landmark and a skip link to it.');
+    }
     for (const [label, values] of [['title', document.titles], ['description', document.descriptions], ['H1', document.headings]]) {
       if (values.length !== 1 || !values[0]) {
         report(file, `must have exactly one nonempty ${label}.`);
@@ -299,7 +313,32 @@ async function verify() {
     }
     const canonicalUrls = [];
     const openGraphUrls = [];
+    const seenIds = new Set();
     for (const { name, attributes } of document.tags) {
+      if (attributes.has('id')) {
+        const id = attributes.get('id');
+        if (!id || seenIds.has(id)) report(file, 'contains an empty or duplicate element ID.');
+        seenIds.add(id);
+      }
+      for (const attribute of ['aria-labelledby', 'aria-describedby', 'aria-controls', ...(name === 'label' ? ['for'] : [])]) {
+        if (attributes.has(attribute) && attributes.get(attribute).split(/\s+/).some((id) => !document.ids.has(id))) {
+          report(file, `${attribute} refers to a missing element.`);
+        }
+      }
+      if (name === 'img') {
+        if (!attributes.has('alt')) report(file, 'images must have an alt attribute (empty for decorative images).');
+        if (!(Number(attributes.get('width')) > 0 && Number(attributes.get('height')) > 0)) {
+          report(file, 'images must reserve space with positive width and height attributes.');
+        }
+        if (Number(attributes.get('width')) > 320 && (!attributes.get('srcset') || !attributes.get('sizes'))) {
+          report(file, 'large images must provide responsive srcset and sizes attributes.');
+        }
+      }
+      if (!document.noindex && name === 'meta'
+        && ['robots', 'googlebot', 'bingbot'].includes(attributes.get('name')?.toLowerCase())
+        && /\b(?:nosnippet|max-snippet\s*:\s*0)\b/i.test(attributes.get('content') ?? '')) {
+        report(file, 'indexable pages must remain eligible for search snippets.');
+      }
       if (name === 'form' && (file !== 'contact/index.html'
         || attributes.get('id') !== 'contact-form'
         || attributes.get('method') !== 'post'
@@ -336,6 +375,11 @@ async function verify() {
     const pageNodes = nodes.filter((node) => schemaTypes(node).includes('WebPage'));
     if (!document.noindex && (pageNodes.length !== 1 || pageNodes[0].url !== document.url.href)) {
       report(file, 'JSON-LD must describe this canonical WebPage.');
+    }
+    for (const pageNode of pageNodes) {
+      if (pageNode.mainEntity && !definitions.has(pageNode.mainEntity['@id'])) {
+        report(file, 'JSON-LD WebPage must link to a defined main entity.');
+      }
     }
     for (const node of nodes) {
       const types = schemaTypes(node);
@@ -419,7 +463,7 @@ async function verify() {
     process.exitCode = 1;
     return;
   }
-  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; navigation, sitemap, crawl rules, unique metadata, JSON-LD, excluded routes, and output hygiene checked.`);
+  console.log(`Static build verified: ${documents.size} pages and ${checkedReferences} local links/assets; navigation, sitemap, crawl rules, metadata, JSON-LD, accessible markup, responsive images, excluded routes, and output hygiene checked.`);
 }
 
 verify().catch(() => {
