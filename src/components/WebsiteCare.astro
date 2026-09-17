@@ -15,7 +15,7 @@ const included = [
   <div class="care-copy">
     <p class="eyebrow">Optional website care</p>
     <h2 id="website-care-heading">I can keep it running, too.</h2>
-    <p class="care-intro">Send me the changes. I’ll handle the hosting, upkeep, and updates so you can get on with your business.</p>
+    <p class="care-intro">Send me the changes. I’ll handle the upkeep.</p>
     <ul>
       {included.map((item) => <li><Icon name="check" size={18} /><span>{item}</span></li>)}
     </ul>
@@ -24,7 +24,7 @@ const included = [
     <p class="care-price">From <strong>{formatPrice(websiteCare.monthlyPrice)}</strong><span>/month</span></p>
     <p class="care-billing">USD · after the separately quoted website build</p>
     <a class="button button-light" href={withBase('/contact/?service=website-care')}>Have me manage it <Icon name="arrow-up-right" size={18} /></a>
-    <p class="care-ownership">You own your domain and paid-for website. I handle the day-to-day work.</p>
+    <p class="care-ownership">You own your domain and paid-for website.</p>
   </div>
   <p class="care-limits">For straightforward business websites. Domain renewals, email, paid services, and larger changes are quoted separately. <a href={withBase('/services/#project-details')}>See care details & cancellation</a>.</p>
 </section>

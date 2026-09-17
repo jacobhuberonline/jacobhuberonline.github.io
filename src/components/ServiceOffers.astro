@@ -28,8 +28,8 @@ const automationOnly = offers.every((offer) => offer.id === 'workflow-automation
   ))}
 </div>
 <p class="pricing-note">{automationOnly
-  ? 'Automation pricing assumes one agreed workflow, access to the relevant tools, and sample data for testing. Your written quote confirms the scope and total; ongoing monitoring and support are quoted separately.'
-  : 'Website build prices assume ready-to-use content. Your written quote confirms the scope and total. Ongoing hosting and support are separate, with optional website care available.'}</p>
+  ? 'Assumes tool access and sample data. Your quote fixes the scope and price; ongoing monitoring and support are separate.'
+  : 'Website prices assume ready-to-use content. Your quote fixes the scope and price; hosting and care are separate.'}</p>
 
 <style>
   .offer-grid { display: grid; grid-template-columns: repeat(var(--offer-columns), minmax(0, 1fr)); gap: 20px; }

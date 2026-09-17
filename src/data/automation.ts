@@ -3,23 +3,23 @@
 export const vestCertificateWorkflow = {
   client: 'VEST First Responder',
   href: '/services/automation/#vest-certificates',
-  summary: 'After training, a form feeds participant details into a Google Sheet. A script creates a certificate for the participant’s training level and emails it to them.',
+  summary: 'A form, a Google Sheet, and a script turn training details into personalized certificates, delivered by email.',
   steps: [
     {
       title: 'Complete a form',
-      detail: 'The participant’s name, email, and training details enter the workflow after the class.',
+      detail: 'Name, email, and training level.',
     },
     {
       title: 'Collect the details',
-      detail: 'The form response goes into a Google Sheet, ready for the script to use.',
+      detail: 'Responses arrive in a Google Sheet.',
     },
     {
       title: 'Create the certificate',
-      detail: 'The script uses the participant’s details and training level to produce a personalized certificate.',
+      detail: 'A script personalizes it for the participant’s level.',
     },
     {
       title: 'Send it by email',
-      detail: 'The system emails the customized certificate to the participant.',
+      detail: 'The participant receives their certificate.',
     },
   ],
 } as const;

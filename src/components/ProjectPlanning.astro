@@ -10,52 +10,48 @@ const automationOnly = projectType === 'automation';
   </div>
   <div class="planning-overview">
     <div>
-      <h3>{automationOnly ? 'A schedule built around your workflow.' : 'Allow about 1–2 weeks for a small website.'}</h3>
-      {automationOnly ? (
-        <>
-          <p>A small, clearly defined automation can fit a 1–2 week window. I confirm the estimate after reviewing your tools, sample data, and the connections involved.</p>
-          <p>You try an early working version, then we refine it and check the agreed test cases before handover. More involved integrations or unusual cases can take longer.</p>
-        </>
-      ) : (
-        <>
-          <p>That’s from our agreed start date, once the scope, content, and access are ready. For a straightforward site, I aim to share a first draft within 1–2 business days of starting.</p>
-          <p>The rest of the schedule allows for your feedback, the included revisions, final checks, and your approval to launch.</p>
-          {projectType === 'all' && <p>For a small automation, 1–2 weeks can also be a starting point. I confirm the estimate after reviewing the workflow, tools, and sample data.</p>}
-        </>
-      )}
-      <p class="schedule-note">This is a planning estimate. Some projects finish sooner; larger scope, missing materials, or slower feedback can extend the schedule. Before work begins, your quote confirms scope, revisions, price, payment terms, the start date, and target completion.</p>
+      <h3>About 1–2 weeks</h3>
+      <p>{automationOnly
+        ? 'For a small, defined workflow. I confirm timing after reviewing your tools and sample data.'
+        : 'For a small website, from our agreed start once content and access are ready.'}</p>
+      {projectType === 'all' && <p>Automation timing depends on the workflow and tools.</p>}
     </div>
     <div>
-      <h3>A little preparation, a few review points.</h3>
-      <p>Your main jobs are to explain the goal, gather the materials below, and review the work. Rough notes are fine for the first conversation; you don’t need a polished brief or technical knowledge.</p>
-      <p>Plan for a short planning conversation, one collected feedback list per included revision round, and a final review.{projectType !== 'website' && ' For automation, that includes trying it with the agreed sample cases.'}</p>
-      <p>I handle the build and guide you through what’s needed next. Timely replies help keep the agreed launch or handover date on track.</p>
+      <h3>{automationOnly ? 'Try an early version' : 'A first look in 1–2 days'}</h3>
+      <p>{automationOnly
+        ? 'Review a working version, refine it, and check the agreed test cases before handover.'
+        : 'I aim for a first draft in 1–2 business days for straightforward sites, then revisions and final checks.'}</p>
+    </div>
+    <div>
+      <h3>Your part</h3>
+      <p>Share your goals and materials, send one feedback list per revision round, and give final approval. Rough notes are fine to start.</p>
     </div>
   </div>
+  <p class="schedule-note">Your quote confirms scope, revisions, price, payment terms, and dates. Larger projects, missing materials, or slower feedback can extend these estimates.</p>
   <div class:list={['preparation-grid', { 'single-project': projectType !== 'all' }]}>
     {projectType !== 'automation' && (
-      <div class="preparation-card">
-        <h3>For your website</h3>
+      <details class="preparation-card">
+        <summary>What to provide for a website</summary>
         <ul>
-          <li>Your business details, services, audience, and what you want visitors to do.</li>
-          <li>A few websites you like, with a note about what appeals to you.</li>
-          <li>Draft text and any existing logo, brand colors, photos, or videos you want to use.</li>
-          <li>Your current website address and any domain or hosting details you already have.</li>
+          <li>Your business, audience, services, and the action visitors should take.</li>
+          <li>A few websites you like and why.</li>
+          <li>Draft text, plus any existing logo, colors, photos, or videos.</li>
+          <li>Your current website, domain, and hosting details.</li>
         </ul>
-        <p>No logo, photos, or finished copy yet? Tell me what’s missing so we can agree how to handle it and include any extra work in the quote.</p>
-      </div>
+        <p>Missing materials? We’ll agree how to handle them and quote any extra work.</p>
+      </details>
     )}
     {projectType !== 'website' && (
-      <div class="preparation-card">
-        <h3>For your automation</h3>
+      <details class="preparation-card">
+        <summary>What to provide for automation</summary>
         <ul>
-          <li>The task you repeat, the steps involved, how often it happens, and where it slows you down.</li>
-          <li>The apps, spreadsheets, or systems you use and what needs to move between them.</li>
-          <li>Sample inputs with private details removed, an example of the correct result, and any exceptions to handle.</li>
-          <li>Who will use the result and who can arrange access to the relevant tools when needed.</li>
+          <li>The repeated task, its steps, frequency, and bottlenecks.</li>
+          <li>Your apps or spreadsheets and what needs to move between them.</li>
+          <li>Samples with private details removed, the desired result, and exceptions.</li>
+          <li>Who uses the result and who can arrange tool access.</li>
         </ul>
-        <p>A walkthrough or a few screenshots can help explain the process. We agree the required access and test cases during planning.</p>
-      </div>
+        <p>A walkthrough or screenshots help. We agree access and test cases during planning.</p>
+      </details>
     )}
   </div>
 </section>
@@ -63,17 +59,19 @@ const automationOnly = projectType === 'automation';
 <style>
   .project-planning { scroll-margin-top: 115px; }
   .project-planning .section-heading { align-items: start; }
-  .planning-overview, .preparation-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
-  .planning-overview h3, .preparation-card h3 { font-size: 1.3rem; }
+  .planning-overview { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 32px; }
+  .planning-overview h3 { font-size: 1.3rem; }
   .planning-overview p, .preparation-card p, .preparation-card li { color: var(--muted); font-size: 15px; line-height: 1.8; }
   .planning-overview p { margin-top: 14px; }
-  .planning-overview .schedule-note { font-size: 13px; }
-  .preparation-grid { margin-top: 32px; gap: 20px; }
-  .preparation-card { padding: clamp(24px, 3vw, 32px); border: 1px solid var(--line); border-radius: 22px; background: var(--paper); }
+  .schedule-note { max-width: 90ch; margin-top: 24px; color: var(--muted); font-size: 13px; line-height: 1.7; }
+  .preparation-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; margin-top: 28px; gap: 16px; }
+  .preparation-card { border: 1px solid var(--line); border-radius: 16px; background: var(--paper); overflow: hidden; }
   .preparation-card:first-child { background: #eef2dc; }
-  .preparation-card ul { list-style: disc; padding-left: 20px; margin: 18px 0; }
+  .preparation-card summary { padding: 20px 24px; font-size: 15px; font-weight: 600; }
+  .preparation-card summary:focus-visible { outline-offset: -5px; }
+  .preparation-card ul { list-style: disc; padding-left: 20px; margin: 0 24px 18px; }
   .preparation-card li + li { margin-top: 10px; }
-  .preparation-card p { font-size: 13px; }
+  .preparation-card > p { margin: 0 24px 24px; font-size: 13px; }
   .single-project { grid-template-columns: minmax(0, 1fr); }
   .single-project .preparation-card ul { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px 40px; }
   .single-project .preparation-card li + li { margin-top: 0; }
