@@ -72,6 +72,12 @@ Replace the challenge, decisions, and outcome in `src/data/project-stories.ts` w
 
 Draft story pages use `noindex` and are excluded from the sitemap and search notifications. Once a story is verified, update its draft labels and metadata, make its `noindex` conditional in `src/pages/projects/[slug].astro`, add its route to `src/lib/seo.ts`, and move its route from the placeholder list to the normal required routes in `scripts/verify-build.mjs`. Keep a visible draft notice and `noindex` on any story still awaiting real details.
 
+## Automation example
+
+The automation service page leads with the real VEST certificate workflow described by Jacob: a post-training form sends participant details to Google Sheets, a script creates a certificate matched to the participant and training level, and the certificate is emailed. The shared content lives in `src/data/automation.ts`; `src/components/CertificateWorkflow.astro` presents the four steps. Homepage/portfolio previews and the VEST project page link to `/services/automation/#vest-certificates`.
+
+This factual workflow is separate from the placeholder VEST website story. The exact certificate-template app, output file format, trigger behavior, volumes, and measured savings are not yet confirmed, so the copy does not assert them. It also does not claim a particular price for the VEST implementation. The $1,500 starting offer explains the scope of a new custom workflow: planning, connecting tools, agreed tests and failure cases, setup, and handover. The contact-cleanup demo remains a small illustration of input checking, below the real example and project scope.
+
 ## Contact form and Resend
 
 GitHub Pages serves static files, so `workers/contact/index.ts` handles email on Cloudflare. It sends plain-text enquiries to `jhuber.mail@icloud.com` through Resend, with the visitor's address in `reply_to`. The recipient is fixed server-side; visitors cannot choose recipients or the sender. There is no database or automatic email to visitors.

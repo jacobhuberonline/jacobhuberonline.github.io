@@ -1,0 +1,65 @@
+---
+import Icon from './Icon.astro';
+import { vestCertificateWorkflow as workflow } from '../data/automation';
+import { withBase } from '../lib/paths';
+---
+
+<section id="vest-certificates" class="certificate-workflow" aria-labelledby="certificate-heading">
+  <header class="workflow-header">
+    <p class="eyebrow">Real client workflow · {workflow.client}</p>
+    <h2 id="certificate-heading">The class ends.<br />The certificate follows.</h2>
+    <p>After self-defense training, participants need a certificate personalized to their training level. I set up a workflow for VEST First Responder that connects the form, certificate creation, and email delivery using Google tools.</p>
+  </header>
+
+  <ol class="workflow-steps" aria-label="VEST certificate workflow, from form to email">
+    {workflow.steps.map((step, index) => (
+      <li>
+        <span class="step-number" aria-hidden="true">{String(index + 1).padStart(2, '0')}</span>
+        <h3>{step.title}</h3>
+        <p>{step.detail}</p>
+        {index < workflow.steps.length - 1 && <span class="step-arrow" aria-hidden="true">→</span>}
+      </li>
+    ))}
+  </ol>
+
+  <div class="workflow-value">
+    <div>
+      <h3>A task that returns with every class.</h3>
+      <p>Each participant needs their own details on the right certificate, followed by an email. Connecting those steps lets the system handle the document preparation and sending as one repeatable process.</p>
+    </div>
+    <div>
+      <h3>Built around the tools doing the work.</h3>
+      <p>The form response, Google Sheet, script, certificate, and email stay within Google’s ecosystem. For your business, we start with the tools and rules you already use and agree what should happen from the first input to the final result.</p>
+    </div>
+  </div>
+  <a class="text-link" href={withBase('/contact/?service=workflow-automation')}>Talk about a workflow like this <Icon name="arrow-up-right" size={18} /></a>
+</section>
+
+<style>
+  .certificate-workflow { padding: clamp(24px, 4vw, 44px); margin-bottom: 48px; border: 1px solid var(--line); border-radius: 24px; background: #eef2dc; scroll-margin-top: 115px; }
+  .workflow-header { max-width: 790px; }
+  .workflow-header .eyebrow { color: var(--forest); }
+  .workflow-header h2 { font-size: clamp(2rem, 3.8vw, 3rem); margin: 16px 0 20px; }
+  .workflow-header > p:last-child { color: var(--muted); font-size: 16px; line-height: 1.8; }
+  .workflow-steps { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; list-style: none; padding: 0; margin: 32px 0; }
+  .workflow-steps li { position: relative; padding: 22px 18px; border: 1px solid var(--line); border-radius: 16px; background: var(--paper); }
+  .step-number { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--accent); color: var(--forest); font-size: 12px; font-weight: 650; }
+  .workflow-steps h3 { margin: 16px 0 10px; font-size: 17px; }
+  .workflow-steps p { color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .step-arrow { position: absolute; top: 28px; right: -21px; color: var(--forest); font-size: 20px; }
+  .workflow-value { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 28px; }
+  .workflow-value h3 { font-size: 18px; }
+  .workflow-value p { margin-top: 10px; color: var(--muted); font-size: 15px; line-height: 1.8; }
+  .certificate-workflow > .text-link { margin-top: 28px; }
+  @media (max-width: 1000px) {
+    .workflow-steps { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .step-arrow { display: none; }
+  }
+  @media (max-width: 600px) {
+    .workflow-steps, .workflow-value { grid-template-columns: minmax(0, 1fr); }
+    .workflow-steps { gap: 20px; }
+    .workflow-steps li { padding: 20px; }
+    .step-arrow { display: block; top: auto; right: 50%; bottom: -25px; transform: translateX(50%) rotate(90deg); }
+    .certificate-workflow { margin-bottom: 32px; }
+  }
+</style>

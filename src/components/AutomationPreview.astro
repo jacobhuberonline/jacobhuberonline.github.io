@@ -1,16 +1,17 @@
 ---
 import Icon from './Icon.astro';
+import { vestCertificateWorkflow as workflow } from '../data/automation';
 import { withBase } from '../lib/paths';
 ---
 
 <aside class="automation-preview" aria-labelledby="automation-preview-heading">
   <div class="preview-icon"><Icon name="automation" size={26} /></div>
   <div class="preview-copy">
-    <p class="eyebrow">Try a sample</p>
-    <h2 id="automation-preview-heading">What can automation do?</h2>
-    <p>See a messy enquiry list become a clear follow-up list, with duplicates and missing details flagged.</p>
+    <p class="eyebrow">Real client automation · {workflow.client}</p>
+    <h2 id="automation-preview-heading">From training to emailed certificates.</h2>
+    <p>{workflow.summary}</p>
   </div>
-  <a class="button" href={withBase('/services/automation/#automation-demo')}>Try the demo <Icon name="arrow-up-right" size={18} /></a>
+  <a class="button" href={withBase(workflow.href)}>See the workflow <Icon name="arrow-up-right" size={18} /></a>
 </aside>
 
 <style>
