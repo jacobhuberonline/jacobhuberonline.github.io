@@ -3,10 +3,10 @@ import BaseLayout from '../../layouts/BaseLayout.astro';
 import Icon from '../../components/Icon.astro';
 import ServiceOffers from '../../components/ServiceOffers.astro';
 import WebsiteCare from '../../components/WebsiteCare.astro';
-import ProjectCard from '../../components/ProjectCard.astro';
 import ServiceBreadcrumbs from '../../components/ServiceBreadcrumbs.astro';
 import ProjectPlanning from '../../components/ProjectPlanning.astro';
 import { projects } from '../../data/projects';
+import { projectStories } from '../../data/project-stories';
 import { formatPrice, serviceOffers, websiteCare } from '../../data/services';
 import { withBase } from '../../lib/paths';
 
@@ -39,9 +39,19 @@ const websiteOffers = serviceOffers.filter((offer) =>
     <ProjectPlanning projectType="website" />
 
     <section class="section" aria-labelledby="website-examples-heading">
-      <div class="section-heading"><h2 id="website-examples-heading">A couple I’ve built.</h2></div>
-      <div class="project-grid">
-        {projects.slice(0, 2).map((project) => <ProjectCard project={project} headingLevel="h3" featured />)}
+      <div class="section-heading">
+        <h2 id="website-examples-heading">See the thinking behind a website.</h2>
+        <p>Explore two different website needs through illustrative project stories.</p>
+      </div>
+      <div class="story-references">
+        {projects.slice(0, 2).map((project) => project.caseStudy && (
+          <article class="story-reference">
+            <p class="eyebrow">{project.category} · Placeholder story</p>
+            <h3>{project.name}</h3>
+            <p>{projectStories[project.caseStudy.slug].serviceTakeaway}</p>
+            <a class="text-link" href={withBase(`/projects/${project.caseStudy.slug}/#decisions`)} aria-label={`Explore draft design choices: ${project.name}`}>Explore the design choices <Icon name="arrow-up-right" size={18} /></a>
+          </article>
+        ))}
       </div>
     </section>
 
@@ -55,7 +65,13 @@ const websiteOffers = serviceOffers.filter((offer) =>
   .detail-actions { margin-top: 1.8rem; }
   .offerings { margin-bottom: 3rem; }
   .project-details-link { margin-top: 1.5rem; }
+  .story-references { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 32px; }
+  .story-reference { border-top: 2px solid var(--forest); padding-top: 24px; }
+  .story-reference h3 { font-size: 1.5rem; margin: 12px 0; }
+  .story-reference > p:not(.eyebrow) { max-width: 52ch; color: var(--muted); font-size: 15px; line-height: 1.8; }
+  .story-reference .text-link { margin-top: 24px; }
   @media (max-width: 760px) {
     .offerings { margin-bottom: 2rem; }
+    .story-references { grid-template-columns: minmax(0, 1fr); }
   }
 </style>

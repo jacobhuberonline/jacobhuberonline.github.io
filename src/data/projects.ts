@@ -1,4 +1,5 @@
 import type { ImageMetadata } from 'astro';
+import type { ProjectStorySlug } from './project-stories';
 import krhHomepage from '../assets/projects/krh-homepage.jpg';
 import vestHomepage from '../assets/projects/vest-homepage.jpg';
 
@@ -15,6 +16,7 @@ export type Project = {
     attribution: string;
   };
   caseStudy?: {
+    slug: ProjectStorySlug;
     screenshot: ImageMetadata;
     screenshotAlt: string;
     need: string;
@@ -37,6 +39,7 @@ export const projects: Project[] = [
       attribution: "KRH Design Co.",
     },
     caseStudy: {
+      slug: 'krh-design-co',
       screenshot: krhHomepage,
       screenshotAlt: "KRH Design Co. homepage with lime-green branding, interior photography, and a consultation link",
       need: "Introduce the design studio, show its style, and make it easy to enquire.",
@@ -53,6 +56,7 @@ export const projects: Project[] = [
     tech: ["Next.js", "Supabase", "Bunny.net"],
     url: "https://www.vestfirstresponder.com",
     caseStudy: {
+      slug: 'vest-first-responder',
       screenshot: vestHomepage,
       screenshotAlt: "VEST First Responder homepage with its gold shield branding, training introduction, and contact links",
       need: "Help first-responder and healthcare teams understand the training and find the right course.",

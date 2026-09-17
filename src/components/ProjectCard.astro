@@ -16,13 +16,14 @@ const projectUrl = project.url?.startsWith('/')
   : project.url;
 const linkLabel = project.url?.startsWith('https://github.com/') ? 'See the code' : 'See the site';
 const previewHost = projectUrl?.startsWith('https://') ? new URL(projectUrl).hostname.replace(/^www\./, '') : '';
+const storyUrl = project.caseStudy ? withBase(`/projects/${project.caseStudy.slug}/`) : undefined;
 ---
 
 <article class:list={['project-card', { 'project-card-featured': featured }]}>
   {project.caseStudy ? (
     <div class="project-screenshot">
       <div class="browser-bar"><span class="browser-dots" aria-hidden="true"><i></i><i></i><i></i></span><span>{previewHost}</span></div>
-      <a href={project.caseStudy.screenshot.src} aria-label={`View full screenshot of ${project.name}`}>
+      <a href={storyUrl} aria-label={`Read draft project story: ${project.name}`}>
         <Image src={project.caseStudy.screenshot} alt={project.caseStudy.screenshotAlt} width={1152} format="webp" quality={85} loading="lazy" decoding="async" />
       </a>
     </div>
@@ -40,10 +41,7 @@ const previewHost = projectUrl?.startsWith('https://') ? new URL(projectUrl).hos
       <>
         <p class="project-category">{project.category}</p>
         <Heading class="case-title">{project.name}</Heading>
-        <dl class="case-summary">
-          <div><dt>The need</dt><dd>{project.caseStudy.need}</dd></div>
-          <div><dt>What I built</dt><dd>{project.caseStudy.built}</dd></div>
-        </dl>
+        <p class="project-description case-introduction">{project.description}</p>
       </>
     ) : <p class="project-description">{project.description}</p>}
     {project.testimonial && (
@@ -53,6 +51,7 @@ const previewHost = projectUrl?.startsWith('https://') ? new URL(projectUrl).hos
       </figure>
     )}
     <div class="project-footer">
+      {storyUrl && <a href={storyUrl} aria-label={`Read draft story: ${project.name}`} class="text-link project-link">Read draft story <Icon name="arrow-up-right" size={18} /></a>}
       {!featured && <ul class="tag-list" aria-label="Technologies">
         {project.tech.map((tag) => <li class="tag">{tag}</li>)}
       </ul>}
@@ -130,9 +129,7 @@ const previewHost = projectUrl?.startsWith('https://') ? new URL(projectUrl).hos
   .project-screenshot img { width: 100%; height: auto; }
   .project-category { color: var(--forest); font-size: 12px; margin-bottom: 9px; }
   .case-title { font-size: clamp(1.6rem, 2.5vw, 2rem); line-height: 1.2; }
-  .case-summary { display: grid; gap: 15px; margin: 22px 0 18px; }
-  .case-summary dt { color: var(--ink); font-size: 12px; font-weight: 650; margin-bottom: 4px; }
-  .case-summary dd { margin: 0; color: var(--muted); font-size: 14px; line-height: 1.7; }
+  .project-description.case-introduction { margin-top: 16px; font-size: 14px; }
   .client-testimonial { margin: 0 0 20px; padding: 18px 20px; border-left: 3px solid var(--forest); border-radius: 0 12px 12px 0; background: #eef2dc; }
   .client-testimonial blockquote { margin: 0; color: var(--forest); font-size: 15px; line-height: 1.7; }
   .client-testimonial figcaption { margin-top: 12px; color: var(--ink); font-size: 12px; font-weight: 600; }

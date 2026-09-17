@@ -3,11 +3,13 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
+const placeholderStoryRoutes = ['projects/krh-design-co', 'projects/vest-first-responder'];
 const requiredRoutes = [
   '',
   'about',
   'experience',
   'projects',
+  ...placeholderStoryRoutes,
   'services',
   'services/websites',
   'services/automation',
@@ -265,8 +267,12 @@ async function verify() {
   }
   for (const [file, document] of documents) {
     const isNotFound = file === '404.html' || file === '404/index.html';
+    const isPlaceholderStory = placeholderStoryRoutes.some((route) => file === `${route}/index.html`);
     if (isNotFound && !document.noindex) report(file, 'the not-found page must use noindex.');
-    if (!isNotFound && document.noindex) report(file, 'a content page is unexpectedly excluded from indexing.');
+    if (isPlaceholderStory && (!document.noindex || !document.ids.has('placeholder-story-notice'))) {
+      report(file, 'placeholder stories must use noindex and include the visible placeholder notice.');
+    }
+    if (!isNotFound && !isPlaceholderStory && document.noindex) report(file, 'a content page is unexpectedly excluded from indexing.');
     for (const [label, values] of [['title', document.titles], ['description', document.descriptions], ['H1', document.headings]]) {
       if (values.length !== 1 || !values[0]) {
         report(file, `must have exactly one nonempty ${label}.`);

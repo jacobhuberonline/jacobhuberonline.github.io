@@ -49,6 +49,7 @@ Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` re
 | `/about/` — background and interests | `src/pages/about.astro` |
 | `/experience/` — resume and work history | `src/pages/experience.astro` |
 | `/projects/` | `src/pages/projects.astro`, `src/data/projects.ts` |
+| `/projects/krh-design-co/`, `/projects/vest-first-responder/` — draft project stories | `src/pages/projects/[slug].astro`, `src/data/project-stories.ts` |
 | `/services/` — website and software services | `src/pages/services.astro` |
 | `/services/websites/` — business websites and redesigns | `src/pages/services/websites.astro` |
 | `/services/automation/` — workflow and business process automation | `src/pages/services/automation.astro` |
@@ -62,6 +63,14 @@ The three service offers are defined in `src/data/services.ts` and rendered by `
 Blog pages are deferred. Existing Markdown posts remain in `content/posts/` for the later blog implementation and are not published. LapQuest and one-off personal pages are excluded; their previous implementations remain in Git history.
 
 Future service ideas are tracked in GitHub Issues. [Logo previews with an option to purchase (#2)](https://github.com/jacobhuberonline/jacobhuberonline.github.io/issues/2) records the proposed image-generation and checkout flow; it is not an available service yet.
+
+## Project stories
+
+The homepage introduces the featured sites, the portfolio links to longer stories, and website services links to their design choices. Both stories currently contain explicitly labeled illustrative copy requested as a placeholder. The real screenshots and the approved KRH testimonial remain distinct from that copy. No invented numerical outcomes or new client quotes are included.
+
+Replace the challenge, decisions, and outcome in `src/data/project-stories.ts` when the actual stories arrive. Useful source material: the original problem, constraints, choices and tradeoffs, client feedback during the build, and observed changes after launch. Confirm any results or quotes before presenting them as facts.
+
+Draft story pages use `noindex` and are excluded from the sitemap and search notifications. Once a story is verified, update its draft labels and metadata, make its `noindex` conditional in `src/pages/projects/[slug].astro`, add its route to `src/lib/seo.ts`, and move its route from the placeholder list to the normal required routes in `scripts/verify-build.mjs`. Keep a visible draft notice and `noindex` on any story still awaiting real details.
 
 ## Contact form and Resend
 
