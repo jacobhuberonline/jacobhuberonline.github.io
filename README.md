@@ -66,7 +66,7 @@ Future service ideas are tracked in GitHub Issues. [Logo previews with an option
 
 ## Project stories
 
-The homepage introduces the featured sites, the portfolio links to longer stories, and website services links to their design choices. Both stories currently contain explicitly labeled illustrative copy requested as a placeholder. The real screenshots and the approved KRH testimonial remain distinct from that copy. No invented numerical outcomes or new client quotes are included.
+The homepage introduces the featured sites, the portfolio links to longer stories, and website services links to their design choices. Both stories currently contain explicitly labeled illustrative copy requested as a placeholder. The real screenshots and the approved KRH and VEST testimonials remain distinct from that copy. No invented numerical outcomes or client quotes are included.
 
 Replace the challenge, decisions, and outcome in `src/data/project-stories.ts` when the actual stories arrive. Useful source material: the original problem, constraints, choices and tradeoffs, client feedback during the build, and observed changes after launch. Confirm any results or quotes before presenting them as facts.
 

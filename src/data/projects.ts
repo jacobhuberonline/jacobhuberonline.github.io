@@ -55,6 +55,10 @@ export const projects: Project[] = [
       "Training courses, resources, and class requests for first-responder teams.",
     tech: ["Next.js", "Supabase", "Bunny.net"],
     url: "https://www.vestfirstresponder.com",
+    testimonial: {
+      quote: "I've worked with a lot of vendors, and I've never found anyone as responsive, imaginative, fast, and affordable as Huber Builds.",
+      attribution: "Jake Hecht, VEST First Responder",
+    },
     caseStudy: {
       slug: 'vest-first-responder',
       screenshot: vestHomepage,
