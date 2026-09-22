@@ -49,7 +49,7 @@ Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` re
 | `/about/` — background and interests | `src/pages/about.astro` |
 | `/experience/` — resume and work history | `src/pages/experience.astro` |
 | `/projects/` | `src/pages/projects.astro`, `src/data/projects.ts` |
-| `/projects/krh-design-co/`, `/projects/vest-first-responder/` — draft project stories | `src/pages/projects/[slug].astro`, `src/data/project-stories.ts` |
+| `/projects/krh-design-co/`, `/projects/vest-first-responder/` — verified project stories | `src/pages/projects/[slug].astro`, `src/data/project-stories.ts` |
 | `/services/` — website and software services | `src/pages/services.astro` |
 | `/services/websites/` — business websites and redesigns | `src/pages/services/websites.astro` |
 | `/services/automation/` — workflow and business process automation | `src/pages/services/automation.astro` |
@@ -66,17 +66,17 @@ Future service ideas are tracked in GitHub Issues. [Logo previews with an option
 
 ## Project stories
 
-The homepage introduces the featured sites, the portfolio links to longer stories, and website services links to their design choices. Both stories currently contain explicitly labeled illustrative copy requested as a placeholder. The real screenshots and the approved KRH and VEST testimonials remain distinct from that copy. No invented numerical outcomes or client quotes are included.
+The homepage introduces the featured sites, the portfolio links to longer stories, and website services links to their design choices. KRH's story is based on confirmed client correspondence: simplifying the content and photography, refining service offerings through previews, and Katherine's September 2026 report of a kickoff call with one website prospect and plans to connect with another. It does not claim revenue, signed projects, or measured traffic growth. VEST's story covers its public course and instructor pages, a review-video library behind sign-in with access by organization and training level, and the separate certificate workflow confirmed by Jacob. The video organization and access model are supported by September 2025 email and messages; Jake confirmed in February 2026 that videos are only for people who have taken the classes. Do not attribute features of the separate incident-reporting, reviews, or other sites to the main VEST site. Both projects retain real screenshots and approved testimonials, without invented business or training outcomes.
 
 Replace the challenge, decisions, and outcome in `src/data/project-stories.ts` when the actual stories arrive. Useful source material: the original problem, constraints, choices and tradeoffs, client feedback during the build, and observed changes after launch. Confirm any results or quotes before presenting them as facts.
 
-Draft story pages use `noindex` and are excluded from the sitemap and search notifications. Once a story is verified, update its draft labels and metadata, make its `noindex` conditional in `src/pages/projects/[slug].astro`, add its route to `src/lib/seo.ts`, and move its route from the placeholder list to the normal required routes in `scripts/verify-build.mjs`. Keep a visible draft notice and `noindex` on any story still awaiting real details.
+The `isDraft` flag in `src/data/project-stories.ts` controls draft labels, the placeholder notice, and `noindex`. Draft stories are excluded from the sitemap and search notifications. Once a story is verified, set `isDraft` to `false`, add its route to `src/lib/seo.ts`, and move its route from the placeholder list to the normal required routes in `scripts/verify-build.mjs`. KRH and VEST are both verified.
 
 ## Automation example
 
 The automation service page leads with the real VEST certificate workflow described by Jacob: a post-training form sends participant details to Google Sheets, a script creates a certificate matched to the participant and training level, and the certificate is emailed. The shared content lives in `src/data/automation.ts`; `src/components/CertificateWorkflow.astro` presents the four steps. Homepage/portfolio previews and the VEST project page link to `/services/automation/#vest-certificates`.
 
-This factual workflow is separate from the placeholder VEST website story. The exact certificate-template app, output file format, trigger behavior, volumes, and measured savings are not yet confirmed, so the copy does not assert them. It also does not claim a particular price for the VEST implementation. The $1,500 starting offer explains the scope of a new custom workflow: planning, connecting tools, agreed tests and failure cases, setup, and handover. The contact-cleanup demo remains a small illustration of input checking in an optional disclosure below the real example and project scope. Its existing `#automation-demo` link opens the disclosure when JavaScript is available; the summary can also be opened with mouse or keyboard.
+The VEST project story includes this workflow as a separate part of the work alongside the website; it does not claim that certificates grant video access automatically. The exact certificate-template app, output file format, trigger behavior, volumes, and measured savings are not yet confirmed, so the copy does not assert them. It also does not claim a particular price for the VEST implementation. The $1,500 starting offer explains the scope of a new custom workflow: planning, connecting tools, agreed tests and failure cases, setup, and handover. The contact-cleanup demo remains a small illustration of input checking in an optional disclosure below the real example and project scope. Its existing `#automation-demo` link opens the disclosure when JavaScript is available; the summary can also be opened with mouse or keyboard.
 
 ## Contact form and Resend
 

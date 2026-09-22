@@ -7,6 +7,8 @@ export const publicPages = [
   { path: '/services/websites/', name: 'Business websites' },
   { path: '/services/automation/', name: 'Workflow automation' },
   { path: '/projects/', name: 'My work' },
+  { path: '/projects/krh-design-co/', name: 'KRH Design Co. project story' },
+  { path: '/projects/vest-first-responder/', name: 'VEST First Responder project story' },
   { path: '/about/', name: 'About Jacob' },
   { path: '/experience/', name: 'Experience' },
   { path: '/contact/', name: 'Start a project' },

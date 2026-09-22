@@ -21,7 +21,7 @@ const story = projectStories[caseStudy.slug];
 const nextProject = projects.find((item) => item.caseStudy && item.caseStudy.slug !== caseStudy.slug);
 ---
 
-<BaseLayout title={`${project.name}: Draft Project Story`} description={story.summary} noindex>
+<BaseLayout title={`${project.name}: ${story.isDraft ? 'Draft Project Story' : 'Project Story'}`} description={story.summary} noindex={story.isDraft}>
   <div class="container story-page">
     <header class="page-intro story-intro">
       <nav aria-label="Breadcrumb" class="story-breadcrumbs">
@@ -34,10 +34,10 @@ const nextProject = projects.find((item) => item.caseStudy && item.caseStudy.slu
       <p class="lede">{story.summary}</p>
     </header>
 
-    <aside id="placeholder-story-notice" class="draft-notice" aria-labelledby="draft-heading">
+    {story.isDraft && <aside id="placeholder-story-notice" class="draft-notice" aria-labelledby="draft-heading">
       <h2 id="draft-heading">Placeholder story</h2>
       <p>The website and screenshot are real. The website challenge, design choices, and outcome below are illustrative draft copy, awaiting the actual project details.</p>
-    </aside>
+    </aside>}
 
     <div class="project-overview">
       <dl>
@@ -65,33 +65,33 @@ const nextProject = projects.find((item) => item.caseStudy && item.caseStudy.slu
 
     <div class="story-layout">
       <nav aria-label="In this story" class="story-contents">
-        <p class="eyebrow">In this draft</p>
+        <p class="eyebrow">{story.isDraft ? 'In this draft' : 'In this story'}</p>
         <a href="#challenge">01 · The challenge</a>
         <a href="#decisions">02 · The choices</a>
         <a href="#outcome">03 · What improved</a>
       </nav>
-      <article class="story-copy" aria-label={`${project.name} illustrative project story`}>
+      <article class="story-copy" aria-label={`${project.name} ${story.isDraft ? 'illustrative project story' : 'project story'}`}>
         <section id="challenge" aria-labelledby="challenge-heading">
           <p class="eyebrow">01 / The challenge</p>
           <h2 id="challenge-heading">{story.challenge.title}</h2>
           {story.challenge.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
         </section>
         <section id="decisions" aria-labelledby="decisions-heading">
-          <p class="eyebrow">02 / Illustrative choices</p>
-          <h2 id="decisions-heading">Why take this approach?</h2>
+          <p class="eyebrow">02 / {story.isDraft ? 'Illustrative choices' : 'The choices'}</p>
+          <h2 id="decisions-heading">{story.isDraft ? 'Why take this approach?' : 'What we changed.'}</h2>
           {story.decisions.map((decision) => (
             <div class="design-decision"><h3>{decision.title}</h3><p>{decision.detail}</p></div>
           ))}
         </section>
         <section id="outcome" aria-labelledby="outcome-heading">
-          <p class="eyebrow">03 / Illustrative outcome</p>
+          <p class="eyebrow">03 / {story.isDraft ? 'Illustrative outcome' : 'The outcome'}</p>
           <h2 id="outcome-heading">{story.outcome.title}</h2>
           {story.outcome.paragraphs.map((paragraph) => <p>{paragraph}</p>)}
         </section>
         {project.testimonial && (
           <figure class="story-testimonial">
             <p class="eyebrow">Client testimonial</p>
-            <blockquote><p>“{project.testimonial.quote}”</p></blockquote>
+            <blockquote><p>“{project.testimonial.storyQuote ?? project.testimonial.quote}”</p></blockquote>
             <figcaption>— {project.testimonial.attribution}</figcaption>
           </figure>
         )}

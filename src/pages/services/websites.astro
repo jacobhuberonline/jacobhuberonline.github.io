@@ -45,10 +45,10 @@ const websiteOffers = serviceOffers.filter((offer) =>
       <div class="story-references">
         {projects.slice(0, 2).map((project) => project.caseStudy && (
           <article class="story-reference">
-            <p class="eyebrow">{project.category} · Placeholder story</p>
+            <p class="eyebrow">{project.category} · {projectStories[project.caseStudy.slug].isDraft ? 'Placeholder story' : 'Project story'}</p>
             <h3>{project.name}</h3>
             <p>{projectStories[project.caseStudy.slug].serviceTakeaway}</p>
-            <a class="text-link" href={withBase(`/projects/${project.caseStudy.slug}/#decisions`)} aria-label={`Explore draft design choices: ${project.name}`}>Explore the design choices <Icon name="arrow-up-right" size={18} /></a>
+            <a class="text-link" href={withBase(`/projects/${project.caseStudy.slug}/#decisions`)} aria-label={`Explore ${projectStories[project.caseStudy.slug].isDraft ? 'draft ' : ''}design choices: ${project.name}`}>Explore the design choices <Icon name="arrow-up-right" size={18} /></a>
           </article>
         ))}
       </div>

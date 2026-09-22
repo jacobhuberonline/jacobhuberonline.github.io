@@ -13,6 +13,7 @@ export type Project = {
   url?: string;
   testimonial?: {
     quote: string;
+    storyQuote?: string;
     attribution: string;
   };
   caseStudy?: {
@@ -36,7 +37,8 @@ export const projects: Project[] = [
     url: "https://www.krhdesignco.com",
     testimonial: {
       quote: "Jacob welcomed collaboration, listened carefully to feedback, and provided timely, thoughtful solutions.",
-      attribution: "KRH Design Co.",
+      storyQuote: "He took the information I had and made it into digestible (and visually interesting) content for the user to easily locate. Jacob welcomed collaboration, listened carefully to feedback, and provided timely, thoughtful solutions.",
+      attribution: "Katherine Hagen, KRH Design Co.",
     },
     caseStudy: {
       slug: 'krh-design-co',
@@ -50,21 +52,22 @@ export const projects: Project[] = [
     name: "VEST First Responder",
     category: "First-responder training",
     accent: "forest",
-    highlights: ["Course information", "Training resources", "Class requests"],
+    highlights: ["Course information", "Video access by training level", "Certificate automation"],
     description:
-      "Training courses, resources, and class requests for first-responder teams.",
+      "A public training website, review videos for course participants, and an automated certificate workflow.",
     tech: ["Next.js", "Supabase", "Bunny.net"],
     url: "https://www.vestfirstresponder.com",
     testimonial: {
       quote: "I've worked with a lot of vendors, and I've never found anyone as responsive, imaginative, fast, and affordable as Huber Builds.",
+      storyQuote: "Jacob is extremely responsive and easy to communicate with, and he took my vision for the VEST First Responder site and brought it to life quickly. He consistently offered suggestions I wouldn't have thought of, drawing on his deep knowledge of what's possible, and improved on my original ideas at every turn.",
       attribution: "Jake Hecht, VEST First Responder",
     },
     caseStudy: {
       slug: 'vest-first-responder',
       screenshot: vestHomepage,
       screenshotAlt: "VEST First Responder homepage with its gold shield branding, training introduction, and contact links",
-      need: "Help first-responder and healthcare teams understand the training and find the right course.",
-      built: "Course descriptions, instructor profiles, training resources, video, and a direct path to request a class.",
+      need: "Showcase VEST’s training and give class participants a place to review what they learned.",
+      built: "Public course and instructor pages, a video library with access by training level, and a separate certificate workflow.",
     },
   },
   {

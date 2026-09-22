@@ -3,12 +3,14 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const projectRoot = fileURLToPath(new URL('../', import.meta.url));
-const placeholderStoryRoutes = ['projects/krh-design-co', 'projects/vest-first-responder'];
+const placeholderStoryRoutes = [];
 const requiredRoutes = [
   '',
   'about',
   'experience',
   'projects',
+  'projects/krh-design-co',
+  'projects/vest-first-responder',
   ...placeholderStoryRoutes,
   'services',
   'services/websites',
@@ -273,6 +275,9 @@ async function verify() {
       report(file, 'placeholder stories must use noindex and include the visible placeholder notice.');
     }
     if (!isNotFound && !isPlaceholderStory && document.noindex) report(file, 'a content page is unexpectedly excluded from indexing.');
+    if (!isPlaceholderStory && document.ids.has('placeholder-story-notice')) {
+      report(file, 'a verified content page must not display a placeholder story notice.');
+    }
     const htmlTag = document.tags.find(({ name }) => name === 'html');
     if (!htmlTag?.attributes.get('lang')?.trim()) report(file, 'must declare the document language.');
     const viewports = document.tags.filter(({ name, attributes }) => name === 'meta' && attributes.get('name') === 'viewport');
