@@ -1,0 +1,13 @@
+{import.meta.env.PROD && (
+  <script is:inline type="module" id="cloudflare-web-analytics">
+    // Production builds also run in local previews; only measure the live site.
+    const productionHosts = ['huberbuilds.com', 'www.huberbuilds.com'];
+    if (window.location.protocol === 'https:' && productionHosts.includes(window.location.hostname)) {
+      const beacon = document.createElement('script');
+      beacon.type = 'module';
+      beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+      beacon.dataset.cfBeacon = JSON.stringify({ token: '7372b49f62c04139bfa0bef5ce2e6a4b' });
+      document.body.appendChild(beacon);
+    }
+  </script>
+)}

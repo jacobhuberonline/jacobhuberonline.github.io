@@ -3,6 +3,7 @@ import '../styles/global.css';
 import { withBase } from '../lib/paths';
 import SocialLinks from '../components/SocialLinks.astro';
 import Icon from '../components/Icon.astro';
+import CloudflareAnalytics from '../components/CloudflareAnalytics.astro';
 import { pageSchema } from '../lib/seo';
 
 interface Props {
@@ -180,5 +181,6 @@ const isActive = (href: string) => Astro.url.pathname === withBase(href)
         }
       });
     </script>
+    <CloudflareAnalytics />
   </body>
 </html>

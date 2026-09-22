@@ -41,6 +41,16 @@ The repository is `jacobhuberonline/jacobhuberonline.github.io`. The public site
 
 Cloudflare manages the domain's DNS. Both `@` and `www` have DNS-only `CNAME` records pointing to `jacobhuberonline.github.io`; Cloudflare flattens the root record to GitHub's IP addresses. GitHub redirects `www` and the original GitHub Pages address to the custom domain. Keep the `_github-pages-challenge-jacobhuberonline` TXT record in place to preserve GitHub's domain ownership verification.
 
+## Web analytics
+
+Cloudflare Web Analytics is configured for `huberbuilds.com` using **Enable with JS Snippet installation**. GitHub Pages still serves the site; leave the DNS records unchanged and automatic snippet injection off to avoid duplicate tracking.
+
+`src/components/CloudflareAnalytics.astro` is included once by the shared layout. It loads Cloudflare's module beacon only in production builds viewed over HTTPS at `huberbuilds.com` or `www.huberbuilds.com`; local previews and development pages do not load it. The beacon token is a public site identifier, not an API key or account credential.
+
+In Cloudflare, open **Analytics → Web analytics → huberbuilds.com** to see visits, page views, referrers, countries, devices, and performance. Keep **Exclude bots: Yes** selected. These are aggregate reports, not visitor names or email addresses. Collection begins after deployment; historical traffic is not backfilled, and blockers or disabled JavaScript can prevent measurement. Data may take a few minutes to appear.
+
+To verify a release, visit the live site, check that a single `beacon.min.js` script loads and a request reaches Cloudflare's `/cdn-cgi/rum` endpoint, then check the dashboard. Confirm a localhost preview does not load the beacon. To remove analytics, remove the shared component inclusion and disable the site in Cloudflare. See [Cloudflare's setup guide](https://developers.cloudflare.com/web-analytics/get-started/) and [metrics dimensions](https://developers.cloudflare.com/web-analytics/data-metrics/dimensions/).
+
 ## Content and pages
 
 | URL | Source |
