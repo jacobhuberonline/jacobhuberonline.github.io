@@ -68,15 +68,15 @@ const { endpoint } = Astro.props;
     let requestId = crypto.randomUUID();
     const fields: ContactField[] = ['name', 'email', 'service', 'message'];
 
+    const setFieldError = (name: ContactField, message?: string) => {
+      const input = form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
+      const error = document.getElementById(`contact-${name}-error`)!;
+      input.setAttribute('aria-invalid', message ? 'true' : 'false');
+      error.textContent = message ?? '';
+      error.hidden = !message;
+    };
     const showErrors = (errors: ContactErrors) => {
-      for (const name of fields) {
-        const input = form.elements.namedItem(name) as HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement;
-        const error = document.getElementById(`contact-${name}-error`)!;
-        const message = errors[name];
-        input.setAttribute('aria-invalid', message ? 'true' : 'false');
-        error.textContent = message ?? '';
-        error.hidden = !message;
-      }
+      for (const name of fields) setFieldError(name, errors[name]);
       const first = fields.find((name) => errors[name]);
       if (first) (form.elements.namedItem(first) as HTMLElement).focus();
     };
@@ -112,7 +112,19 @@ const { endpoint } = Astro.props;
       service.value = contactServiceFromSearch(window.location.search) ?? '';
       updateService();
     });
-    form.addEventListener('input', updateEmail);
+    form.addEventListener('input', (event) => {
+      updateEmail();
+      const input = event.target;
+      if (!(input instanceof HTMLInputElement || input instanceof HTMLSelectElement || input instanceof HTMLTextAreaElement)
+        || input.getAttribute('aria-invalid') !== 'true') return;
+      const name = fields.find((field) => field === input.name);
+      if (!name) return;
+      const validation = validateContactSubmission({ ...Object.fromEntries(new FormData(form)), requestId });
+      if (validation.ok || !validation.errors[name]) {
+        setFieldError(name);
+        if (!form.querySelector('[aria-invalid="true"]')) status.hidden = true;
+      }
+    });
     form.addEventListener('submit', async (event) => {
       event.preventDefault();
       if (sending) return;
